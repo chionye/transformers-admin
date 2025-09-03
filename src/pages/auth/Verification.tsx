@@ -65,6 +65,8 @@ const Verification = () => {
     if (event.key === "Backspace") {
       const target = event.target as HTMLInputElement;
 
+      console.log(fieldOnChange);
+
       // If current field is empty and we're not at the first field
       if (!target.value && currentIndex > 0) {
         event.preventDefault();

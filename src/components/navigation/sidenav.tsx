@@ -1,9 +1,8 @@
 /** @format */
 
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { getConfigByRole } from "@/services/storage";
 import { NavbarItems } from "@/utils/nav-items";
-import Icons from "@/constants/icons";
 import React from "react";
 
 const SideNavItem = ({
@@ -42,7 +41,6 @@ const SideNavItem = ({
 const SideNav = () => {
   const location = useLocation();
   const role = getConfigByRole();
-  const navigate = useNavigate();
   const settings = role ? NavbarItems[role as keyof typeof NavbarItems] : [];
 
   return (

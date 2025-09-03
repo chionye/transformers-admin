@@ -1,6 +1,6 @@
 /** @format */
 
-import { Appointment, MonthlyAppointmentSummary, Rating, Transaction, User } from "@/types";
+import { type Appointment, type MonthlyAppointmentSummary, type Rating, type Transaction, type User } from "@/types";
 import { format, subDays } from "date-fns";
 import moment from "moment";
 

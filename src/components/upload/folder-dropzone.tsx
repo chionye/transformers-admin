@@ -52,8 +52,8 @@ async function traverseEntry(entry: any, path = ""): Promise<FileInfo[]> {
 
 export default function FolderDropzone() {
   const [files, setFiles] = useState<FileInfo[]>([]);
-  const [uploading, setUploading] = useState(false);
-  const [uploadResult, setUploadResult] = useState<string | null>(null);
+  // const [uploading, setUploading] = useState(false);
+  const [uploadResult] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
@@ -136,26 +136,27 @@ export default function FolderDropzone() {
     };
   };
 
-  const upload = async () => {
-    if (!files.length) return;
-    setUploading(true);
-    const formData = new FormData();
-    files.forEach(({ path, file }) => {
-      formData.append("files", file, path);
-    });
-    try {
-      const resp = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-      if (!resp.ok) throw new Error("Upload failed");
-      setUploadResult("Upload successful");
-    } catch (err: any) {
-      setUploadResult("Error: " + err.message);
-    } finally {
-      setUploading(false);
-    }
-  };
+  // const upload = async () => {
+  //   if (!files.length) return;
+  //   setUploading(true);
+  //   console.log(uploading);
+  //   const formData = new FormData();
+  //   files.forEach(({ path, file }) => {
+  //     formData.append("files", file, path);
+  //   });
+  //   try {
+  //     const resp = await fetch("/api/upload", {
+  //       method: "POST",
+  //       body: formData,
+  //     });
+  //     if (!resp.ok) throw new Error("Upload failed");
+  //     setUploadResult("Upload successful");
+  //   } catch (err: any) {
+  //     setUploadResult("Error: " + err.message);
+  //   } finally {
+  //     setUploading(false);
+  //   }
+  // };
 
   const stats = countStats();
 

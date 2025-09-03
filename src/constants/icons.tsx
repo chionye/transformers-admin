@@ -1211,7 +1211,7 @@ const Icons = {
       />
     </svg>
   ),
-  eye: ({
+  eye1: ({
     color = "#000",
     width = "19",
     height = "19",

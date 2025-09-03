@@ -50,6 +50,7 @@ export const columns: ColumnDef<HomeTableData>[] = [
     header: "Action",
     cell: ({ row }) => {
       const action = row.getValue("action");
+      console.log(action);
       return (
         <Button className='font-bold px-4 py-2 rounded-lg bg-[#F5F5F7] text-[#2F2F30] font-maven text-[14px] cursor-pointer'>
           View

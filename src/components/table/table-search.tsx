@@ -19,7 +19,7 @@ export function TableSearch() {
         onChange={(event) => setGlobalFilter(event.target.value)}
         className='max-w-sm bg-transparent border-0 outline-none focus:outline-none focus-visible:ring-0 shadow-none'
       />
-      <Icons.search2 />
+      <Icons.search />
     </div>
   );
 }

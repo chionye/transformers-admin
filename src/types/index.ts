@@ -1,6 +1,6 @@
 /** @format */
 
-import { Method } from "axios";
+import { type Method } from "axios";
 export interface FabPropType {
   icon: string;
   callback: () => void;
