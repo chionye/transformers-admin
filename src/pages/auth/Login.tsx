@@ -30,7 +30,7 @@ const Login = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className='w-full flex gap-2 flex-col p-5'>
             <p className='text-center font-dm-sans text-2xl font-semibold text-black'>
-              Let’s Sign You In
+              Login
             </p>
             <FormField
               control={form.control}
@@ -40,7 +40,7 @@ const Login = () => {
                   placeholder='john.doe@gmail.com'
                   label='Email'
                   type='email'
-                  {...field}  
+                  {...field}
                 />
               )}
             />
@@ -52,7 +52,7 @@ const Login = () => {
                   placeholder='Password'
                   label='Password'
                   type='password'
-                  forgotLink="/auth/forgot-password"
+                  forgotLink='/auth/forgot-password'
                   isHiddenInput
                   {...field}
                 />
