@@ -29,3 +29,14 @@ export const VerificationSchema = z.object({
 export const searchSchema = z.object({
   search: z.string().min(1, "Search must be at least 1 character long"),
 });
+
+export const newUserSchema = z.object({
+  name: z.string().min(1, "Name must be at least 1 character long"),
+  email: z.email("Invalid email address"),
+  username: z.string().min(1, "Username must be at least 1 character long"),
+  country: z.string().min(1, "Country must be at least 1 character long"),
+  gender: z.string().min(1, "Gender must be at least 1 character long"),
+  date_of_birth: z
+    .string()
+    .min(1, "Date of birth must be at least 1 character long"),
+});

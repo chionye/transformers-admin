@@ -7,32 +7,10 @@ import Icons from "@/constants/icons";
 import type { HomeTableData } from "@/types";
 import { HomeColumns } from "./utils/home-table-columns";
 import PageTitle from "@/components/page-title";
+import { tableData } from "./constants/data";
+import { Link } from "react-router-dom";
 
 const Users = () => {
-  const tableData: HomeTableData[] = [
-    {
-      sn: "1",
-      name: "John Doe",
-      country: "USA",
-      date: "2022-01-01",
-      goals: "10",
-      challenges: "5",
-      teams: "2",
-      status: "active",
-      action: "View",
-    },
-    {
-      sn: "2",
-      name: "John Doe",
-      country: "USA",
-      date: "2022-01-01",
-      goals: "10",
-      challenges: "5",
-      teams: "2",
-      status: "active",
-      action: "View",
-    },
-  ];
   return (
     <div className='w-full flex flex-col gap-4'>
       <div className='flex flex-row items-center justify-between gap-4'>
@@ -54,12 +32,14 @@ const Users = () => {
               />
               <Button className='font-dm-sans text-[14px] font-semibold text-[#686868] bg-white shadow'>
                 <Icons.export />
-                <span className="lg:block hidden">Export</span>
+                <span className='lg:block hidden'>Export</span>
               </Button>
-              <Button className='font-dm-sans text-[14px] font-semibold text-white bg-[#198841] shadow'>
+              <Link
+                to='/dashboard/admin/users/new'
+                className='font-dm-sans text-[14px] flex items-center gap-2 px-4 py-2 rounded-[8px] font-semibold text-white bg-[#198841] shadow'>
                 <Icons.plus />
                 <span>Add New User</span>
-              </Button>
+              </Link>
             </div>
           }
         />

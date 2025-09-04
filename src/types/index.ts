@@ -1,6 +1,8 @@
 /** @format */
 
+import type { newUserSchema } from "@/utils/form-schema";
 import { type Method } from "axios";
+import type z from "zod";
 export interface FabPropType {
   icon: string;
   callback: () => void;
@@ -547,3 +549,5 @@ export interface AlertTableData {
   status: string;
   action: React.ReactNode;
 }
+
+export type NewUserFormData = z.infer<typeof newUserSchema>;

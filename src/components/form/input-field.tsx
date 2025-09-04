@@ -24,7 +24,7 @@ const InputField = ({
   error?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   forgotLink?: string;
-  type?: "text" | "password" | "email";
+  type?: "text" | "password" | "email" | "date";
   value?: string;
   isHiddenInput?: boolean;
   inputClassName?: string;

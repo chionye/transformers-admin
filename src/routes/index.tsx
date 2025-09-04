@@ -1,3 +1,4 @@
+/** @format */
 
 import Layout from "../pages/auth/Layout";
 import Login from "../pages/auth/Login";
@@ -10,6 +11,7 @@ import Teams from "@/pages/dashboard/Teams";
 import Challenges from "@/pages/dashboard/Challenges";
 import Payment from "@/pages/dashboard/Payment";
 import Alerts from "@/pages/dashboard/Alerts";
+import NewUser from "@/pages/dashboard/Users/NewUser";
 
 const Routes = [
   {
@@ -35,27 +37,31 @@ const Routes = [
     element: <DashboardLayout />,
     children: [
       {
-        path: `/dashboard/:slug/home`,
+        path: `/dashboard/admin/home`,
         element: <Home />,
       },
       {
-        path: `/dashboard/:slug/users`,
+        path: `/dashboard/admin/users`,
         element: <Users />,
       },
       {
-        path: `/dashboard/:slug/team`,
+        path: `/dashboard/admin/users/new`,
+        element: <NewUser />,
+      },
+      {
+        path: `/dashboard/admin/team`,
         element: <Teams />,
       },
       {
-        path: `/dashboard/:slug/challenges`,
+        path: `/dashboard/admin/challenges`,
         element: <Challenges />,
       },
       {
-        path: `/dashboard/:slug/payment`,
+        path: `/dashboard/admin/payment`,
         element: <Payment />,
       },
       {
-        path: `/dashboard/:slug/alerts`,
+        path: `/dashboard/admin/alerts`,
         element: <Alerts />,
       },
     ],
