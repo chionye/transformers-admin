@@ -21,8 +21,8 @@ export function CustomTabs({
         defaultValue={defaultValue}
         className='w-full'
         onValueChange={onValueChange}>
-        <div className='flex lg:flex-row flex-col items-center justify-between w-full lg:gap-0 gap-3'>
-          <TabsList className='p-2 h-fit flex flex-wrap bg-[#F2F4F7] rounded-full'>
+        <div className='flex flex-row items-center justify-between w-full lg:gap-0 gap-3  overflow-y-auto'>
+          <TabsList className='p-2 h-fit flex bg-[#F2F4F7] rounded-full'>
             {tabList.map((tab) => (
               <TabsTrigger
                 value={tab.value}

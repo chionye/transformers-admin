@@ -34,11 +34,7 @@ const Routes = [
   },
   {
     path: "/dashboard",
-    element: (
-      <DashboardLayout>
-        <Outlet />
-      </DashboardLayout>
-    ),
+    element: <DashboardLayout />,
     children: [
       {
         path: `/dashboard/:slug/home`,

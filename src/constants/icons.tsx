@@ -1231,6 +1231,67 @@ const Icons = {
       />
     </svg>
   ),
+  menu: ({
+    color = "#1A1A1A",
+    width = "32",
+    height = "32",
+  }: {
+    color?: string;
+    width?: string;
+    height?: string;
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      viewBox='0 0 32 32'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'>
+      <path
+        d='M4 8H28'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M4 16H28'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M4 24H28'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+    </svg>
+  ),
+  close: ({
+    color = "#1A1A1A",
+    width = "32",
+    height = "32",
+  }: {
+    color?: string;
+    width?: string;
+    height?: string;
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      viewBox='0 0 32 32'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'>
+      <path
+        d='M24 8L8 24M24 24L8 8.00001'
+        stroke={color}
+        stroke-width='1.2'
+        stroke-linecap='round'
+      />
+    </svg>
+  ),
   eyeSlash: ({
     color = "#000",
     width = "19",
