@@ -1,6 +1,4 @@
-/** @format */
 
-import { Outlet } from "react-router-dom";
 import Layout from "../pages/auth/Layout";
 import Login from "../pages/auth/Login";
 import DashboardLayout from "@/pages/dashboard/Layout";
