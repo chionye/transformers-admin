@@ -1,6 +1,6 @@
 /** @format */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
@@ -10,6 +10,7 @@ import { Link, Outlet } from "react-router-dom";
 import SearchField from "@/components/search-field";
 import { Button } from "@/components/ui/button";
 import MobileSideNav from "@/components/navigation/mobile-sidenav";
+import { useUserStore } from "@/store/user-store";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,7 @@ const persister = createAsyncStoragePersister({
 function DashboardLayout() {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, setUser } = useUserStore((state: any) => state);
 
   const handleToggleSearchBar = () => {
     setIsMobileSearchOpen((prev) => !prev);
@@ -38,6 +40,13 @@ function DashboardLayout() {
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, []);
 
   return (
     <PersistQueryClientProvider
@@ -104,10 +113,10 @@ function DashboardLayout() {
                     </div>
                     <div className='hidden lg:block'>
                       <p className='font-semibold font-dm-sans text-[#1E1E1E] text-[16px] leading-tight'>
-                        Chioma Johnson
+                        {user?.name}
                       </p>
                       <p className='font-dm-sans text-[#686868] text-[14px] font-medium'>
-                        Super Admin
+                        {user?.role}
                       </p>
                     </div>
                   </div>

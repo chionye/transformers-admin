@@ -1,7 +1,13 @@
 /** @format */
 
+import type {
+  deleteRequest,
+  getRequest,
+  patchRequest,
+  postRequest,
+} from "@/services/api/api-clients";
 import type { newUserSchema } from "@/utils/form-schema";
-import { type Method } from "axios";
+import { type AxiosResponse, type Method } from "axios";
 import type z from "zod";
 export interface FabPropType {
   icon: string;
@@ -246,8 +252,9 @@ export type QueryProps = {
   id: string;
   url: string;
   method: Method;
+  tokenOrHeaders?: string | Record<string, string> | undefined;
   payload: Record<string, any> | null;
-}[];
+};
 
 export interface PatientPropType {
   title: string;
@@ -579,4 +586,67 @@ export interface UserTeamsTableData {
   date: string;
   team_size: number;
   action: React.ReactNode;
+}
+
+export type RequestOptions = {
+  data?: any;
+  tokenOrHeaders?: string | Record<string, string>;
+};
+
+export type MakeRequestFunction<R = unknown> = (
+  url: string,
+  options?: RequestOptions
+) => Promise<AxiosResponse<R>>;
+
+export type GetFn = ReturnType<typeof getRequest>;
+export type PostFn = ReturnType<typeof postRequest>;
+export type PatchFn = ReturnType<typeof patchRequest>;
+export type DeleteFn = ReturnType<typeof deleteRequest>;
+
+export interface RequestsType {
+  get: GetFn;
+  post: PostFn;
+  patch: PatchFn;
+  del: DeleteFn;
+}
+
+export interface ResponseState {
+  isSuccess: string;
+  isError: string;
+  setSuccess: (arg0: string) => void;
+  setError: (arg0: string) => void;
+}
+
+export interface ResponseHandlerProps<T> {
+  onSuccess: (data: T) => void;
+  onError: (error: string) => void;
+}
+
+export interface BaseMutationInput {
+  url: string;
+  tokenOrHeaders?: string | Record<string, string>;
+}
+
+export interface DataMutationInput extends BaseMutationInput {
+  requestType: "post" | "patch" | undefined;
+  data?: any;
+}
+
+export interface NoDataMutationInput extends BaseMutationInput {
+  requestType: "get" | "delete";
+}
+
+export type MutationPayload = DataMutationInput | NoDataMutationInput;
+
+export type MutationResponse = AxiosResponse<unknown>;
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
+export interface QueryParam {
+  id: string | number;
+  url: string;
+  tokenOrHeaders: string | undefined;
 }

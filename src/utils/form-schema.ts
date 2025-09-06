@@ -6,11 +6,7 @@ export const LoginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters long")
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/,
-      "Password must include uppercase, lowercase, number, and special character"
-    ),
+    .min(1, "Password must be at least 1 characters long")
 });
 
 export const ForgotSchema = z.object({

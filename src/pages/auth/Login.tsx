@@ -7,10 +7,17 @@ import type z from "zod";
 import { Form, FormField } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { MButton } from "@/components/buttons/m-button";
+import { useUserStore } from "@/store/user-store";
+import ApiRoutes from "@/services/api/api-routes";
+import { toast } from "sonner";
+import { responseHandler } from "@/services/response";
+import Mutation from "@/services/query/mutation";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { mutation } = Mutation();
+  const setUser = useUserStore((state: any) => state.setUser);
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -20,8 +27,25 @@ const Login = () => {
   });
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    console.log(data);
-    navigate("/dashboard/admin/home");
+    mutation.mutate(
+      {
+        url: ApiRoutes.LoginUser,
+        data: data,
+        requestType: "post",
+      },
+      responseHandler({
+        onSuccess: (response: any) => {
+          console.log(response, "login");
+          setUser(response?.data?.user);
+          localStorage.setItem("user", JSON.stringify(response?.data?.user));
+          navigate(`/dashboard/admin/home`);
+        },
+        onError: (error: any) => {
+          console.log(error, "login");
+          toast.error(error || "Something went wrong");
+        },
+      })
+    );
   };
 
   return (
@@ -59,9 +83,17 @@ const Login = () => {
               )}
             />
             <div className='w-full flex justify-center mt-4'>
-              <Button className='font-dm-sans text-center bg-[#198841] text-[14px] text-white px-4 py-6 w-full cursor-pointer'>
+              <MButton
+                variant='primary'
+                size='lg'
+                fullWidth
+                className='font-dm-sans text-center bg-[#198841] text-[14px] text-white px-4 py-6 w-full cursor-pointer'
+                disabled={mutation.isPending}
+                isLoading={mutation.isPending}
+                loadingText='Logging in...'
+                onClick={() => form.handleSubmit(onSubmit)()}>
                 Login
-              </Button>
+              </MButton>
             </div>
           </div>
         </form>

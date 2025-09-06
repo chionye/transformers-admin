@@ -12,7 +12,7 @@ export default class ApiRoutes {
   //#region Auth routes
 
   // Api route to login
-  static LoginUser: string = "/user/login";
+  static LoginUser: string = "/user/admin/login";
 
   // Api route to register
   static CreateUser: string = "/user";
@@ -150,7 +150,7 @@ export default class ApiRoutes {
   ) => `/dashboard/filter?category=${id}&date=${date}`;
 
   // Api route to fetch analytics
-  static DashboardAnalytics: string = "/dashboard/outcome";
+  static DashboardAnalytics: string = "/dashboard/admin/overview";
 
   // Api route to fetch posts
   static FetchPosts: (id: string, page: number, limit: string) => string = (

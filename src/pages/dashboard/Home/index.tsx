@@ -9,8 +9,25 @@ import DoughnutChart from "@/components/charts/doughnut-chart";
 import { chartData, cardData, historyData } from "./constants/data";
 import { Link } from "react-router-dom";
 import AlertCard from "@/components/cards/alert-cards";
+import Query from "@/services/query/query";
+import ApiRoutes from "@/services/api/api-routes";
+import { useEffect } from "react";
 
 const Home = () => {
+  const { queryData: analyticsData } = Query({
+    id: "analytics",
+    url: ApiRoutes.DashboardAnalytics,
+    method: "GET",
+    payload: null,
+  });
+
+  useEffect(() => {
+    if (analyticsData.data) {
+      console.log(analyticsData.data);
+    }
+    // analyticsData.refetch();
+  }, [analyticsData]);
+
   const alertData = [
     {
       name: "3 posts flagged for review",

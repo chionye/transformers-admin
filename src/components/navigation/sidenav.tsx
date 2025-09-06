@@ -1,7 +1,6 @@
 /** @format */
 
 import { NavLink, useLocation } from "react-router-dom";
-import { getConfigByRole } from "@/services/storage";
 import { NavbarItems } from "@/utils/nav-items";
 import React from "react";
 
@@ -40,8 +39,7 @@ const SideNavItem = ({
 
 const SideNav = () => {
   const location = useLocation();
-  const role = getConfigByRole();
-  const settings = role ? NavbarItems[role as keyof typeof NavbarItems] : [];
+  const settings = NavbarItems.admin;
 
   return (
     <div className='auto-rows-max text-sm lg:flex hidden bg-white fixed top-0 left-0 h-screen w-[18%] z-20'>
@@ -75,6 +73,7 @@ const SideNav = () => {
                       />
                     ) : (
                       <div
+                        key={index}
                         className={`rounded-[8px] group hover:bg-[#198841] py-4 px-5 w-full transition-all`}>
                         <NavLink
                           to={item.to}

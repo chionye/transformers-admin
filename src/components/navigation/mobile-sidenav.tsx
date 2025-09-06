@@ -1,7 +1,6 @@
 /** @format */
 
 import { NavLink, useLocation } from "react-router-dom";
-import { getConfigByRole } from "@/services/storage";
 import { NavbarItems } from "@/utils/nav-items";
 import React from "react";
 import Icons from "@/constants/icons";
@@ -50,8 +49,7 @@ interface MobileSideNavProps {
 
 const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
-  const role = getConfigByRole();
-  const settings = role ? NavbarItems[role as keyof typeof NavbarItems] : [];
+  const settings = NavbarItems;
 
   return (
     <>
@@ -81,7 +79,7 @@ const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
           {/* Navigation Items */}
           <div className='flex flex-col min-h-full w-full px-5 py-6'>
             <div className='space-y-6'>
-              {settings.map((item, index) => (
+              {settings.admin.map((item, index) => (
                 <div key={index}>
                   <div className='w-full px-3 py-2'>
                     <p className='text-left font-dm-sans text-[#989898] text-[14px] font-medium'>
