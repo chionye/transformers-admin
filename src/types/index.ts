@@ -535,6 +535,7 @@ export interface PaymentTableData {
   id: number;
   user: React.ReactNode;
   amount: string;
+  subscription_plan: string;
   cycle: string;
   status: string;
   method: string;
@@ -551,3 +552,31 @@ export interface AlertTableData {
 }
 
 export type NewUserFormData = z.infer<typeof newUserSchema>;
+
+export type GoalsTableData = {
+  id: string;
+  goal_name: string;
+  category: string;
+  status: string;
+  created_date: string;
+  target_date: string;
+  completion: string;
+};
+
+export type WithdrawalTableData = {
+  amount: string;
+  country: string;
+  bank: string;
+  date_requested: string;
+  status: string;
+  action: React.ReactNode;
+};
+
+export interface UserTeamsTableData {
+  id: number;
+  team_name: string;
+  role: string;
+  date: string;
+  team_size: number;
+  action: React.ReactNode;
+}

@@ -31,7 +31,7 @@ const SearchField = ({
             control={form.control}
             name='search'
             render={({ field }) => (
-              <div className='flex flex-row items-center bg-[#F2F4F7] border border-[#E9E9E9] w-full py-1 px-1.5 rounded-[8px]'>
+              <div className='flex flex-row items-center bg-[#F2F4F7] border border-[#E9E9E9] w-full px-1.5 rounded-[8px]'>
                 <div className='w-fit'>
                   <Icons.search width='16' height='16' color='#989898' />
                 </div>

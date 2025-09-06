@@ -12,6 +12,9 @@ import Challenges from "@/pages/dashboard/Challenges";
 import Payment from "@/pages/dashboard/Payment";
 import Alerts from "@/pages/dashboard/Alerts";
 import NewUser from "@/pages/dashboard/Users/NewUser";
+import UserProfile from "@/pages/dashboard/Users/UserProfile";
+import { Withdrawals } from "@/pages/dashboard/Users/Withdrawals";
+import { WithdrawalDetails } from "@/pages/dashboard/Users/WithdrawalDetails";
 
 const Routes = [
   {
@@ -47,6 +50,18 @@ const Routes = [
       {
         path: `/dashboard/admin/users/new`,
         element: <NewUser />,
+      },
+      {
+        path: `/dashboard/admin/users/user-profile`,
+        element: <UserProfile />,
+      },
+      {
+        path: `/dashboard/admin/users/:id/withdrawals`,
+        element: <Withdrawals />,
+      },
+      {
+        path: `/dashboard/admin/users/:id/withdrawals/:id`,
+        element: <WithdrawalDetails />,
       },
       {
         path: `/dashboard/admin/team`,

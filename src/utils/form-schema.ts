@@ -40,3 +40,14 @@ export const newUserSchema = z.object({
     .string()
     .min(1, "Date of birth must be at least 1 character long"),
 });
+
+export const userDetails = z.object({
+  country: z.string().min(1, "Country must be at least 1 character long"),
+  gender: z.string().min(1, "Gender must be at least 1 character long"),
+  date_of_birth: z
+    .string()
+    .min(1, "Date of birth must be at least 1 character long"),
+  referred_by: z
+    .string()
+    .min(1, "Referred by must be at least 1 character long"),
+});

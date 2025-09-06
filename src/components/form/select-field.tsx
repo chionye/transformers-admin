@@ -46,7 +46,7 @@ export function SelectField({
       {label && (
         <label
           htmlFor={selectId}
-          className='block text-sm font-medium text-gray-700'>
+          className='text-center font-lato text-[14px] font-medium text-[#2F2F30]'>
           {label}
           {required && <span className='text-red-500 ml-1'>*</span>}
         </label>
@@ -55,7 +55,7 @@ export function SelectField({
         <SelectTrigger
           id={selectId}
           className={cn(
-            "w-full border-[#E5E7EB] border bg-[#F5F5F7] rounded-[8px] px-4 h-[47px] shadow-none",
+            "w-full border-[#E5E7EB] border bg-[#F5F5F7] rounded-[8px] px-4 h-[48px] shadow-none mt-1",
             error && "border-red-500 focus:ring-red-500 focus:border-red-500"
           )}>
           <SelectValue placeholder={placeholder} />

@@ -34,7 +34,7 @@ const InputField = ({
   return (
     <FormItem>
       <div className='w-full flex flex-row justify-between mt-2'>
-        <FormLabel className='text-center font-lato text-[15px] font-semibold text-[#2F2F30]'>
+        <FormLabel className='text-center font-lato text-[14px] font-medium text-[#2F2F30]'>
           {label}
         </FormLabel>
         {forgotLink && (

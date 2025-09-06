@@ -57,7 +57,7 @@ export const HomeColumns: ColumnDef<HomeTableData>[] = [
       // const action = row.getValue("action");
       return (
         <Link
-          to='/'
+          to='/dashboard/admin/users/user-profile'
           className='font-dm-sans text-[#198841] text-[16px] cursor-pointer'>
           View
         </Link>

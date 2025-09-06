@@ -45,7 +45,7 @@ export function DatePickerField<T extends FieldValues>({
     <div className={cn("w-full space-y-2", className)}>
       {label && (
         <Label
-          className={cn("text-sm font-medium", error && "text-destructive")}>
+          className={cn("text-[14px] font-medium", error && "text-destructive")}>
           {label}
           {required && <span className='text-destructive ml-1'>*</span>}
         </Label>

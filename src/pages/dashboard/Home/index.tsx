@@ -8,7 +8,7 @@ import HistoryCard from "./components/history-card";
 import DoughnutChart from "@/components/charts/doughnut-chart";
 import { chartData, cardData, historyData } from "./constants/data";
 import { Link } from "react-router-dom";
-import AlertCard from "@/components/alert-cards";
+import AlertCard from "@/components/cards/alert-cards";
 
 const Home = () => {
   const alertData = [
