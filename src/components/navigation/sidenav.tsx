@@ -76,7 +76,12 @@ const SideNav = () => {
                         key={index}
                         className={`rounded-[8px] group hover:bg-[#198841] py-4 px-5 w-full transition-all`}>
                         <NavLink
-                          to={item.to}
+                          to={"#"}
+                          onClick={() => {
+                            localStorage.removeItem("user");
+                            localStorage.removeItem("token");
+                            window.location.href = "/";
+                          }}
                           className={`text-[#7D7E8E] w-full group-hover:text-white text-[16px] font-dm-sans`}>
                           <span className='flex items-center gap-3'>
                             {item.icon("#C8230D")}
