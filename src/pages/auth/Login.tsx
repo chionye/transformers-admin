@@ -36,8 +36,8 @@ const Login = () => {
       responseHandler({
         onSuccess: (response: any) => {
           console.log(response, "login");
-          setUser(response?.data?.user);
-          localStorage.setItem("user", JSON.stringify(response?.data?.user));
+          setUser(response?.user);
+          localStorage.setItem("user", JSON.stringify(response?.user));
           navigate(`/dashboard/admin/home`);
         },
         onError: (error: any) => {

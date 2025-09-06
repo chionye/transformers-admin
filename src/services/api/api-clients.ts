@@ -13,10 +13,19 @@ export const BaseURL = ApiRoutes.BASE_URL_DEV;
 // Axios instance
 export const API: AxiosInstance = axios.create({
   baseURL: BaseURL,
-  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
+});
+
+// Request interceptor to add withCredentials conditionally
+API.interceptors.request.use((config) => {
+  // Only set withCredentials for non-login requests
+  if (!config.url?.endsWith(ApiRoutes.LoginUser)) {
+    config.withCredentials = true;
+  }
+  console.log(config);
+  return config;
 });
 
 let authToken: string | null = null;

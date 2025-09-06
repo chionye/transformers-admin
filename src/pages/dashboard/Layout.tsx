@@ -107,13 +107,13 @@ function DashboardLayout() {
                   <div className='flex items-center gap-2 lg:bg-[#F2F4F7] rounded-[8px] lg:px-3 py-2 lg:border lg:border-[#EBEEF2]'>
                     <div className='w-[32px] h-[32px] rounded-full border border-white'>
                       <img
-                        src='https://api.dicebear.com/9.x/initials/svg?seed=Chioma Johnson&radius=50&size=32'
+                        src={`https://api.dicebear.com/9.x/initials/svg?seed=${user?.fullName}&radius=50&size=32`}
                         alt='avatar'
                       />
                     </div>
                     <div className='hidden lg:block'>
                       <p className='font-semibold font-dm-sans text-[#1E1E1E] text-[16px] leading-tight'>
-                        {user?.name}
+                        {user?.fullName}
                       </p>
                       <p className='font-dm-sans text-[#686868] text-[14px] font-medium'>
                         {user?.role}

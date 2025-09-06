@@ -66,7 +66,7 @@ const Home = () => {
             />
           ))}
         </div>
-        <div className='mt-5 grid grid-cols-1 lg:grid-cols-2'>
+        <div className='mt-5 grid grid-cols-1 lg:grid-cols-2 lg:gap-0 gap-4'>
           <Card className='px-5 w-full'>
             <CustomTabs
               defaultValue='all'
