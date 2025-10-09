@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 const Users = () => {
   const [userList, setUserList] = useState<UsersTableData[]>([]);
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
 
   const { queryData: usersData } = Query({
     id: "users",

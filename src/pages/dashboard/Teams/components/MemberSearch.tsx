@@ -20,7 +20,7 @@ export const MemberSearch = ({
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [userList, setUserList] = useState<UsersTableData[]>([]);
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
 
   const { queryData: usersData } = Query({
     id: "users",

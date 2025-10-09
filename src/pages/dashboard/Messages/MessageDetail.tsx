@@ -1,25 +1,17 @@
-/** @format */
-import Icons from "@/constants/icons";
+
 import { InnerPageContainer } from "@/components/innerpage-container";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Query from "@/services/query/query";
 import ApiRoutes from "@/services/api/api-routes";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   MessageDetailsProp,
-  Messages,
   QueryProps,
   Recipient,
   TeamsDetailsTableData,
 } from "@/types";
-import Mutation from "@/services/query/mutation";
-import { responseHandler } from "@/services/response";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import IconCircleBadge from "@/components/icon-circle-badge";
 import { Card } from "@/components/ui/card";
 import { DataTable } from "@/components/data-table";
-import { CustomDropdown } from "@/components/custom-dropdown";
 import PageTitle from "@/components/page-title";
 import { RecipientColumns } from "./utils/recipient-table-columns";
 import { Chip } from "@/components/chip";
@@ -30,9 +22,9 @@ const MessageDetails = () => {
     message: {},
     recepients: [],
   });
-  const [tableData, setTableData] = useState<TeamsDetailsTableData[]>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { mutation } = Mutation();
+  const [tableData] = useState<TeamsDetailsTableData[]>([]);
+  // const [isOpen, setIsOpen] = useState<boolean>(false);
+  // const { mutation } = Mutation();
 
   const queries: { [key: string]: QueryProps } = {
     message: {
@@ -52,27 +44,6 @@ const MessageDetails = () => {
       setMessage(data);
     }
   }, [messageData.data]);
-
-  const handleActivateDeactivateUser = () => {
-    mutation.mutate(
-      {
-        url: ApiRoutes.ActivateDeactivateUser(id as string),
-        data: {},
-        requestType: "patch",
-      },
-      responseHandler({
-        onSuccess: (response: any) => {
-          console.log(response, "activate");
-          toast.success("User activated successfully");
-          setIsOpen(false);
-        },
-        onError: (error: any) => {
-          console.log(error, "activate");
-          toast.error(error || "Something went wrong");
-        },
-      })
-    );
-  };
 
   return (
     <InnerPageContainer title='Back to Messages' hideTitle>

@@ -6,13 +6,13 @@ import React, { useState } from "react";
 import Icons from "@/constants/icons";
 
 const MobileSideNavItem = ({
-  to = '',  // Provide default empty string
+  to = "", // Provide default empty string
   icon,
   label,
   location,
   onClick,
 }: {
-  to?: string;  // Make to optional
+  to?: string; // Make to optional
   icon: React.ReactNode | ((color: string) => React.ReactNode);
   label: string;
   location: string;
@@ -52,7 +52,8 @@ const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
   const [currentNav, setCurrentNav] = useState<"main" | "content">("main");
   const settings = NavbarItems[currentNav];
 
-  const handleNavClick = (e, nav: "main" | "content") => {
+  const handleNavClick = (e: React.MouseEvent, nav: "main" | "content") => {
+    e.preventDefault();
     setCurrentNav(nav);
   };
 

@@ -4,9 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import type { UsersTableData } from "@/types";
 import { newMessage } from "@/utils/form-schema";
-import { CollapsibleView } from "@/components/collapsible";
 import CustomModal from "@/components/custom-modal";
 import { Card } from "@/components/ui/card";
 import Mutation from "@/services/query/mutation";
@@ -26,16 +24,13 @@ const NewMessages = () => {
   const [loading, setLoading] = useState(false);
   const { mutation } = Mutation();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedMembers, setSelectedMembers] = useState<UsersTableData[]>([]);
   const navigate = useNavigate();
   const roles = [ERoles.BASIC, ERoles.PREMIUM, ERoles.PRO];
-
   type MessageFormData = z.infer<typeof newMessage>;
 
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<MessageFormData>({
     resolver: zodResolver(newMessage),
@@ -56,11 +51,13 @@ const NewMessages = () => {
           requestType: "post",
         },
         responseHandler({
+          //eslint-disable-next-line
           onSuccess: (response: any) => {
             console.log(response, "create team");
             setLoading(false);
             navigate(`/dashboard/admin/messages`);
           },
+          //eslint-disable-next-line
           onError: (error: any) => {
             console.log(error, "create team");
             setLoading(false);

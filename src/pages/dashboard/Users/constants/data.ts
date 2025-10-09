@@ -1,6 +1,5 @@
 /** @format */
 
-import type { GoalsTableData, HomeTableData } from "@/types";
 
 export const genderOptions = [
   { value: "male", label: "Male" },
@@ -246,50 +245,4 @@ export const countryOptions = [
   { value: "YE", label: "Yemen" },
   { value: "ZM", label: "Zambia" },
   { value: "ZW", label: "Zimbabwe" },
-];
-
-export const tableData: HomeTableData[] = [
-  {
-    sn: "1",
-    name: "John Doe",
-    country: "USA",
-    date: "2022-01-01",
-    goals: "10",
-    challenges: "5",
-    teams: "2",
-    status: "active",
-    action: "View",
-  },
-  {
-    sn: "2",
-    name: "John Doe",
-    country: "USA",
-    date: "2022-01-01",
-    goals: "10",
-    challenges: "5",
-    teams: "2",
-    status: "active",
-    action: "View",
-  },
-];
-
-export const goalsData: GoalsTableData[] = [
-  {
-    id: "1",
-    goal_name: "Goal 1",
-    category: "Purpose",
-    status: "In Progress",
-    created_date: "2022-01-01",
-    target_date: "2022-01-01",
-    completion: "50%",
-  },
-  {
-    id: "2",
-    goal_name: "Goal 2",
-    category: "Relationship",
-    status: "In Progress",
-    created_date: "2022-01-01",
-    target_date: "2022-01-01",
-    completion: "50%",
-  },
 ];

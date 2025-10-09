@@ -17,8 +17,8 @@ const Challenges = () => {
     totalDocument: 0,
     challenge: [],
   });
-  const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(10);
+  const [page] = useState<number>(1);
+  const [limit] = useState<number>(10);
 
   const cardData = useMemo(
     () => [

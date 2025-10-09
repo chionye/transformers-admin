@@ -252,7 +252,7 @@ export function DataTable<TData, TValue = unknown>({
                     key={filter.id}
                     className='inline-flex items-center gap-1.5 px-3 py-1 text-sm bg-[#198841]/10 text-[#198841] rounded-full'>
                     <span className='font-medium'>{filterOption?.label}:</span>
-                    <span>{selectedOption?.label || filter.value}</span>
+                    <span>{selectedOption?.value || String(filter.value)}</span>
                     <button
                       onClick={() =>
                         table.getColumn(filter.id)?.setFilterValue(undefined)

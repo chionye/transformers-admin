@@ -1,10 +1,9 @@
 /** @format */
 import { CustomDropdown } from "@/components/custom-dropdown";
 import { DataTable } from "@/components/data-table";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icons from "@/constants/icons";
-import type { MessageProp, Messages as MessagesType, UsersTableData } from "@/types";
+import type { MessageProp, Messages as MessagesType } from "@/types";
 import PageTitle from "@/components/page-title";
 import { Link } from "react-router-dom";
 import Query from "@/services/query/query";
@@ -17,8 +16,8 @@ const Messages = () => {
     totalDocument: 0,
     message: [],
   });
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(1);
+  const [page] = useState(1);
+  const [limit] = useState(1);
 
   const { queryData: messagesData } = Query({
     id: "messages",

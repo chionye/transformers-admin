@@ -15,8 +15,8 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 const Teams = () => {
-  const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(10);
+  const [page] = useState<number>(1);
+  const [limit] = useState<number>(10);
   const [teamsData, setTeamsData] = useState<UserTeamsProp>({
     totalDocuments: 0,
     teams: [],

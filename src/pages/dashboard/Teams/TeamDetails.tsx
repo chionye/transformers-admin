@@ -10,9 +10,6 @@ import type {
   TeamDetailDataProp,
   TeamsDetailsTableData,
 } from "@/types";
-import Mutation from "@/services/query/mutation";
-import { responseHandler } from "@/services/response";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import IconCircleBadge from "@/components/icon-circle-badge";
 import { Card } from "@/components/ui/card";
@@ -30,8 +27,7 @@ const TeamDetails = () => {
     members: null,
   });
   const [tableData, setTableData] = useState<TeamsDetailsTableData[]>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { mutation } = Mutation();
+  // const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const queries: { [key: string]: QueryProps } = {
     team: {
@@ -77,6 +73,7 @@ const TeamDetails = () => {
         linkRef: `/dashboard/admin/users/user-profile/${team.team?.owner._id}`,
       },
     ],
+    //eslint-disable-next-line
     [teamData.data]
   );
 
@@ -97,34 +94,13 @@ const TeamDetails = () => {
     }
   }, [teamData.data]);
 
-  const handleActivateDeactivateUser = () => {
-    mutation.mutate(
-      {
-        url: ApiRoutes.ActivateDeactivateUser(id as string),
-        data: {},
-        requestType: "patch",
-      },
-      responseHandler({
-        onSuccess: (response: any) => {
-          console.log(response, "activate");
-          toast.success("User activated successfully");
-          setIsOpen(false);
-        },
-        onError: (error: any) => {
-          console.log(error, "activate");
-          toast.error(error || "Something went wrong");
-        },
-      })
-    );
-  };
-
   return (
     <InnerPageContainer
       title='Back to Teams'
       hideTitle
       child={
         <Button
-          onClick={() => setIsOpen(true)}
+          onClick={() => console.log("test")}
           className='font-dm-sans text-[14px] flex items-center gap-2 px-4 py-2 rounded-[8px] font-semibold text-white bg-[#C8230D] shadow'>
           <span className='flex lg:gap-1'>Delete Team</span>
         </Button>

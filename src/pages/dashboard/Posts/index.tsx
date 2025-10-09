@@ -13,8 +13,8 @@ import { Card } from "@/components/ui/card";
 
 const Posts = () => {
   const [posts, setPosts] = useState<PostsData | null>(null);
-  const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(10);
+  const [page] = useState<number>(1);
+  const [limit] = useState<number>(10);
   const [alerts, setAlerts] = useState<AlertProps | undefined>(undefined);
 
   const queries: { [key: string]: QueryProps } = {

@@ -24,6 +24,7 @@ const MetricsCard = ({
   linkRef?: string;
   bgColor?: string;
 }) => {
+  console.log(linkText);
   return (
     <Card
       className={`border border-[#EBEEF2] rounded-xl py-5 shadow-none`}
@@ -40,7 +41,7 @@ const MetricsCard = ({
 
         <div className='flex items-center justify-between'>
           <p className='font-dm-sans text-xl font-semibold text-[#1E1E1E]'>
-            {count}
+            {typeof count === "object" ? JSON.stringify(count) : count}
           </p>
           {isLink && (
             <Link to={linkRef as never} className='flex items-center gap-2'>

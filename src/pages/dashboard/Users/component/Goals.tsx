@@ -3,11 +3,8 @@
 import { DataTable } from "@/components/data-table";
 import { GoalsColumns } from "../utils/goals-table-columns";
 import type { GoalsTableData } from "@/types";
-import { goalsData } from "../constants/data";
 import { CustomDropdown } from "@/components/custom-dropdown";
 import Icons from "@/constants/icons";
-import Query from "@/services/query/query";
-import { useEffect, useState } from "react";
 
 const Goals = ({
   goals,

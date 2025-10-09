@@ -54,6 +54,8 @@ const Wallet = ({
     },
   ], [userId, balance, earnings]);
 
+  console.log(earningHistory);
+
   const historyData = [
     {
       title: "Downline Earning",

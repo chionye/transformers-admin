@@ -11,7 +11,7 @@ export const TeamDetailsColumns: ColumnDef<TeamsDetailsTableData>[] = [
   {
     accessorKey: "sn",
     header: "Plan",
-    cell: ({ row }) => {
+    cell: () => {
       //   const sn = row.getValue("sn");
       return (
         <Chip className='flex items-center gap-2 bg-[#F2EDFA]'>

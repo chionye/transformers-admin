@@ -22,7 +22,7 @@ import type {
   PointHistoryProp,
   QueryProps,
   UserProfileProp,
-  UserTeamsProp,
+  // UserTeamsProp,
 } from "@/types";
 import moment from "moment";
 import Mutation from "@/services/query/mutation";
@@ -60,13 +60,13 @@ const UserProfile = () => {
     balance: 0,
     totalDocuments: 0,
   });
-  const [userTeams, setUserTeams] = useState<UserTeamsProp>({
-    teams: [],
-    totalDocuments: 0,
-  });
-  const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(10);
-  const [isDeactivated, setIsDeactivated] = useState<boolean>(false);
+  // const [userTeams, setUserTeams] = useState<UserTeamsProp>({
+  //   teams: [],
+  //   totalDocuments: 0,
+  // });
+  const [page] = useState<number>(1);
+  const [limit] = useState<number>(10);
+  const [isDeactivated] = useState<boolean>(false);
   const { mutation } = Mutation();
 
   const queries: { [key: string]: QueryProps } = {
@@ -134,6 +134,7 @@ const UserProfile = () => {
         linkRef: `/dashboard/admin/users/user-profile/${id}`,
       },
     ],
+    //eslint-disable-next-line
     [userProfileData.data]
   );
 
@@ -173,11 +174,13 @@ const UserProfile = () => {
         requestType: "patch",
       },
       responseHandler({
+        //eslint-disable-next-line
         onSuccess: (response: any) => {
           console.log(response, "activate");
           toast.success("User activated successfully");
           setIsOpen(false);
         },
+        //eslint-disable-next-line
         onError: (error: any) => {
           console.log(error, "activate");
           toast.error(error || "Something went wrong");

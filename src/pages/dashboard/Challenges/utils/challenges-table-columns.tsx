@@ -1,7 +1,6 @@
 /** @format */
 
 import { CategoryChips } from "@/components/categories/cartegory-chips";
-import Icons from "@/constants/icons";
 import type { ChallengeData } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
@@ -12,6 +11,7 @@ export const HomeColumns: ColumnDef<ChallengeData>[] = [
     accessorKey: "title",
     header: "Name",
     cell: ({ row }) => {
+      //eslint-disable-next-line
       const title: any = row.getValue("title");
       console.log(title);
       return (
@@ -27,6 +27,7 @@ export const HomeColumns: ColumnDef<ChallengeData>[] = [
     accessorKey: "owner",
     header: "Created By",
     cell: ({ row }) => {
+      //eslint-disable-next-line
       const createdBy: any = row.getValue("owner");
       return (
         <div className='flex items-center gap-2'>
@@ -51,6 +52,7 @@ export const HomeColumns: ColumnDef<ChallengeData>[] = [
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => {
+      //eslint-disable-next-line
       const category: any = row.getValue("category");
       console.log(category);
       return <CategoryChips type={category?.name} showIcon />;
@@ -77,6 +79,7 @@ export const HomeColumns: ColumnDef<ChallengeData>[] = [
     accessorKey: "participants",
     header: "Member Count",
     cell: ({ row }) => {
+      //eslint-disable-next-line
       const participants: any[] = row.getValue("participants");
       return <p>{participants?.length}</p>;
     },

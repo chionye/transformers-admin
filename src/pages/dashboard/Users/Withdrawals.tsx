@@ -12,10 +12,11 @@ import Query from "@/services/query/query";
 
 export const Withdrawals = () => {
   const { id } = useParams();
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [page] = useState(1);
+  const [limit] = useState(10);
   const [withdrawalHistory, setWithdrawalHistory] = useState<{
     totalDocuments: number;
+    //eslint-disable-next-line
     history: any;
   }>({
     totalDocuments: 0,
@@ -32,17 +33,6 @@ export const Withdrawals = () => {
   };
 
   const { queryData: withdrawalData } = Query(queries.withdrawals);
-
-  const data = [
-    {
-      date_requested: "3/04/25 5:45PM",
-      amount: "100",
-      country: "Nigeria",
-      bank: "Access Bank",
-      status: "Pending",
-      action: "Approve",
-    },
-  ];
 
   useEffect(() => {
     if (withdrawalData.data) {

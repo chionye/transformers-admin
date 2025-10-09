@@ -24,8 +24,11 @@ import type {
 const Home = () => {
   const [analytics, setAnalytics] = useState<
     AnalyticsData & {
+      //eslint-disable-next-line
       metrics: Record<string, any> | undefined;
+      //eslint-disable-next-line
       activities: Record<string, any> | undefined;
+      //eslint-disable-next-line
       alerts: Record<string, any> | undefined;
     }
   >({
@@ -34,8 +37,8 @@ const Home = () => {
     chartData: [],
     alerts: undefined,
   });
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [page] = useState(1);
+  const [limit] = useState(10);
   const [alerts, setAlerts] = useState<AlertProps | undefined>(undefined);
 
   const queries: { [key: string]: QueryProps } = {
@@ -55,7 +58,7 @@ const Home = () => {
 
   const { queryData: analyticsData } = Query(queries.analytics);
   const { queryData: alertsData } = Query(queries.alerts);
-
+  //eslint-disable-next-line
   const handleMetrics = (analytics: Record<string, any>) => {
     const metricCardInfo = cardData.map((card) => {
       return {
@@ -67,16 +70,20 @@ const Home = () => {
     return metricCardInfo;
   };
 
+  //eslint-disable-next-line
   const handleActivities = (analytics: Record<string, any>) => {
     const activitySections = {
       allActivities: analytics.activities.slice(0, 10),
       users: analytics.activities
+        //eslint-disable-next-line
         .filter((activity: any) => activity.type === "USER")
         .slice(0, 10),
       teams: analytics.activities
+        //eslint-disable-next-line
         .filter((activity: any) => activity.type === "TEAM")
         .slice(0, 10),
       challenges: analytics.activities
+        //eslint-disable-next-line
         .filter((activity: any) => activity.type === "CHALLENGES")
         .slice(0, 10),
     };
@@ -84,6 +91,7 @@ const Home = () => {
     return activitySections;
   };
 
+  //eslint-disable-next-line
   const handleChart = (analytics: Record<string, any>) => {
     const keys = Object.keys(analytics.userAnalytics);
     const chartData = keys.map((key) => ({
@@ -113,24 +121,6 @@ const Home = () => {
     }
   }, [alertsData.data]);
 
-  const alertData = [
-    {
-      name: "3 posts flagged for review",
-      time: "2 days ago",
-    },
-    {
-      name: "“Tech warriors” Team flagged for review",
-      time: "2 days ago",
-    },
-    {
-      name: "3 posts flagged for review",
-      time: "2 days ago",
-    },
-    {
-      name: "3 posts flagged for review",
-      time: "2 days ago",
-    },
-  ];
   return (
     <div className='w-full flex flex-col gap-4'>
       <div>
@@ -165,6 +155,7 @@ const Home = () => {
                 {
                   key: "all",
                   children: analytics?.activities?.allActivities?.map(
+                    //eslint-disable-next-line
                     (data: any) => (
                       <HistoryCard
                         name={data?.username}
@@ -176,27 +167,34 @@ const Home = () => {
                 },
                 {
                   key: "users",
-                  children: analytics?.activities?.users?.map((data: any) => (
-                    <HistoryCard
-                      name={data?.username}
-                      challenge={data?.description}
-                      time={moment(data?.createdAt).fromNow()}
-                    />
-                  )),
+                  children: analytics?.activities?.users?.map(
+                    //eslint-disable-next-line
+                    (data: any) => (
+                      <HistoryCard
+                        name={data?.username}
+                        challenge={data?.description}
+                        time={moment(data?.createdAt).fromNow()}
+                      />
+                    )
+                  ),
                 },
                 {
                   key: "teams",
-                  children: analytics?.activities?.teams?.map((data: any) => (
-                    <HistoryCard
-                      name={data?.username}
-                      challenge={data?.description}
-                      time={moment(data?.createdAt).fromNow()}
-                    />
-                  )),
+                  children: analytics?.activities?.teams?.map(
+                    //eslint-disable-next-line
+                    (data: any) => (
+                      <HistoryCard
+                        name={data?.username}
+                        challenge={data?.description}
+                        time={moment(data?.createdAt).fromNow()}
+                      />
+                    )
+                  ),
                 },
                 {
                   key: "challenges",
                   children: analytics?.activities?.challenges?.map(
+                    //eslint-disable-next-line
                     (data: any) => (
                       <HistoryCard
                         name={data?.username}
@@ -216,16 +214,19 @@ const Home = () => {
               </p>
               <DoughnutChart data={analytics?.chartData} />
               <div className='grid grid-cols-2 gap-2'>
-                {analytics?.chartData?.map((data: any) => (
-                  <div
-                    key={data.name}
-                    className='flex items-center justify-center gap-2'>
-                    <div className='w-2 h-2 rounded-full bg-[#198841]'></div>
-                    <p className='text-[16px] font-normal text-[#1E1E1E]'>
-                      {data.name}-{data.value}
-                    </p>
-                  </div>
-                ))}
+                {analytics?.chartData?.map(
+                  //eslint-disable-next-line
+                  (data: any) => (
+                    <div
+                      key={data.name}
+                      className='flex items-center justify-center gap-2'>
+                      <div className='w-2 h-2 rounded-full bg-[#198841]'></div>
+                      <p className='text-[16px] font-normal text-[#1E1E1E]'>
+                        {data.name}-{data.value}
+                      </p>
+                    </div>
+                  )
+                )}
               </div>
             </Card>
             <Card className='px-5 w-full'>

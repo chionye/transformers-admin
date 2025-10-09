@@ -21,8 +21,8 @@ import Comments from "./components/ui/Comments";
 const PostDetails = () => {
   const { id } = useParams();
   const [posts, setPosts] = useState<PostData | null>(null);
-  const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(10);
+  const [page] = useState<number>(1);
+  const [limit] = useState<number>(10);
   const [alerts, setAlerts] = useState<AlertProps | undefined>(undefined);
   const [comments, setComments] = useState<CommentsData | undefined>(undefined);
 
