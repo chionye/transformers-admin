@@ -55,16 +55,16 @@ const FileUpload = ({
     setError(null);
 
     const formData = new FormData();
-    formData.append("image", selectedFile);
+    formData.append("photo", selectedFile);
 
     try {
       const response = await axios.post(
         `${BaseURL}${uploadEndpoint}`,
         formData,
         {
+          withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
-            withCredentials: true,
           },
         }
       );

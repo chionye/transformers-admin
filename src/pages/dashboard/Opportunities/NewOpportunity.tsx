@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { newBlogPost } from "@/utils/form-schema";
+import { newOpportunity } from "@/utils/form-schema";
 import CustomModal from "@/components/custom-modal";
 import { Card } from "@/components/ui/card";
 import Mutation from "@/services/query/mutation";
@@ -19,7 +19,7 @@ import Icons from "@/constants/icons";
 import FileUpload from "@/components/upload/file-upload";
 
 // Main Component
-const NewBlogPosts = () => {
+const NewOpportunity = () => {
   const [mode, setMode] = useState<"create" | "edit">("create");
   const [loading, setLoading] = useState(false);
   const { mutation } = Mutation();
@@ -27,28 +27,29 @@ const NewBlogPosts = () => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  type BlogFormData = z.infer<typeof newBlogPost>;
+  type opportunityFormData = z.infer<typeof newOpportunity>;
 
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<BlogFormData>({
-    resolver: zodResolver(newBlogPost),
+  } = useForm<opportunityFormData>({
+    resolver: zodResolver(newOpportunity),
     defaultValues: {
       title: "",
       content: "",
       photo: "",
+      link: "",
     },
   });
 
-  const onSubmit = async (data: BlogFormData) => {
+  const onSubmit = async (data: opportunityFormData) => {
     setLoading(true);
     try {
       mutation.mutate(
         {
-          url: ApiRoutes.SubmitBlog,
+          url: ApiRoutes.SubmitOpportunity,
           data: data,
           requestType: "post",
         },
@@ -57,7 +58,7 @@ const NewBlogPosts = () => {
           onSuccess: (response: any) => {
             console.log(response, "create blog");
             setLoading(false);
-            navigate(`/dashboard/admin/blog`);
+            navigate(-1);
           },
           //eslint-disable-next-line
           onError: (error: any) => {
@@ -93,13 +94,13 @@ const NewBlogPosts = () => {
   };
 
   return (
-    <InnerPageContainer title='Back to Blog' hideTitle>
+    <InnerPageContainer title='Back to Opportunities' hideTitle>
       <div className='min-h-screen bg-gray-50'>
         <Card className='max-w-4xl mx-auto px-4 py-8'>
           {/* Header */}
           <div className='flex items-center justify-between'>
             <h1 className='text-xl font-bold text-gray-900'>
-              {mode === "edit" ? "Edit Blog" : "Create New Blog"}
+              {mode === "edit" ? "Edit Opportunity" : "Create New Opportunity"}
             </h1>
             <button
               onClick={() => setMode(mode === "create" ? "edit" : "create")}
@@ -111,7 +112,7 @@ const NewBlogPosts = () => {
           {/* Form */}
           <div className='space-y-6'>
             <div className=' space-y-6'>
-              {/* Blog Title */}
+              {/* Opportunity Title */}
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Title
@@ -129,14 +130,14 @@ const NewBlogPosts = () => {
                 )}
               </div>
 
-              {/* Blog Content */}
+              {/* Details */}
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
-                  Blog
+                  Details
                 </label>
                 <textarea
                   {...register("content")}
-                  placeholder='Enter Content...'
+                  placeholder='Enter Details...'
                   rows={4}
                   className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all resize-none'
                 />
@@ -148,11 +149,26 @@ const NewBlogPosts = () => {
               </div>
             </div>
 
-            {/* File Upload Section */}
+            {/* Opportunity Title */}
             <div>
               <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Blog Image
+                Link (Optional)
               </label>
+              <input
+                {...register("link")}
+                type='text'
+                placeholder='Enter URL'
+                className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all'
+              />
+              {errors.link && (
+                <p className='text-sm text-red-600 mt-1'>
+                  {errors.link.message}
+                </p>
+              )}
+            </div>
+
+            {/* File Upload Section */}
+            <div>
               {!uploadedImageUrl ? (
                 <FileUpload
                   onUploadComplete={handleImageUploadComplete}
@@ -209,9 +225,9 @@ const NewBlogPosts = () => {
                     {mode === "edit" ? "Updating..." : "Creating..."}
                   </>
                 ) : mode === "edit" ? (
-                  "Update Message"
+                  "Update Opportunity"
                 ) : (
-                  "Submit Post"
+                  "Submit Opportunity"
                 )}
                 <Icons.paperPlane />
               </Button>
@@ -258,4 +274,4 @@ const NewBlogPosts = () => {
   );
 };
 
-export default NewBlogPosts;
+export default NewOpportunity;

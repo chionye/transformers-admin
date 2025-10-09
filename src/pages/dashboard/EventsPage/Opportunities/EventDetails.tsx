@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Query from "@/services/query/query";
 import ApiRoutes from "@/services/api/api-routes";
 import { useEffect, useState } from "react";
-import type { BlogProp, QueryProps } from "@/types";
+import type { OpportunitiesProp, QueryProps } from "@/types";
 import Mutation from "@/services/query/mutation";
 import { responseHandler } from "@/services/response";
 import { toast } from "sonner";
@@ -16,12 +16,12 @@ import { Loader2 } from "lucide-react";
 import CustomModal from "@/components/custom-modal";
 import { useQueryInvalidateStore } from "@/store/query-invalidate-store";
 
-const BlogDetails = () => {
+const EventDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isQueryInvalidated, setIsQueryInvalidated } =
     useQueryInvalidateStore();
-  const [blog, setBlog] = useState<BlogProp>({
+  const [opportunity, setOpportunity] = useState<OpportunitiesProp>({
     _id: "",
     title: "",
     content: "",
@@ -34,6 +34,7 @@ const BlogDetails = () => {
       email: "",
       avatar: "",
     },
+    link: ""
   });
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -43,9 +44,9 @@ const BlogDetails = () => {
   const { mutation } = Mutation();
 
   const queries: { [key: string]: QueryProps } = {
-    blog: {
-      id: `blog-${id}`,
-      url: ApiRoutes.FetchBlogById(id as string),
+    opportunity: {
+      id: `opportunity-${id}`,
+      url: ApiRoutes.FetchOpportunityId(id as string),
       method: "GET",
       payload: null,
     },
@@ -57,15 +58,15 @@ const BlogDetails = () => {
     },
   };
 
-  const { queryData: blogData, handleDataUpdate } = Query(queries.blog);
+  const { queryData: opportunityData, handleDataUpdate } = Query(queries.opportunity);
 
   useEffect(() => {
-    if (blogData.data) {
-      console.log(blogData.data.data.blog);
-      const data = blogData.data.data.blog;
-      setBlog(data);
+    if (opportunityData.data) {
+      console.log(opportunityData.data.data.opportunity);
+      const data = opportunityData.data.data.opportunity;
+      setOpportunity(data);
     }
-  }, [blogData.data]);
+  }, [opportunityData.data]);
 
   useEffect(() => {
     if (isQueryInvalidated) {
@@ -78,7 +79,7 @@ const BlogDetails = () => {
   const handleTogglePublish = () => {
     mutation.mutate(
       {
-        url: ApiRoutes.TogglePublish(id as string),
+        url: ApiRoutes.TogglePublishOpportunity(id as string),
         requestType: "patch",
       },
       responseHandler({
@@ -86,13 +87,13 @@ const BlogDetails = () => {
         onSuccess: (response: any) => {
           console.log(response, "toggle publish");
           toast.success(
-            blog.isPublished
-              ? "Blog unpublished successfully"
-              : "Blog published successfully"
+            opportunity.isPublished
+              ? "Opportunity unpublished successfully"
+              : "Opportunity published successfully"
           );
           setIsPublishModalOpen(false);
           setIsUnpublishModalOpen(false);
-          // Refresh blog data
+          // Refresh opportunity data
           window.location.reload();
         },
         //eslint-disable-next-line
@@ -107,16 +108,16 @@ const BlogDetails = () => {
   const handleDelete = () => {
     mutation.mutate(
       {
-        url: ApiRoutes.FetchBlogById(id as string),
+        url: ApiRoutes.FetchOpportunityId(id as string),
         requestType: "delete",
       },
       responseHandler({
         //eslint-disable-next-line
         onSuccess: (response: any) => {
           console.log(response, "delete");
-          toast.success("Blog deleted successfully");
+          toast.success("Opportunity deleted successfully");
           setIsDeleteModalOpen(false);
-          navigate("/dashboard/blog");
+          navigate(-1);
         },
         //eslint-disable-next-line
         onError: (error: any) => {
@@ -129,7 +130,7 @@ const BlogDetails = () => {
 
   return (
     <InnerPageContainer
-      title='Back to Blog'
+      title='Back to opportunity'
       hideTitle
       child={
         <div className='flex items-center gap-2'>
@@ -140,7 +141,7 @@ const BlogDetails = () => {
             className='font-dm-sans text-[14px] flex items-center gap-2 px-4 py-2 rounded-[8px] font-semibold text-[#198841] border border-[#198841] shadow'>
             <span>Delete</span>
           </Button>
-          {blog.isPublished ? (
+          {opportunity.isPublished ? (
             <Button
               onClick={() => setIsUnpublishModalOpen(true)}
               disabled={mutation.isPending}
@@ -161,10 +162,10 @@ const BlogDetails = () => {
         <div>
           <div className='flex items-center justify-between'>
             <p className='font-dm-sans text-xl text-[#1E1E1E] font-semibold'>
-              {blog.title}
+              {opportunity.title}
             </p>
             <div>
-              {!blog.isPublished ? (
+              {!opportunity.isPublished ? (
                 <Chip className='bg-[#FEF0C3] text-[#A17C07] rounded-full'>
                   Pending
                 </Chip>
@@ -176,21 +177,21 @@ const BlogDetails = () => {
             </div>
           </div>
           <p className='text-[#4B4B4B] font-dm-sans text-[16px] font-normal'>
-            {blog.content}
+            {opportunity.content}
           </p>
           <div className='rounded-lg overflow-hidden'>
-            <img src={blog.photo} alt='' className='w-full' />
+            <img src={opportunity.photo} alt='' className='w-full' />
           </div>
         </div>
         <div className='flex items-center gap-2'>
           <img
-            src={blog?.composer?.avatar}
+            src={opportunity?.composer?.avatar}
             alt=''
             className='w-8 h-8 rounded-full'
           />
           <div>
             <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
-              {blog.composer?.fullName}
+              {opportunity.composer?.fullName}
             </p>
           </div>
         </div>
@@ -199,7 +200,7 @@ const BlogDetails = () => {
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         showCloseButton={false}
-        title='Delete Blog?'
+        title='Delete opportunity?'
         footer={
           <div className='flex justify-end space-x-3'>
             <button
@@ -213,12 +214,12 @@ const BlogDetails = () => {
               disabled={mutation.isPending}
               className='px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50 flex items-center gap-2'>
               {mutation.isPending && <Loader2 className='animate-spin' />}
-              Delete Blog
+              Delete opportunity
             </button>
           </div>
         }>
         <p className='text-gray-600'>
-          Are you sure you want to delete this blog? You cannot undo this
+          Are you sure you want to delete this opportunity? You cannot undo this
           action.
         </p>
       </CustomModal>
@@ -227,7 +228,7 @@ const BlogDetails = () => {
         isOpen={isPublishModalOpen}
         onClose={() => setIsPublishModalOpen(false)}
         showCloseButton={false}
-        title='Publish Blog?'
+        title='Publish Opportunity?'
         footer={
           <div className='flex justify-end space-x-3'>
             <button
@@ -241,12 +242,12 @@ const BlogDetails = () => {
               disabled={mutation.isPending}
               className='px-4 py-2 text-sm font-medium text-white bg-[#198841] rounded-md hover:bg-[#198841]/90 disabled:opacity-50 flex items-center gap-2'>
               {mutation.isPending && <Loader2 className='animate-spin' />}
-              Publish Blog
+              Publish Opportunity
             </button>
           </div>
         }>
         <p className='text-gray-600'>
-          Are you sure you want to publish this blog? It will be visible to all
+          Are you sure you want to publish this opportunity? It will be visible to all
           users.
         </p>
       </CustomModal>
@@ -255,7 +256,7 @@ const BlogDetails = () => {
         isOpen={isUnpublishModalOpen}
         onClose={() => setIsUnpublishModalOpen(false)}
         showCloseButton={false}
-        title='Unpublish Blog?'
+        title='Unpublish opportunity?'
         footer={
           <div className='flex justify-end space-x-3'>
             <button
@@ -269,12 +270,12 @@ const BlogDetails = () => {
               disabled={mutation.isPending}
               className='px-4 py-2 text-sm font-medium text-white bg-[#C8230D] rounded-md hover:bg-[#C8230D]/90 disabled:opacity-50 flex items-center gap-2'>
               {mutation.isPending && <Loader2 className='animate-spin' />}
-              Unpublish Blog
+              Unpublish Opportunity
             </button>
           </div>
         }>
         <p className='text-gray-600'>
-          Are you sure you want to unpublish this blog? It will no longer be
+          Are you sure you want to unpublish this opportunity? It will no longer be
           visible to users.
         </p>
       </CustomModal>
@@ -282,4 +283,4 @@ const BlogDetails = () => {
   );
 };
 
-export default BlogDetails;
+export default EventDetails;

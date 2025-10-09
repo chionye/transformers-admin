@@ -21,6 +21,10 @@ const Mutation = () => {
               data: payload.data,
               tokenOrHeaders: payload.tokenOrHeaders,
             });
+          case "delete":
+            return request.del(payload.url, {
+              tokenOrHeaders: payload.tokenOrHeaders,
+            });
 
           default:
             throw new Error(

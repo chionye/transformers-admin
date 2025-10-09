@@ -19,6 +19,7 @@ export interface DropdownPropType {
   cn?: string;
   icon?: React.ReactNode;
   children: React.ReactNode;
+  //eslint-disable-next-line
   data?: any;
 }
 
@@ -72,6 +73,7 @@ export interface DropdownOption {
 
 export interface DynamicDropdownProps {
   label: string;
+  //eslint-disable-next-line
   icon?: any;
   cn?: string;
   options: DropdownOption[];
@@ -80,6 +82,7 @@ export interface DynamicDropdownProps {
   dropdownType?: string | null;
   changeFunction?: (e: string) => void;
   openChange?: (open: boolean) => void;
+  //eslint-disable-next-line
   dropDownClickFn?: (e: any) => void;
 }
 
@@ -134,6 +137,7 @@ export interface FormInputPropType {
   disabled?: boolean;
   value?: string;
   placeholder?: string;
+  //eslint-disable-next-line
   changeFunction: (e: any) => void;
 }
 
@@ -143,8 +147,10 @@ export interface FormSelectPropType {
   placeholder?: string;
   value: string;
   cn?: string;
+  //eslint-disable-next-line
   options: any;
   disabled?: boolean;
+  //eslint-disable-next-line
   changeFunction: (e: any) => void;
 }
 
@@ -154,12 +160,14 @@ export interface FormTextAreaPropType {
   value: string;
   cn?: string;
   disabled?: boolean;
+  //eslint-disable-next-line
   changeFunction: (e: any) => void;
 }
 
 export interface FormPinPropType {
   label: string;
   value: string;
+  //eslint-disable-next-line
   changeFunction: any;
 }
 
@@ -279,6 +287,7 @@ export type QueryProps = {
   url: string;
   method: Method;
   tokenOrHeaders?: string | Record<string, string> | undefined;
+  //eslint-disable-next-line
   payload: Record<string, any> | null;
 };
 
@@ -296,6 +305,7 @@ export interface TitleBarPropType {
 
 export interface TablePropType {
   thead: string[];
+  //eslint-disable-next-line
   tbody?: any;
   keys: string[];
   role?: string;
@@ -370,11 +380,13 @@ export interface OnboardPatientPropType {
   family_history: string;
   social_history: string;
   sogical_history: string;
+  //eslint-disable-next-line
   photo: any;
 }
 
 export interface AppointmentFormPropType {
   data: AppointmentPropType;
+  //eslint-disable-next-line
   changeFunction: (e: any) => void;
 }
 
@@ -386,11 +398,13 @@ export interface UploadPropType {
 }
 
 export type UserData = {
+  //eslint-disable-next-line
   [key: string]: any;
 };
 
 export type ContextValue = {
   userData?: UserData;
+  //eslint-disable-next-line
   updateData: (arg0: any) => void;
 };
 
@@ -542,6 +556,7 @@ export type LoginProps = {
 };
 
 export interface CustomButtonProps {
+  //eslint-disable-next-line
   [key: string]: any;
 }
 
@@ -766,6 +781,7 @@ export interface UserTeamsTableData {
 }
 
 export type RequestOptions = {
+  //eslint-disable-next-line
   data?: any;
   tokenOrHeaders?: string | Record<string, string>;
 };
@@ -806,6 +822,7 @@ export interface BaseMutationInput {
 
 export interface DataMutationInput extends BaseMutationInput {
   requestType: "post" | "patch" | undefined;
+  //eslint-disable-next-line
   data?: any;
 }
 
@@ -1066,6 +1083,13 @@ export type Recipient = {
   createdAt: string;
 };
 
+export type Composer = {
+  _id: string;
+  fullName: string;
+  email: string;
+  avatar: string;
+};
+
 export type Messages = {
   _id: string;
   title: string;
@@ -1073,12 +1097,7 @@ export type Messages = {
   content: string;
   recepients: string;
   status: string;
-  composer: {
-    _id: string;
-    fullName: string;
-    email: string;
-    avatar: string;
-  };
+  composer: Composer;
   createdAt: string;
 };
 
@@ -1097,6 +1116,7 @@ export type BlogProp = {
   title: string;
   content: string;
   photo: string;
+  composer: Composer;
   isPublished: boolean;
   createdAt: string;
 };
@@ -1105,3 +1125,37 @@ export type BlogsProp = {
   totalDocument: number;
   blogs: BlogProp[];
 };
+
+export type OpportunitiesProp = {
+  _id: string;
+  title: string;
+  content: string;
+  photo: string;
+  link: string;
+  isPublished: boolean;
+  composer: Composer;
+  createdAt: string;
+};
+
+export type OpportunitiesPropData = {
+  totalDocument: number;
+  opportunities: OpportunitiesProp[];
+};
+
+export type EventProp = {
+  _id: string;
+  title: string;
+  eventDate: string;
+  description: string;
+  photo: string;
+  status: string;
+  location: string;
+  composer: Composer;
+  link: string;
+  createdAt: string;
+};
+
+export type EventsPropData = {
+  totalDocument: number,
+  event: EventProp[],
+}

@@ -4,7 +4,7 @@ import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icons from "@/constants/icons";
-import type { TeamsTableData, UserTeams } from "@/types";
+import type { TeamsTableData, UserTeams, UserTeamsProp } from "@/types";
 import { HomeColumns } from "./utils/teams-table-columns";
 import PageTitle from "@/components/page-title";
 import Query from "@/services/query/query";

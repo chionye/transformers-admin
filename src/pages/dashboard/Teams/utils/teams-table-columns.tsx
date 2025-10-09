@@ -1,11 +1,11 @@
 /** @format */
 
 import Icons from "@/constants/icons";
-import type { TeamsDetailsTableData } from "@/types";
+import type { TeamsTableData } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
-export const HomeColumns: ColumnDef<TeamsDetailsTableData>[] = [
+export const HomeColumns: ColumnDef<TeamsTableData>[] = [
   {
     accessorKey: "name",
     header: "Name",

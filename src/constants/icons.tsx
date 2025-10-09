@@ -2596,7 +2596,7 @@ const Icons = {
       />
     </svg>
   ),
-  openBook: ({
+  openBook1: ({
     color = "#198841",
     width = "17",
     height = "16",
@@ -2949,7 +2949,7 @@ const Icons = {
       </defs>
     </svg>
   ),
-  image: ({
+  imageAlt: ({
     color = "#7D7E8E",
     width = "20",
     height = "21",

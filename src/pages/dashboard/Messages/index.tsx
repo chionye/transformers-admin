@@ -4,7 +4,7 @@ import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icons from "@/constants/icons";
-import type { MessageProp, Messages, UsersTableData } from "@/types";
+import type { MessageProp, Messages as MessagesType, UsersTableData } from "@/types";
 import PageTitle from "@/components/page-title";
 import { Link } from "react-router-dom";
 import Query from "@/services/query/query";
@@ -65,7 +65,7 @@ const Messages = () => {
         />
       </div>
       <Card className='lg:col-span-7 p-4'>
-        <DataTable<Messages>
+        <DataTable<MessagesType>
           columns={MessagesColumns}
           data={messages.message}
         />

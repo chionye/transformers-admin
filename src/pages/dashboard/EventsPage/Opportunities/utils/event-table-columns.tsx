@@ -1,24 +1,34 @@
 /** @format */
 
 import { Chip } from "@/components/chip";
-import { Button } from "@/components/ui/button";
-import Icons from "@/constants/icons";
-import type { Messages } from "@/types";
+import type { EventProp } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import ActionButtons from "../ui/action-buttons";
 
-export const MessagesColumns: ColumnDef<Messages>[] = [
+export const EventColumns: ColumnDef<EventProp>[] = [
   {
     accessorKey: "title",
     header: "Title",
+    cell: ({ row }) => {
+      const data: EventProp = row.original;
+      return (
+        <div className='flex items-center gap-2'>
+          <div className='w-8 h-8 overflow-hidden rounded-lg'>
+            <img src={data.photo} alt='' className='w-8' />
+          </div>
+          <div>
+            <p>{data.title}</p>
+          </div>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
       const status: string = row.original.status;
-      console.log(status);
       return status.toLowerCase() === "pending" ? (
         <Chip className='bg-[#FEF0C3] text-[#A17C07] rounded-full'>
           {status}
@@ -39,11 +49,11 @@ export const MessagesColumns: ColumnDef<Messages>[] = [
     },
   },
   {
-    accessorKey: "recepients",
-    header: "Recipients",
+    accessorKey: "location",
+    header: "Location",
     cell: ({ row }) => {
-      const recipients: number = parseInt(row.original.recepients);
-      return <p>{recipients}</p>;
+      const location: string = row.original.location;
+      return <p>{location}</p>;
     },
   },
   {
@@ -51,18 +61,7 @@ export const MessagesColumns: ColumnDef<Messages>[] = [
     header: "Action",
     cell: ({ row }) => {
       const id = row.original._id;
-      return (
-        <div className='flex flex-row items-center gap-2'>
-          <Link
-            to={`/dashboard/admin/messages/${id}`}
-            className='font-dm-sans text-[#198841] text-[16px] cursor-pointer'>
-            <Icons.eyeOpen width="18" height="18" />
-          </Link>
-          <Button variant={"link"} className="cursor-pointer">
-            <Icons.trash2 />
-          </Button>
-        </div>
-      );
+      return <ActionButtons id={id} />;
     },
   },
 ];

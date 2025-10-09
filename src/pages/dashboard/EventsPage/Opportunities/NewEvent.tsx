@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { newBlogPost } from "@/utils/form-schema";
+import { newEvent } from "@/utils/form-schema";
 import CustomModal from "@/components/custom-modal";
 import { Card } from "@/components/ui/card";
 import Mutation from "@/services/query/mutation";
@@ -19,7 +19,7 @@ import Icons from "@/constants/icons";
 import FileUpload from "@/components/upload/file-upload";
 
 // Main Component
-const NewBlogPosts = () => {
+const NewEvent = () => {
   const [mode, setMode] = useState<"create" | "edit">("create");
   const [loading, setLoading] = useState(false);
   const { mutation } = Mutation();
@@ -27,41 +27,44 @@ const NewBlogPosts = () => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  type BlogFormData = z.infer<typeof newBlogPost>;
+  type eventFormData = z.infer<typeof newEvent>;
 
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<BlogFormData>({
-    resolver: zodResolver(newBlogPost),
+  } = useForm<eventFormData>({
+    resolver: zodResolver(newEvent),
     defaultValues: {
       title: "",
-      content: "",
+      eventDate: "",
+      description: "",
+      location: "",
       photo: "",
+      link: "",
     },
   });
 
-  const onSubmit = async (data: BlogFormData) => {
+  const onSubmit = async (data: eventFormData) => {
     setLoading(true);
     try {
       mutation.mutate(
         {
-          url: ApiRoutes.SubmitBlog,
+          url: ApiRoutes.SubmitEvent,
           data: data,
           requestType: "post",
         },
         responseHandler({
           //eslint-disable-next-line
           onSuccess: (response: any) => {
-            console.log(response, "create blog");
+            console.log(response, "create event");
             setLoading(false);
-            navigate(`/dashboard/admin/blog`);
+            navigate(-1);
           },
           //eslint-disable-next-line
           onError: (error: any) => {
-            console.log(error, "create blog");
+            console.log(error, "create event");
             setLoading(false);
             toast.error(error || "Something went wrong");
           },
@@ -93,13 +96,13 @@ const NewBlogPosts = () => {
   };
 
   return (
-    <InnerPageContainer title='Back to Blog' hideTitle>
+    <InnerPageContainer title='Back to Opportunities' hideTitle>
       <div className='min-h-screen bg-gray-50'>
         <Card className='max-w-4xl mx-auto px-4 py-8'>
           {/* Header */}
           <div className='flex items-center justify-between'>
             <h1 className='text-xl font-bold text-gray-900'>
-              {mode === "edit" ? "Edit Blog" : "Create New Blog"}
+              {mode === "edit" ? "Edit Event" : "Create New Event"}
             </h1>
             <button
               onClick={() => setMode(mode === "create" ? "edit" : "create")}
@@ -111,7 +114,7 @@ const NewBlogPosts = () => {
           {/* Form */}
           <div className='space-y-6'>
             <div className=' space-y-6'>
-              {/* Blog Title */}
+              {/* Event Title */}
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Title
@@ -119,7 +122,7 @@ const NewBlogPosts = () => {
                 <input
                   {...register("title")}
                   type='text'
-                  placeholder='Enter blog title'
+                  placeholder='Enter event title'
                   className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all'
                 />
                 {errors.title && (
@@ -129,30 +132,45 @@ const NewBlogPosts = () => {
                 )}
               </div>
 
-              {/* Blog Content */}
+              {/* Details */}
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
-                  Blog
+                  Details
                 </label>
                 <textarea
-                  {...register("content")}
-                  placeholder='Enter Content...'
+                  {...register("description")}
+                  placeholder='Enter Details...'
                   rows={4}
                   className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all resize-none'
                 />
-                {errors.content && (
+                {errors.description && (
                   <p className='text-sm text-red-600 mt-1'>
-                    {errors.content.message}
+                    {errors.description.message}
                   </p>
                 )}
               </div>
             </div>
 
-            {/* File Upload Section */}
+            {/* Event Date */}
             <div>
               <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Blog Image
+                Event Date
               </label>
+              <input
+                {...register("link")}
+                type='text'
+                placeholder='Enter URL'
+                className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all'
+              />
+              {errors.eventDate && (
+                <p className='text-sm text-red-600 mt-1'>
+                  {errors.eventDate.message}
+                </p>
+              )}
+            </div>
+
+            {/* File Upload Section */}
+            <div>
               {!uploadedImageUrl ? (
                 <FileUpload
                   onUploadComplete={handleImageUploadComplete}
@@ -209,9 +227,9 @@ const NewBlogPosts = () => {
                     {mode === "edit" ? "Updating..." : "Creating..."}
                   </>
                 ) : mode === "edit" ? (
-                  "Update Message"
+                  "Update Event"
                 ) : (
-                  "Submit Post"
+                  "Submit Event"
                 )}
                 <Icons.paperPlane />
               </Button>
@@ -258,4 +276,4 @@ const NewBlogPosts = () => {
   );
 };
 
-export default NewBlogPosts;
+export default NewEvent;

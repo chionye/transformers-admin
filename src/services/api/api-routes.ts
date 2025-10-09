@@ -304,4 +304,54 @@ export default class ApiRoutes {
     `/blog/list/${page}?limit=${limit}${
       published ? "&published=" + published : ""
     }`;
+
+  //Api to submit blog
+  static SubmitBlog: string = `/blog`;
+
+  //Api to fetch blog by id
+  static FetchBlogById: (id: string) => string = (id: string) => `/blog/${id}`;
+
+  //Api to toggle publish
+  static TogglePublish: (id: string) => string = (id: string) =>
+    `/blog/${id}/publish`;
+
+  //Api to fetch opportunities
+  static FetchOpportunities: (page: number, limit: number) => string = (
+    page: number,
+    limit: number
+  ) => `/opportunity/list/${page}?limit=${limit}`;
+
+  //Api to submit opportunity
+  static SubmitOpportunity: string = `/opportunity`;
+
+  //Api to fetch opportunity by id
+  static FetchOpportunityId: (id: string) => string = (id: string) =>
+    `/opportunity/${id}`;
+
+  //Api to toggle publish
+  static TogglePublishOpportunity: (id: string) => string = (id: string) =>
+    `/opportunity/${id}/publish`;
+
+  //Api to fetch events
+  static FetchEvents: (
+    page: number,
+    limit: number,
+    eventDate?: string,
+    status?: string,
+    published?: boolean
+  ) => string = (
+    page: number,
+    limit: number,
+    eventDate?: string,
+    status?: string,
+    published?: boolean
+  ) =>
+    `/event/list/${page}?limit=${limit}${
+      eventDate ? "&eventDate=" + eventDate : ""
+    }${status ? "&status=" + status : ""}${
+      published ? "&published=" + published : ""
+    }`;
+
+  //Api to submit event
+  static SubmitEvent: string = `/event`;
 }

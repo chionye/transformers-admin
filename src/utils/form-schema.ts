@@ -69,3 +69,19 @@ export const newBlogPost = z.object({
   content: z.string().min(1, "Message is required"),
   photo: z.string().min(1, "Please select a photo"),
 });
+
+export const newOpportunity = z.object({
+  title: z.string().min(1, "Title is required"),
+  content: z.string().min(1, "Message is required"),
+  photo: z.string().min(1, "Please select a photo"),
+  link: z.string().optional(),
+});
+
+export const newEvent = z.object({
+  title: z.string().min(1, "Title is required"),
+  eventDate: z.string().min(1, "Event date is required"),
+  description: z.string().min(1, "Description is required"),
+  location: z.string().min(1, "Location is required"),
+  photo: z.string().min(1, "Please select a photo"),
+  link: z.string().optional(),
+});

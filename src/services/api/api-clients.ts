@@ -56,6 +56,7 @@ API.interceptors.request.use(
 
 // Helper function to build headers (still useful for specific overrides)
 function buildHeaders(
+  //eslint-disable-next-line
   payloadData?: any,
   tokenOrHeaders?: string | Record<string, string>
 ): Record<string, string> {
@@ -85,6 +86,7 @@ export function getRequest<R = unknown>(): MakeRequestFunction<R> {
       };
       const response = await API.get<R>(url, config);
       return response;
+      //eslint-disable-next-line
     } catch (error: any) {
       console.error("GET Request Error:", error);
       throw error.response?.data || error;
@@ -93,6 +95,7 @@ export function getRequest<R = unknown>(): MakeRequestFunction<R> {
 }
 
 // POST Request
+//eslint-disable-next-line
 export function postRequest<R = any>(): MakeRequestFunction<R> {
   return async (url, options) => {
     try {
@@ -102,6 +105,7 @@ export function postRequest<R = any>(): MakeRequestFunction<R> {
       console.log(url, options?.data, config);
       const response = await API.post<R>(url, options?.data, config);
       return response;
+      //eslint-disable-next-line
     } catch (error: any) {
       console.error("POST Request Error:", error);
       throw error.response?.data || error;
@@ -110,6 +114,7 @@ export function postRequest<R = any>(): MakeRequestFunction<R> {
 }
 
 // PATCH Request
+//eslint-disable-next-line
 export function patchRequest<R = any>(): MakeRequestFunction<R> {
   return async (url, options) => {
     try {
@@ -118,6 +123,7 @@ export function patchRequest<R = any>(): MakeRequestFunction<R> {
       };
       const response = await API.patch<R>(url, options?.data, config);
       return response;
+      //eslint-disable-next-line
     } catch (error: any) {
       console.error("PATCH Request Error:", error);
       throw error.response?.data || error;
@@ -126,6 +132,7 @@ export function patchRequest<R = any>(): MakeRequestFunction<R> {
 }
 
 // PUT Request
+//eslint-disable-next-line
 export function putRequest<R = any>(): MakeRequestFunction<R> {
   return async (url, options) => {
     try {
@@ -134,6 +141,7 @@ export function putRequest<R = any>(): MakeRequestFunction<R> {
       };
       const response = await API.put<R>(url, options?.data, config);
       return response;
+      //eslint-disable-next-line
     } catch (error: any) {
       console.error("PUT Request Error:", error);
       throw error.response?.data || error;
@@ -142,6 +150,7 @@ export function putRequest<R = any>(): MakeRequestFunction<R> {
 }
 
 // DELETE Request
+//eslint-disable-next-line
 export function deleteRequest<R = any>(): MakeRequestFunction<R> {
   return async (url, options) => {
     try {
@@ -152,6 +161,7 @@ export function deleteRequest<R = any>(): MakeRequestFunction<R> {
         ...config,
       });
       return response;
+      //eslint-disable-next-line
     } catch (error: any) {
       console.error("DELETE Request Error:", error);
       throw error.response?.data || error;

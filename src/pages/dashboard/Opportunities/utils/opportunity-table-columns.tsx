@@ -1,15 +1,28 @@
 /** @format */
 
 import { Chip } from "@/components/chip";
-import type { BlogProp } from "@/types";
+import type { OpportunitiesProp } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import ActionButtons from "../ui/action-buttons";
 
-export const BlogColumns: ColumnDef<BlogProp>[] = [
+export const OpportunityColumns: ColumnDef<OpportunitiesProp>[] = [
   {
     accessorKey: "title",
     header: "Title",
+    cell: ({ row }) => {
+      const data: OpportunitiesProp = row.original;
+      return (
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 overflow-hidden rounded-lg">
+            <img src={data.photo} alt='' className='w-8' />
+          </div>
+          <div>
+            <p>{data.title}</p>
+          </div>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "isPublished",

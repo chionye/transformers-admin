@@ -26,6 +26,12 @@ import NewMessages from "@/pages/dashboard/Messages/NewMessages";
 import MessageDetail from "@/pages/dashboard/Messages/MessageDetail";
 import Blog from "@/pages/dashboard/Blog";
 import NewBlogPost from "@/pages/dashboard/Blog/NewBlogPost";
+import BlogDetails from "@/pages/dashboard/Blog/BlogDetails";
+import Opportunities from "@/pages/dashboard/Opportunities";
+import NewOpportunity from "@/pages/dashboard/Opportunities/NewOpportunity";
+import OpportunityDetails from "@/pages/dashboard/Opportunities/OpportunityDetails";
+import Events from "@/pages/dashboard/EventsPage/Opportunities";
+import NewEvent from "@/pages/dashboard/EventsPage/Opportunities/NewEvent";
 
 const Routes = [
   {
@@ -133,6 +139,30 @@ const Routes = [
       {
         path: `/dashboard/admin/blog/new`,
         element: <NewBlogPost />,
+      },
+      {
+        path: `/dashboard/admin/blog/:id`,
+        element: <BlogDetails />,
+      },
+      {
+        path: `/dashboard/admin/opportunities`,
+        element: <Opportunities />,
+      },
+      {
+        path: `/dashboard/admin/opportunity/new`,
+        element: <NewOpportunity />,
+      },
+      {
+        path: `/dashboard/admin/opportunity/:id`,
+        element: <OpportunityDetails />,
+      },
+      {
+        path: `/dashboard/admin/events`,
+        element: <Events />,
+      },
+      {
+        path: `/dashboard/admin/event/new`,
+        element: <NewEvent />,
       },
     ],
   },

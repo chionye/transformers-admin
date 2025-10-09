@@ -28,6 +28,7 @@ const persister = createAsyncStoragePersister({
 function DashboardLayout() {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  //eslint-disable-next-line
   const { user, setUser } = useUserStore((state: any) => state);
 
   const handleToggleSearchBar = () => {
@@ -47,6 +48,7 @@ function DashboardLayout() {
     if (user) {
       setUser(JSON.parse(user));
     }
+    //eslint-disable-next-line
   }, []);
 
   return (
