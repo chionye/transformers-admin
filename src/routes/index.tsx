@@ -32,6 +32,7 @@ import NewOpportunity from "@/pages/dashboard/Opportunities/NewOpportunity";
 import OpportunityDetails from "@/pages/dashboard/Opportunities/OpportunityDetails";
 import Events from "@/pages/dashboard/EventsPage/Opportunities";
 import NewEvent from "@/pages/dashboard/EventsPage/Opportunities/NewEvent";
+import EventDetails from "@/pages/dashboard/EventsPage/Opportunities/EventDetails";
 
 const Routes = [
   {
@@ -163,6 +164,10 @@ const Routes = [
       {
         path: `/dashboard/admin/event/new`,
         element: <NewEvent />,
+      },
+      {
+        path: `/dashboard/admin/event/:id`,
+        element: <EventDetails />,
       },
     ],
   },

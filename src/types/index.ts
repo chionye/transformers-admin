@@ -1149,6 +1149,7 @@ export type EventProp = {
   description: string;
   photo: string;
   status: string;
+  isPublished: boolean;
   location: string;
   composer: Composer;
   link: string;

@@ -354,4 +354,12 @@ export default class ApiRoutes {
 
   //Api to submit event
   static SubmitEvent: string = `/event`;
+
+  //Api to fetch event by id
+  static FetchEventById: (id: string) => string = (id: string) =>
+    `/event/${id}`;
+
+  //Api to toggle publish event
+  static TogglePublishEvent: (id: string) => string = (id: string) =>
+    `/event/${id}/publish`;
 }
