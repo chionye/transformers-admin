@@ -6,11 +6,12 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import SideNav from "@/components/navigation/sidenav";
 import Icons from "@/constants/icons";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SearchField from "@/components/search-field";
 import { Button } from "@/components/ui/button";
 import MobileSideNav from "@/components/navigation/mobile-sidenav";
 import { useUserStore } from "@/store/user-store";
+import ProtectedRoute from "@/routes/protectedroute";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -136,7 +137,7 @@ function DashboardLayout() {
               </div>
 
               <div className='w-full lg:p-10 p-3 overflow-y-scroll h-full'>
-                <Outlet />
+                <ProtectedRoute />
               </div>
             </div>
           </div>

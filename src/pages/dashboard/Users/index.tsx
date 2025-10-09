@@ -4,13 +4,38 @@ import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icons from "@/constants/icons";
-import type { HomeTableData } from "@/types";
-import { HomeColumns } from "./utils/home-table-columns";
+import type { UsersTableData } from "@/types";
+import { UsersColumns } from "./utils/users-table-columns";
 import PageTitle from "@/components/page-title";
-import { tableData } from "./constants/data";
 import { Link } from "react-router-dom";
+import Query from "@/services/query/query";
+import ApiRoutes from "@/services/api/api-routes";
+import { useEffect, useState } from "react";
 
 const Users = () => {
+  const [userList, setUserList] = useState<UsersTableData[]>([]);
+  const [page, setPage] = useState(1);
+
+  const { queryData: usersData } = Query({
+    id: "users",
+    url: ApiRoutes.FetchUsers(page, "10"),
+    method: "GET",
+    payload: null,
+  });
+
+  useEffect(() => {
+    if (usersData.data) {
+      console.log(usersData.data.data.users, "works");
+      const { list, totalDocument } = usersData.data.data.users;
+      console.log(list, totalDocument, "list doc");
+      const listWithSn = list.map((item: UsersTableData, index: number) => ({
+        ...item,
+        sn: index + 1,
+      }));
+      setUserList(listWithSn);
+    }
+  }, [usersData.data]);
+
   return (
     <div className='w-full flex flex-col gap-4'>
       <div className='flex flex-row items-center justify-between gap-4'>
@@ -45,7 +70,7 @@ const Users = () => {
         />
       </div>
       <Card className='lg:col-span-7 p-4'>
-        <DataTable<HomeTableData> columns={HomeColumns} data={tableData} />
+        <DataTable<UsersTableData> columns={UsersColumns} data={userList} />
       </Card>
     </div>
   );

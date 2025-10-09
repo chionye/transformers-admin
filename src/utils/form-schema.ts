@@ -4,9 +4,7 @@ import z from "zod";
 
 export const LoginSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z
-    .string()
-    .min(1, "Password must be at least 1 characters long")
+  password: z.string().min(1, "Password must be at least 1 characters long"),
 });
 
 export const ForgotSchema = z.object({
@@ -46,4 +44,28 @@ export const userDetails = z.object({
   referred_by: z
     .string()
     .min(1, "Referred by must be at least 1 character long"),
+});
+
+export const newTeamSchema = z.object({
+  name: z.string().min(1, "Team name is required"),
+  description: z.string().min(1, "Team description is required"),
+  color: z.string().min(1, "Please select a color"),
+  icon: z.string().min(1, "Please select an icon"),
+  owner: z.array(z.string()).optional(),
+});
+
+export const newTeamMemberSchema = z.object({
+  members: z.array(z.string()).optional(),
+});
+
+export const newMessage = z.object({
+  title: z.string().min(1, "Title is required"),
+  content: z.string().min(1, "Message is required"),
+  recepients: z.string().min(1, "Please select a recepients"),
+});
+
+export const newBlogPost = z.object({
+  title: z.string().min(1, "Title is required"),
+  content: z.string().min(1, "Message is required"),
+  photo: z.string().min(1, "Please select a photo"),
 });

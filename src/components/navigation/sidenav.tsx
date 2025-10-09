@@ -2,20 +2,24 @@
 
 import { NavLink, useLocation } from "react-router-dom";
 import { NavbarItems } from "@/utils/nav-items";
-import React from "react";
+import React, { useState } from "react";
+import { Button } from "../ui/button";
+import Icons from "@/constants/icons";
 
 const SideNavItem = ({
-  to,
+  to = "",
   icon,
   label,
   location,
+  onClick,
 }: {
-  to: string;
+  to?: string;
   icon: React.ReactNode | ((color: string) => React.ReactNode);
   label: string;
   location: string;
+  onClick?: (e: React.MouseEvent) => void;
 }) => {
-  const isActive = location.indexOf(to) !== -1;
+  const isActive = to && location.indexOf(to) !== -1;
   const iconColor = isActive ? "#FFFFFF" : "#7D7E8E";
   const iconComponent = typeof icon === "function" ? icon(iconColor) : icon;
   return (
@@ -25,6 +29,7 @@ const SideNavItem = ({
       } transition-all`}>
       <NavLink
         to={to}
+        onClick={onClick}
         className={`text-[#7D7E8E] w-full group-hover:text-white text-[16px] font-dm-sans ${
           isActive && "text-white"
         }`}>
@@ -39,7 +44,13 @@ const SideNavItem = ({
 
 const SideNav = () => {
   const location = useLocation();
-  const settings = NavbarItems.admin;
+  const [currentNav, setCurrentNav] = useState<"main" | "content">("main");
+  const settings = NavbarItems[currentNav];
+
+  const handleNavClick = (e: React.MouseEvent, nav: "main" | "content") => {
+    e.preventDefault();
+    setCurrentNav(nav);
+  };
 
   return (
     <div className='auto-rows-max text-sm lg:flex hidden bg-white fixed top-0 left-0 h-screen w-[18%] z-20'>
@@ -55,6 +66,18 @@ const SideNav = () => {
         </div>
         <div className='flex flex-col items-center min-h-full w-full px-5'>
           <div>
+            {currentNav === "content" && (
+              <Button
+                variant='ghost'
+                onClick={(e) => handleNavClick(e, "main")}
+                className='w-fit flex items-center justify-start gap-2 mb-2'>
+                <Icons.arrowLeft />
+                <p
+                  className={`font-dm-sans text-[14px] font-medium text-[#989898]`}>
+                  Back to Dashboard
+                </p>
+              </Button>
+            )}
             {settings.map((item, index) => (
               <div key={index}>
                 <div className='w-full px-3 py-2'>
@@ -65,12 +88,24 @@ const SideNav = () => {
                 <div className='flex flex-col items-end w-full gap-1'>
                   {item.items.map((item, index) => {
                     return item.label !== "Logout" ? (
-                      <SideNavItem
-                        key={index}
-                        {...item}
-                        location={location.pathname}
-                        icon={item.icon}
-                      />
+                      <>
+                        {item.label !== "Content Manager" ? (
+                          <SideNavItem
+                            key={index}
+                            {...item}
+                            location={location.pathname}
+                            icon={item.icon}
+                          />
+                        ) : (
+                          <SideNavItem
+                            key={index}
+                            icon={item.icon}
+                            label={item.label}
+                            location={location.pathname}
+                            onClick={(e) => handleNavClick(e, "content")}
+                          />
+                        )}
+                      </>
                     ) : (
                       <div
                         key={index}

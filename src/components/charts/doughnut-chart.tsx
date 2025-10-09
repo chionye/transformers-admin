@@ -7,6 +7,7 @@ import {
   Sector,
   type SectorProps,
 } from "recharts";
+import type { ChartDataPoint } from "@/types";
 
 type Coordinate = {
   x: number;
@@ -22,7 +23,7 @@ type PieSectorData = {
   value?: number;
   paddingAngle?: number;
   dataKey?: string;
-  payload?: any;
+  payload?: ChartDataPoint;
 };
 
 type PieSectorDataItem = React.SVGProps<SVGPathElement> &
@@ -56,7 +57,7 @@ const renderActiveShape = ({
   return (
     <g>
       <text x={cx} y={cy} dy={8} textAnchor='middle' fill={fill}>
-        {payload.name}
+        {payload?.name || 'N/A'}
       </text>
       <Sector
         cx={cx}
@@ -100,10 +101,10 @@ const renderActiveShape = ({
 };
 
 export default function DoughnutChart({
-  data,
+  data = [],
   height = 300,
 }: {
-  data: { name: string; value: number }[];
+  data?: ChartDataPoint[];
   height?: number;
 }) {
   return (

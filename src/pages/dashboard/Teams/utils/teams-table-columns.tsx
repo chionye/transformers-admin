@@ -1,11 +1,11 @@
 /** @format */
 
 import Icons from "@/constants/icons";
-import type { TeamsTableData } from "@/types";
+import type { TeamsDetailsTableData } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
-export const HomeColumns: ColumnDef<TeamsTableData>[] = [
+export const HomeColumns: ColumnDef<TeamsDetailsTableData>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -57,13 +57,13 @@ export const HomeColumns: ColumnDef<TeamsTableData>[] = [
     header: "Date Created",
   },
   {
-    accessorKey: "action",
+    accessorKey: "id",
     header: "Action",
-    cell: () => {
-      // const action = row.getValue("action");
+    cell: ({ row }) => {
+      const action = row.getValue("id");
       return (
         <Link
-          to='/'
+          to={`/dashboard/admin/team/${action}`}
           className='font-dm-sans text-[#198841] text-[16px] cursor-pointer'>
           View
         </Link>

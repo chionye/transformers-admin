@@ -3,7 +3,7 @@
 import Icons from "@/constants/icons";
 
 export const NavbarItems = {
-  admin: [
+  main: [
     {
       parent: "WORKSPACE",
       items: [
@@ -33,7 +33,7 @@ export const NavbarItems = {
           label: "Posts",
         },
         {
-          to: "/dashboard/admin/cms",
+          to: "#",
           icon: (color: string) => <Icons.folder1 color={color} />,
           label: "Content Manager",
         },
@@ -61,6 +61,43 @@ export const NavbarItems = {
           to: "/dashboard/admin/logout",
           icon: (color: string) => <Icons.logout color={color} />,
           label: "Logout",
+        },
+      ],
+    },
+  ],
+  content: [
+    {
+      parent: "CONTENT MANAGER",
+      items: [
+        {
+          to: "/dashboard/admin/messages",
+          icon: (color: string) => <Icons.envelope color={color} />,
+          label: "Messages",
+        },
+        {
+          to: "/dashboard/admin/blog",
+          icon: (color: string) => <Icons.post color={color} />,
+          label: "Blog",
+        },
+        {
+          to: "/dashboard/admin/opportunities",
+          icon: (color: string) => <Icons.suitcase color={color} />,
+          label: "Opportunities",
+        },
+        {
+          to: "/dashboard/admin/events",
+          icon: (color: string) => <Icons.event color={color} />,
+          label: "Events",
+        },
+        {
+          to: "/dashboard/admin/learning",
+          icon: (color: string) => <Icons.openBook color={color} />,
+          label: "Learning",
+        },
+        {
+          to: "/dashboard/admin/faqs",
+          icon: (color: string) => <Icons.faq color={color} />,
+          label: "FAQs",
         },
       ],
     },

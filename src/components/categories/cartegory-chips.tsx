@@ -16,30 +16,26 @@ export const CategoryChips = ({
       variant='outline'
       size='sm'
       rounded
-      className='bg-[#F2EDFA] hover:bg-[#F2EDFA]/80 flex items-center gap-2'>
-      {showIcon && <Icons.bulb />}
-      <p className='font-dm-sans text-[14px] font-medium text-[#7344AC]'>
-        {type}
-      </p>
+      className='bg-[#7344AC] hover:bg-[#7344AC]/80 flex items-center gap-2'>
+      {showIcon && <Icons.bulb color='white' />}
+      <p className='font-dm-sans text-[14px] font-medium text-white'>{type}</p>
     </Chip>
   ) : type === Category.Leadership ? (
     <Chip
       variant='outline'
       size='sm'
       rounded
-      className='bg-[#F2EDFA] hover:bg-[#F2EDFA]/80 flex items-center gap-2'>
-      {showIcon && <Icons.medal />}
-      <p className='font-dm-sans text-[14px] font-medium text-[#C8230D]'>
-        {type}
-      </p>
+      className='bg-[#C8230D] hover:bg-[#C8230D]/80 flex items-center gap-2'>
+      {showIcon && <Icons.medal color='white' />}
+      <p className='font-dm-sans text-[14px] font-medium text-white'>{type}</p>
     </Chip>
   ) : type === Category.Relationship ? (
     <Chip
       variant='outline'
       size='sm'
       rounded
-      className='bg-[#FEF0C3] hover:bg-[#FFE3DF]/80 flex items-center gap-2'>
-      {showIcon && <Icons.relationship />}
+      className='bg-[#FEF0C3] hover:bg-[#FEF0C3]/80 flex items-center gap-2'>
+      {showIcon && <Icons.relationship color='white' />}
       <p className='font-dm-sans text-[14px] font-medium text-[#A17C07]'>
         {type}
       </p>
@@ -49,22 +45,27 @@ export const CategoryChips = ({
       variant='outline'
       size='sm'
       rounded
-      className='bg-[#FEF0C3] hover:bg-[#FFE3DF]/80 flex items-center gap-2'>
-      {showIcon && <Icons.openBook />}
-      <p className='font-dm-sans text-[14px] font-medium text-[#A17C07]'>
-        {type}
-      </p>
+      className='bg-[#198841] hover:bg-[#198841]/80 flex items-center gap-2'>
+      {showIcon && <Icons.openBook color='white' />}
+      <p className='font-dm-sans text-[14px] font-medium text-white'>{type}</p>
     </Chip>
   ) : type === Category.Systems ? (
     <Chip
       variant='outline'
       size='sm'
       rounded
-      className='bg-[#FEF0C3] hover:bg-[#FFE3DF]/80 flex items-center gap-2'>
-      {showIcon && <Icons.cogs />}
-      <p className='font-dm-sans text-[14px] font-medium text-[#A17C07]'>
-        {type}
-      </p>
+      className='bg-[#3662AE] hover:bg-[#3662AE]/80 flex items-center gap-2'>
+      {showIcon && <Icons.cogs color='white' />}
+      <p className='font-dm-sans text-[14px] font-medium text-white'>{type}</p>
+    </Chip>
+  ) : type === Category.People ? (
+    <Chip
+      variant='outline'
+      size='sm'
+      rounded
+      className='bg-[#A17C07] hover:bg-[#A17C07]/80 flex items-center gap-2'>
+      {showIcon && <Icons.people color='white' />}
+      <p className='font-dm-sans text-[14px] font-medium text-white'>{type}</p>
     </Chip>
   ) : null;
 };

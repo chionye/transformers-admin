@@ -4,51 +4,75 @@ import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icons from "@/constants/icons";
-import type { ChallengesTableData } from "@/types";
+import type { ChallengeData, ChallengeInfo, QueryProps } from "@/types";
 import { HomeColumns } from "./utils/challenges-table-columns";
 import PageTitle from "@/components/page-title";
 import MetricsCard from "./components/metrics-card";
-import { cardData } from "./constants/data";
+import Query from "@/services/query/query";
+import ApiRoutes from "@/services/api/api-routes";
+import { useEffect, useMemo, useState } from "react";
 
 const Challenges = () => {
-  const tableData: ChallengesTableData[] = [
-    {
-      id: 1,
-      name: "John Doe",
-      created_by: (
-        <div>
-          <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
-            John Doe
-          </p>
-          <p className='font-dm-sans text-[#686868] text-[14px] font-normal'>
-            sarahjohnson@gmail.com
-          </p>
-        </div>
-      ),
-      category: "Purpose",
-      status: "active",
-      member_count: 10,
-      date_created: "2022-01-01",
+  const [challenges, setChallenges] = useState<ChallengeInfo>({
+    totalDocument: 0,
+    challenge: [],
+  });
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
+
+  const cardData = useMemo(
+    () => [
+      {
+        count: challenges.totalDocument || 0,
+        title: "Challenges Created",
+        icon: <Icons.trophy color='#7344AC' />,
+        iconBg: "#F2EDFA",
+      },
+      {
+        count: challenges.challenge.filter(
+          (challenge: ChallengeData) => challenge.status === "active"
+        ).length,
+        title: "Active Challenges",
+        icon: <Icons.trophy color='#A17C07' />,
+        iconBg: "#FEF0C3",
+      },
+      {
+        count: challenges.challenge
+          .map((challenge: ChallengeData) => challenge.participants.length)
+          .reduce((prev, curr) => prev + curr, 0),
+        title: "Total Participants",
+        icon: <Icons.team color='#C8230D' />,
+        iconBg: "#FFE3DF",
+      },
+      {
+        count: challenges.challenge.filter(
+          (challenge: ChallengeData) => challenge.status === "completed"
+        ).length,
+        title: "Challenges Completed",
+        icon: <Icons.circleCheck />,
+        iconBg: "#DDFBE7",
+      },
+    ],
+    [challenges]
+  );
+
+  const queries: { [key: string]: QueryProps } = {
+    challenges: {
+      id: "challenges",
+      url: ApiRoutes.FetchChallenges(page, limit),
+      method: "GET",
+      payload: null,
     },
-    {
-      id: 2,
-      name: "John Doe",
-      created_by: (
-        <div>
-          <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
-            John Doe
-          </p>
-          <p className='font-dm-sans text-[#686868] text-[14px] font-normal'>
-            sarahjohnson@gmail.com
-          </p>
-        </div>
-      ),
-      category: "Purpose",
-      status: "active",
-      member_count: 10,
-      date_created: "2022-01-01",
-    },
-  ];
+  };
+
+  const { queryData } = Query(queries.challenges);
+
+  useEffect(() => {
+    if (queryData.data) {
+      console.log(queryData.data.data);
+      setChallenges(queryData.data.data.challenges);
+    }
+  }, [queryData.data]);
   return (
     <div className='w-full flex flex-col gap-4'>
       <div className='flex flex-row items-center justify-between gap-4'>
@@ -92,9 +116,9 @@ const Challenges = () => {
         ))}
       </div>
       <Card className='lg:col-span-7 p-4'>
-        <DataTable<ChallengesTableData>
+        <DataTable<ChallengeData>
           columns={HomeColumns}
-          data={tableData}
+          data={challenges.challenge}
         />
       </Card>
     </div>

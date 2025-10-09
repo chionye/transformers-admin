@@ -9,17 +9,30 @@ import InputField from "@/components/form/input-field";
 import { SelectField } from "@/components/form/select-field";
 import { countryOptions, genderOptions } from "../constants/data";
 import { DatePickerField } from "@/components/form/datepicker-field";
+import type { UserProfileProp } from "@/types";
+import { useEffect } from "react";
 
-const UserDetails = () => {
+const UserDetails = ({ userProfile }: { userProfile: UserProfileProp }) => {
   const form = useForm<z.infer<typeof userDetails>>({
     resolver: zodResolver(userDetails),
     defaultValues: {
-      country: "Nigeria",
-      gender: "Male",
+      country: "",
+      gender: "",
       date_of_birth: "",
-      referred_by: "@chimamanda",
+      referred_by: "",
     },
   });
+
+  useEffect(() => {
+    if (userProfile?.profile) {
+      form.reset({
+        country: userProfile.profile.country || "",
+        gender: userProfile.profile.gender || "",
+        date_of_birth: userProfile.profile.dob || "",
+        referred_by: userProfile.profile.referralCode || "",
+      });
+    }
+  }, [userProfile, form]);
 
   const bioTexts = [
     {
@@ -44,21 +57,23 @@ const UserDetails = () => {
             <p className='font-dm-sans text-[16px] font-semibold text-[#4B4B4B]'>
               Basic Information
             </p>
-            <div className='flex flex-col gap-2'>
-              <div className='grid grid-cols-2 gap-2 w-full'>
+            <div className='flex flex-col gap-4'>
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-4 w-full'>
                 <FormField
                   control={form.control}
                   name='country'
-                  render={({ field }) => (
-                    <SelectField
-                      label='Country'
-                      options={countryOptions}
-                      value={field.value}
-                      onChange={(value) => field.onChange(value)}
-                      error={form.formState.errors.country?.message}
-                      required
-                    />
-                  )}
+                  render={({ field }) => {
+                    return (
+                      <SelectField
+                        label='Country'
+                        options={countryOptions}
+                        value={field.value}
+                        onChange={(value) => field.onChange(value)}
+                        error={form.formState.errors.country?.message}
+                        required
+                      />
+                    );
+                  }}
                 />
                 <FormField
                   control={form.control}
@@ -74,7 +89,7 @@ const UserDetails = () => {
                   )}
                 />
               </div>
-              <div className='grid grid-cols-2 gap-2 w-full'>
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-4 w-full'>
                 <FormField
                   control={form.control}
                   name='gender'

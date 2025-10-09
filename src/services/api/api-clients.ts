@@ -1,10 +1,6 @@
 /** @format */
 
-import axios, {
-  type AxiosInstance,
-  type AxiosRequestConfig,
-  type AxiosError,
-} from "axios";
+import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 import ApiRoutes from "./api-routes";
 import type { MakeRequestFunction } from "@/types";
 
@@ -13,20 +9,20 @@ export const BaseURL = ApiRoutes.BASE_URL_DEV;
 // Axios instance
 export const API: AxiosInstance = axios.create({
   baseURL: BaseURL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 // Request interceptor to add withCredentials conditionally
-API.interceptors.request.use((config) => {
-  // Only set withCredentials for non-login requests
-  if (!config.url?.endsWith(ApiRoutes.LoginUser)) {
-    config.withCredentials = true;
-  }
-  console.log(config);
-  return config;
-});
+// API.interceptors.request.use((config) => {
+//   // Only set withCredentials for non-login requests
+//   if (!config.url?.endsWith(ApiRoutes.LoginUser)) {
+//     config.withCredentials = true;
+//   }
+//   return config;
+// });
 
 let authToken: string | null = null;
 
@@ -54,26 +50,6 @@ API.interceptors.request.use(
     return config;
   },
   (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// Response Interceptor
-API.interceptors.response.use(
-  (response) => response,
-  async (error: AxiosError) => {
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      console.warn(
-        "Unauthorized access. Clearing token and redirecting to login."
-      );
-      // Ensure localStorage access is client-side
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("userToken");
-        localStorage.removeItem("userInfo");
-      }
-      setAuthToken(null);
-      setAuthToken(null);
-    }
     return Promise.reject(error);
   }
 );

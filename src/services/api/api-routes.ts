@@ -153,14 +153,16 @@ export default class ApiRoutes {
   static DashboardAnalytics: string = "/dashboard/admin/overview";
 
   // Api route to fetch posts
-  static FetchPosts: (id: string, page: number, limit: string) => string = (
-    id: string,
+  static FetchPosts: (page: number, limit: string) => string = (
     page: number,
     limit: string
-  ) => `/post/all/${page}?limit=${limit}&user=${id}`;
+  ) => `/post/all/${page}?limit=${limit}`;
 
   // Api route to fetch user
-  static FetchUser: string = "/user";
+  static FetchUsers: (page: number, limit: string) => string = (
+    page: number,
+    limit: string
+  ) => `/user/list/${page}?limit=${limit}`;
 
   // Api route to fetch points
   static FetchPoints: (id: string, page: number, limit: string) => string = (
@@ -173,8 +175,8 @@ export default class ApiRoutes {
   static FetchEarningHistory: (
     id: string,
     page: number,
-    limit: string
-  ) => string = (id: string, page: number, limit: string) =>
+    limit: number
+  ) => string = (id: string, page: number, limit: number) =>
     `/wallet/earnings/${page}?limit=${limit}&user=${id}`;
 
   // Api route to submit withdrawal request
@@ -185,4 +187,121 @@ export default class ApiRoutes {
 
   // Api route to fetch referral network
   static FetchFaq: string = "/faq";
+
+  // Api route to fetch user profile
+  static FetchUserProfile: (id: string) => string = (id: string) =>
+    `/user/${id}`;
+
+  // Api route to fetch point history
+  static FetchPointHistory: (
+    id: string,
+    page: number,
+    limit: number
+  ) => string = (id: string, page: number, limit: number) =>
+    `/wallet/points/${page}?limit=${limit}&user=${id}`;
+
+  //Api route to fetch user teams
+  static FetchUserTeams: (id: string, page: number, limit: number) => string = (
+    id: string,
+    page: number,
+    limit: number
+  ) => `/team/${page}?limit=${limit}&user=${id}`;
+
+  //Api to activate or deactivate users account
+  static ActivateDeactivateUser: (id: string) => string = (id: string) =>
+    `/user/${id}/deactivate`;
+
+  //Api to fetch user withdrawal history
+  static FetchUserWithdrawalHistory: (
+    id: string,
+    page: number,
+    limit: number
+  ) => string = (id: string, page: number, limit: number) =>
+    `/wallet/withdrawal/${page}?limit=${limit}&user=${id}`;
+
+  //Api to fetch all teams
+  static FetchAllTeams: (page: number, limit: number) => string = (
+    page: number,
+    limit: number
+  ) => `/team/${page}?limit=${limit}`;
+
+  //Api to fetch team details
+  static FetchTeamDetails: (id: string) => string = (id: string) =>
+    `/team/${id}/view`;
+
+  //Api to fetch challenges
+  static FetchChallenges: (page: number, limit: number) => string = (
+    page: number,
+    limit: number
+  ) => `/challenge/list/${page}?limit=${limit}`;
+
+  //Api to fetch challenge details
+  static FetchChallengeDetails: (id: string) => string = (id: string) =>
+    `/challenge/${id}`;
+
+  //Api to fetch alerts
+  static FetchAlerts: (
+    page: number,
+    limit: number,
+    type?: string,
+    target?: string,
+    status?: string
+  ) => string = (
+    page: number,
+    limit: number,
+    type?: string,
+    target?: string,
+    status?: string
+  ) =>
+    `/alerts/filter/${page}?limit=${limit}${type ? `&type=${type}` : ""}${
+      target ? `&target=${target}` : ""
+    }${status ? `&status=${status}` : ""}`;
+
+  //Api to fetch alert by id
+  static FetchAlertById: (id: string) => string = (id: string) =>
+    `/alerts/${id}`;
+
+  //Api to fetch post by id
+  static FetchPostById: (id: string) => string = (id: string) => `/post/${id}`;
+
+  //Api to fetch comment by post id
+  static FetchCommentByPostId: (
+    id: string,
+    page: number,
+    limit: number
+  ) => string = (id: string, page: number, limit: number) =>
+    `/post/${id}/comment/${page}?limit=${limit}`;
+
+  //Api to submit message
+  static SendMessage: string = "/message";
+
+  //Api to fetch messages
+  static FetchMessages: (
+    page: number,
+    limit: number,
+    published?: boolean,
+    status?: string
+  ) => string = (
+    page: number,
+    limit: number,
+    published?: boolean,
+    status?: string
+  ) =>
+    `/message/list/${page}?limit=${limit}${
+      published ? "&published=" + published : ""
+    }${status ? "&status=" + status : ""}`;
+
+  //Api to fetch message by id
+  static FetchMessageById: (id: string) => string = (id: string) =>
+    `/message/${id}`;
+
+  //Api to fetch blog
+  static FetchBlog: (
+    page: number,
+    limit: number,
+    published?: boolean
+  ) => string = (page: number, limit: number, published?: boolean) =>
+    `/blog/list/${page}?limit=${limit}${
+      published ? "&published=" + published : ""
+    }`;
 }

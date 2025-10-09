@@ -6,7 +6,7 @@ import type {
   patchRequest,
   postRequest,
 } from "@/services/api/api-clients";
-import type { newUserSchema } from "@/utils/form-schema";
+import type { newTeamSchema, newUserSchema } from "@/utils/form-schema";
 import { type AxiosResponse, type Method } from "axios";
 import type z from "zod";
 export interface FabPropType {
@@ -24,7 +24,7 @@ export interface DropdownPropType {
 
 export type HomeTableData = {
   sn: string;
-  name: string;
+  fullName: string;
   country: string;
   date: string;
   goals: string;
@@ -32,6 +32,32 @@ export type HomeTableData = {
   teams: string;
   status: "active" | "inactive";
   action: string;
+};
+
+export type UsersTableData = {
+  sn: string;
+  _id: string;
+  fullName: string;
+  email: string;
+  username: string;
+  reportCount: number;
+  reported: boolean;
+  role: string;
+  points: number;
+  earnings: number;
+  isVerified: boolean;
+  authType: string;
+  referralCode: string;
+  avatar: string;
+  createdAt: string;
+  country: string;
+  dob: string;
+  gender: string;
+  lastLogin: string;
+  followers: number;
+  goals: number;
+  challenges: number;
+  teams: number;
 };
 
 export type OtpFieldName = `otp${1 | 2 | 3 | 4 | 5 | 6}`;
@@ -520,7 +546,7 @@ export interface CustomButtonProps {
 }
 
 export interface TeamsTableData {
-  id: number;
+  id: string;
   name: string;
   created_by: React.ReactNode;
   team_type: string;
@@ -536,6 +562,124 @@ export interface ChallengesTableData {
   status: string;
   member_count: number;
   date_created: string;
+}
+
+export interface ChallengeDetailsData {
+  _id: string;
+  category: {
+    _id: string;
+    name: string;
+    color: {
+      _id: string;
+      title: string;
+      color: string;
+      colorHex: string;
+      primaryColor: string;
+      bgColor: string;
+      accentColor: string;
+      icon: string;
+      finalColor: string;
+      createdAt: string;
+      updatedAt: string;
+    };
+  };
+  title: string;
+  start: string;
+  end: string;
+  description: string;
+  checklists: [
+    {
+      _id: string;
+      task: string;
+      isComplete: boolean;
+    },
+    {
+      _id: string;
+      task: string;
+      isComplete: boolean;
+    },
+    {
+      _id: string;
+      task: string;
+      isComplete: boolean;
+    }
+  ];
+  isPublic: boolean;
+  status: string;
+  owner: {
+    _id: string;
+    fullName: string;
+    username: string;
+    avatar: string;
+  };
+  isComplete: boolean;
+  participants: {
+    _id: string;
+    fullName: string;
+    email: string;
+    avatar: string;
+  }[];
+  icon: string;
+  createdAt: string;
+}
+export interface ChallengeData {
+  _id: string;
+  category: {
+    _id: string;
+    name: string;
+    color: {
+      _id: string;
+      title: string;
+      color: string;
+      colorHex: string;
+      primaryColor: string;
+      bgColor: string;
+      accentColor: string;
+      icon: string;
+      finalColor: string;
+      createdAt: string;
+      updatedAt: string;
+    };
+  };
+  title: string;
+  start: string;
+  end: string;
+  description: string;
+  isPublic: boolean;
+  status: string;
+  owner: {
+    _id: string;
+    fullName: string;
+    avatar: string;
+  };
+  isComplete: boolean;
+  participants: {
+    _id: string;
+    username: string;
+    avatar: string;
+  }[];
+  icon: string;
+}
+
+export interface LeaderboardData {
+  _id: string;
+  fullName: string;
+  email: string;
+  avatar: string;
+  streak: number;
+  progress: number;
+}
+
+export interface ViewChallengeData {
+  challenge: ChallengeDetailsData;
+  percentageCompletion: number;
+  leaderboard: LeaderboardData[];
+  completionRate: number;
+}
+
+export interface ChallengeInfo {
+  totalDocument: number;
+  challenge: ChallengeData[];
 }
 
 export interface PaymentTableData {
@@ -560,14 +704,47 @@ export interface AlertTableData {
 
 export type NewUserFormData = z.infer<typeof newUserSchema>;
 
+export type Reminder = {
+  frequency: string;
+  day: number;
+  time: string;
+};
+
+export type Category = {
+  _id: string;
+  name: string;
+  color: string;
+};
+
+export type Checklist = {
+  _id: string;
+  task: string;
+  isComplete: boolean;
+};
+
+export type UserGoal = {
+  _id: string;
+  fullName: string;
+  username: string;
+  avatar: string;
+};
+
 export type GoalsTableData = {
-  id: string;
-  goal_name: string;
-  category: string;
+  reminder: Reminder;
+  _id: string;
+  category: Category;
+  title: string;
+  start: string;
+  end: string;
+  description: string;
+  checklists: Checklist[];
+  isPublic: boolean;
   status: string;
-  created_date: string;
-  target_date: string;
-  completion: string;
+  user: UserGoal;
+  isComplete: boolean;
+  icon: string;
+  createdAt: string;
+  percentageCompletion: number;
 };
 
 export type WithdrawalTableData = {
@@ -650,3 +827,281 @@ export interface QueryParam {
   url: string;
   tokenOrHeaders: string | undefined;
 }
+
+export interface ChartDataPoint {
+  name: string;
+  value: number;
+  color?: string;
+}
+
+export interface AnalyticsData {
+  chartData: ChartDataPoint[];
+  // Add other analytics properties here if needed
+}
+
+export interface HomeMetricsCardData {
+  count: number;
+  title: string;
+  icon: React.ReactNode;
+  iconBg: string;
+  percentage: number;
+  key: string;
+  child: string;
+  sibling: string;
+  from: string;
+  unit?: string;
+}
+
+export type StatusType = "active" | "inactive" | "expired" | "pending";
+export type ChipVariant =
+  | "default"
+  | "outline"
+  | "secondary"
+  | "destructive"
+  | "success"
+  | "warning";
+
+export type Progress = {
+  activeCategories: number;
+  completedGoals: number;
+  percentage: string;
+};
+
+export type Posts = {
+  posts: string[];
+  totalDocument: number;
+};
+
+export type TeamMember = {
+  _id: string;
+  username: string;
+  avatar: string;
+};
+
+export type TeamsProp = {
+  _id: string;
+  name: string;
+  description: string;
+  owner: string;
+  members: TeamMember[];
+  reportCount: number;
+  reported: boolean;
+  icon: string;
+  color: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type UserProfileProp = {
+  profile: UsersTableData | null;
+  progress: Progress | null;
+  posts: Posts | null;
+  teams: TeamsProp[] | null;
+};
+
+export type PointHistoryTableData = {
+  _id: string;
+  user: {
+    _id: string;
+    fullName: string;
+    username: string;
+    avatar: string;
+  };
+  event: string;
+  description: string;
+  point: number;
+  createdAt: string;
+};
+
+export type PointHistoryProp = {
+  history: PointHistoryTableData[];
+  balance: number;
+  totalDocuments: number;
+};
+
+export type EarningHistoryProp = {
+  history: PointHistoryTableData[];
+  balance: number;
+  totalDocuments: number;
+};
+
+export type UserTeams = {
+  _id: string;
+  name: string;
+  description: string;
+  owner: {
+    _id: string;
+    fullName: string;
+    avatar: string;
+  };
+  members: [
+    {
+      _id: string;
+      fullName: string;
+      avatar: string;
+    }
+  ];
+  icon: string;
+  createdAt: string;
+};
+
+export type UserTeamsProp = {
+  teams: UserTeams[];
+  totalDocuments: number;
+};
+
+export type TeamFormData = z.infer<typeof newTeamSchema>;
+
+export type TeamsDetailsTableData = {
+  _id: string;
+  name: string;
+  description: string;
+  owner: string;
+  members: TeamMember[];
+  icon: string;
+  color: string;
+  createdAt: string;
+};
+
+export type TeamDetailsDataProps = {
+  _id: string;
+  name: string;
+  description: string;
+  owner: {
+    _id: string;
+    fullName: string;
+    username: string;
+    avatar: string;
+    country: string;
+  };
+  members: [
+    {
+      _id: string;
+      fullName: string;
+      username: string;
+      avatar: string;
+      country: string;
+    }
+  ];
+  reportCount: number;
+  reported: boolean;
+  icon: string;
+  color: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TeamDetailDataProp = {
+  team: TeamDetailsDataProps | null;
+  completedGoal: GoalsTableData | null;
+  members: TeamMember[] | null;
+};
+
+export type PostData = {
+  _id: string;
+  title: string;
+  caption: string;
+  commentCount: number;
+  likes: string[];
+  user: {
+    _id: string;
+    fullName: string;
+    username: string;
+    avatar: string;
+  };
+  image: string;
+  postType: string;
+  createdAt: string;
+};
+
+export type PostsData = {
+  posts: PostData[];
+  totalDocument: number;
+};
+
+export type AlertData = {
+  _id: string;
+  reporter: {
+    _id: string;
+    fullName: string;
+    email: string;
+    username: string;
+  };
+  targetType: "Team" | "Post";
+  target: string | null;
+  reason: string;
+  status: "pending" | "approved" | "rejected";
+  createdAt: string;
+};
+
+export type AlertProps = {
+  history: AlertData[];
+  totalDocument: number;
+};
+
+export type CommentData = {
+  _id: string;
+  post: string;
+  user: {
+    _id: string;
+    fullName: string;
+    username: string;
+  };
+  likes?: string[];
+  posts?: string[];
+  comment: string;
+  createdAt: string;
+};
+
+export type CommentsData = {
+  comments: CommentData[];
+  totalDocument: number;
+};
+
+export type Recipient = {
+  _id: string;
+  fullName: string;
+  email: string;
+  country: string;
+  createdAt: string;
+};
+
+export type Messages = {
+  _id: string;
+  title: string;
+  isPublished: boolean;
+  content: string;
+  recepients: string;
+  status: string;
+  composer: {
+    _id: string;
+    fullName: string;
+    email: string;
+    avatar: string;
+  };
+  createdAt: string;
+};
+
+export type MessageProp = {
+  totalDocument: number;
+  message: Messages[];
+};
+
+export type MessageDetailsProp = {
+  message: Partial<Messages>;
+  recepients: Recipient[];
+};
+
+export type BlogProp = {
+  _id: string;
+  title: string;
+  content: string;
+  photo: string;
+  isPublished: boolean;
+  createdAt: string;
+};
+
+export type BlogsProp = {
+  totalDocument: number;
+  blogs: BlogProp[];
+};

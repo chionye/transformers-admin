@@ -4,10 +4,16 @@ import { CategoryChips } from "@/components/categories/cartegory-chips";
 import { Chip } from "@/components/chip";
 import type { GoalsTableData } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
+import moment from "moment";
 
 export const GoalsColumns: ColumnDef<GoalsTableData>[] = [
   {
-    accessorKey: "goal_name",
+    accessorKey: "sn",
+    header: "SN",
+    cell: ({ row }) => row.index + 1,
+  },
+  {
+    accessorKey: "title",
     header: "Goal Name",
   },
   {
@@ -17,7 +23,7 @@ export const GoalsColumns: ColumnDef<GoalsTableData>[] = [
       const category = row.getValue("category");
       return (
         <div className='font-medium w-fit'>
-          <CategoryChips type={category as string} showIcon />
+          <CategoryChips type={(category as { name: string }).name} showIcon />
         </div>
       );
     },
@@ -56,22 +62,32 @@ export const GoalsColumns: ColumnDef<GoalsTableData>[] = [
     },
   },
   {
-    accessorKey: "created_date",
+    accessorKey: "createdAt",
     header: "Created Date",
   },
   {
-    accessorKey: "target_date",
-    header: "Target Date",
-  },
-  {
-    accessorKey: "completion",
-    header: "Completion",
+    accessorKey: "start",
+    header: "Start Date",
     cell: ({ row }) => {
-      const completion = row.getValue("completion");
+      const start = row.getValue("start");
       return (
         <div className='font-medium w-fit'>
           <p className='font-dm-sans text-[16px] font-medium text-[#A17C07]'>
-            {completion as string}
+            {moment(start as string).format("DD/MM/YYYY")}
+          </p>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "end",
+    header: "End Date",
+    cell: ({ row }) => {
+      const end = row.getValue("end");
+      return (
+        <div className='font-medium w-fit'>
+          <p className='font-dm-sans text-[16px] font-medium text-[#A17C07]'>
+            {moment(end as string).format("DD/MM/YYYY")}
           </p>
         </div>
       );

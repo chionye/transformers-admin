@@ -13,7 +13,7 @@ const PageTitle = ({
     <div className="w-full">
       <div className='w-full flex flex-row items-center justify-between'>
         <div>
-          <p className='font-dm-sans text-3xl font-semibold text-[#1E1E1E] mt-3'>
+          <p className='font-dm-sans text-xl font-semibold text-[#1E1E1E] mt-3'>
             {title}
           </p>
         </div>

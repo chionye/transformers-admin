@@ -7,6 +7,7 @@ const MetricsCard = ({
   title,
   count,
   icon,
+  unit,
   percentage,
   from,
   iconBg,
@@ -14,6 +15,7 @@ const MetricsCard = ({
   title: string;
   count: number | string;
   icon: React.ReactNode;
+  unit?: string;
   percentage: number;
   from: string;
   iconBg?: string;
@@ -30,7 +32,7 @@ const MetricsCard = ({
           {title}
         </p>
         <p className='font-dm-sans text-[28px] font-semibold text-[#1E1E1E]'>
-          {count}
+          {unit ? `${unit} ${count} ` : count}
         </p>
         <div className='flex lg:flex-row flex-col lg:items-center gap-2 w-full'>
           <div className='flex items-center gap-2'>

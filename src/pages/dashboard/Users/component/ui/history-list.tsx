@@ -1,5 +1,7 @@
 /** @format */
 
+import moment from "moment";
+
 const HistoryList = ({
   title,
   subtitle,
@@ -33,7 +35,7 @@ const HistoryList = ({
         </div>
         {time && (
           <p className='text-[#989898] font-dm-sans text-xs font-normal'>
-            {time}
+            {moment(time).fromNow()}
           </p>
         )}
       </div>

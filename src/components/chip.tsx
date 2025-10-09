@@ -2,14 +2,7 @@
 
 import { Badge, type BadgeProps } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-
-type ChipVariant =
-  | "default"
-  | "outline"
-  | "secondary"
-  | "destructive"
-  | "success"
-  | "warning";
+import type { ChipVariant, StatusType } from "@/types";
 
 type ChipSize = "sm" | "md" | "lg";
 
@@ -108,7 +101,7 @@ export const SubscriptionChip = ({
    * Subscription status
    * @default "inactive"
    */
-  status?: "active" | "inactive" | "expired" | "pending";
+  status?: StatusType;
 }) => {
   const statusConfig = {
     active: {

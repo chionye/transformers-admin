@@ -15,6 +15,17 @@ import NewUser from "@/pages/dashboard/Users/NewUser";
 import UserProfile from "@/pages/dashboard/Users/UserProfile";
 import { Withdrawals } from "@/pages/dashboard/Users/Withdrawals";
 import { WithdrawalDetails } from "@/pages/dashboard/Users/WithdrawalDetails";
+import CreateTeams from "@/pages/dashboard/Teams/CreateTeams";
+import TeamDetails from "@/pages/dashboard/Teams/TeamDetails";
+import NewTeamMember from "@/pages/dashboard/Teams/NewTeamMember";
+import ChallengeDetails from "@/pages/dashboard/Challenges/ChallengeDetails";
+import Posts from "@/pages/dashboard/Posts";
+import PostDetails from "@/pages/dashboard/Posts/PostDetails";
+import Messages from "@/pages/dashboard/Messages";
+import NewMessages from "@/pages/dashboard/Messages/NewMessages";
+import MessageDetail from "@/pages/dashboard/Messages/MessageDetail";
+import Blog from "@/pages/dashboard/Blog";
+import NewBlogPost from "@/pages/dashboard/Blog/NewBlogPost";
 
 const Routes = [
   {
@@ -52,7 +63,7 @@ const Routes = [
         element: <NewUser />,
       },
       {
-        path: `/dashboard/admin/users/user-profile`,
+        path: `/dashboard/admin/users/user-profile/:id`,
         element: <UserProfile />,
       },
       {
@@ -68,8 +79,32 @@ const Routes = [
         element: <Teams />,
       },
       {
+        path: `/dashboard/admin/team/new`,
+        element: <CreateTeams />,
+      },
+      {
+        path: `/dashboard/admin/team/:id`,
+        element: <TeamDetails />,
+      },
+      {
+        path: `/dashboard/admin/team/:teamName/new`,
+        element: <NewTeamMember />,
+      },
+      {
         path: `/dashboard/admin/challenges`,
         element: <Challenges />,
+      },
+      {
+        path: `/dashboard/admin/challenges/:id`,
+        element: <ChallengeDetails />,
+      },
+      {
+        path: `/dashboard/admin/posts`,
+        element: <Posts />,
+      },
+      {
+        path: `/dashboard/admin/posts/:id`,
+        element: <PostDetails />,
       },
       {
         path: `/dashboard/admin/payment`,
@@ -78,6 +113,26 @@ const Routes = [
       {
         path: `/dashboard/admin/alerts`,
         element: <Alerts />,
+      },
+      {
+        path: `/dashboard/admin/messages`,
+        element: <Messages />,
+      },
+      {
+        path: `/dashboard/admin/messages/new`,
+        element: <NewMessages />,
+      },
+      {
+        path: `/dashboard/admin/messages/:id`,
+        element: <MessageDetail />,
+      },
+      {
+        path: `/dashboard/admin/blog`,
+        element: <Blog />,
+      },
+      {
+        path: `/dashboard/admin/blog/new`,
+        element: <NewBlogPost />,
       },
     ],
   },

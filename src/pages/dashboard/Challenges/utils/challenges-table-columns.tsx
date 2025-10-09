@@ -1,27 +1,48 @@
 /** @format */
 
+import { CategoryChips } from "@/components/categories/cartegory-chips";
 import Icons from "@/constants/icons";
-import type { ChallengesTableData } from "@/types";
+import type { ChallengeData } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
+import moment from "moment";
 import { Link } from "react-router-dom";
 
-export const HomeColumns: ColumnDef<ChallengesTableData>[] = [
+export const HomeColumns: ColumnDef<ChallengeData>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "title",
     header: "Name",
+    cell: ({ row }) => {
+      const title: any = row.getValue("title");
+      console.log(title);
+      return (
+        <div>
+          <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
+            {title}
+          </p>
+        </div>
+      );
+    },
   },
   {
-    accessorKey: "created_by",
+    accessorKey: "owner",
     header: "Created By",
     cell: ({ row }) => {
-      const createdBy = row.getValue("created_by");
+      const createdBy: any = row.getValue("owner");
       return (
         <div className='flex items-center gap-2'>
           <img
-            src='https://api.dicebear.com/9.x/initials/svg?seed=Chioma Johnson&radius=50&size=32'
+            src={createdBy?.avatar}
             alt=''
+            className='w-8 h-8 rounded-full'
           />
-          <div>{createdBy as React.ReactNode}</div>
+          <div>
+            <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
+              {createdBy?.fullName}
+            </p>
+            <p className='font-dm-sans text-[#686868] text-[14px] font-normal'>
+              {createdBy?.email}
+            </p>
+          </div>
         </div>
       );
     },
@@ -30,18 +51,9 @@ export const HomeColumns: ColumnDef<ChallengesTableData>[] = [
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => {
-      const category = row.getValue("category");
-      return (
-        <div
-          className={`flex items-center gap-1 font-medium px-2 py-1 w-fit rounded-full border ${
-            (category as string).toLowerCase() === "purpose"
-              ? "bg-[#E0EEF9] text-[#3662AE]"
-              : "bg-[#FFE3DF] text-[#C8230D]"
-          }`}>
-          {category === "Purpose" ? <Icons.bulb /> : <Icons.lock />}
-          {category as string}
-        </div>
-      );
+      const category: any = row.getValue("category");
+      console.log(category);
+      return <CategoryChips type={category?.name} showIcon />;
     },
   },
   {
@@ -62,21 +74,29 @@ export const HomeColumns: ColumnDef<ChallengesTableData>[] = [
     },
   },
   {
-    accessorKey: "member_count",
+    accessorKey: "participants",
     header: "Member Count",
+    cell: ({ row }) => {
+      const participants: any[] = row.getValue("participants");
+      return <p>{participants?.length}</p>;
+    },
   },
   {
-    accessorKey: "date_created",
-    header: "Date Created",
+    accessorKey: "start",
+    header: "Start Date",
+    cell: ({ row }) => {
+      const start = row.getValue("start");
+      return <p>{moment(start || "").format("DD/MM/YYYY")}</p>;
+    },
   },
   {
-    accessorKey: "action",
+    accessorKey: "_id",
     header: "Action",
-    cell: () => {
-      // const action = row.getValue("action");
+    cell: ({ row }) => {
+      const id = row.getValue("_id");
       return (
         <Link
-          to='/'
+          to={`/dashboard/admin/challenges/${id}`}
           className='font-dm-sans text-[#198841] text-[16px] cursor-pointer'>
           View
         </Link>

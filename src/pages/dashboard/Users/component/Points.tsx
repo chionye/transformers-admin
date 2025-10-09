@@ -2,38 +2,21 @@
 
 import Icons from "@/constants/icons";
 import HistoryList from "./ui/history-list";
+import type { PointHistoryProp, PointHistoryTableData } from "@/types";
 
-const Points = () => {
-  const historyData = [
-    {
-      title: "Streak Unlocked",
-      subtitle: "+20 points",
-      time: "3/04/25 5:45PM",
+const Points = ({ history }: { history: PointHistoryProp }) => {
+  const convertToCardData = (history: PointHistoryTableData[]) => {
+    if (!history) return [];
+    return history.map((history) => ({
+      title: history.event,
+      subtitle: history.description,
+      time: history.createdAt,
       iconBg: "#FEF0C3",
       icon: <Icons.ruby width='16' height='16' color='#A17C07' />,
-    },
-    {
-      title: "Streak Unlocked",
-      subtitle: "+20 points",
-      time: "3/04/25 5:45PM",
-      iconBg: "#FEF0C3",
-      icon: <Icons.ruby width='16' height='16' color='#A17C07' />,
-    },
-    {
-      title: "Streak Unlocked",
-      subtitle: "+20 points",
-      time: "3/04/25 5:45PM",
-      iconBg: "#FEF0C3",
-      icon: <Icons.ruby width='16' height='16' color='#A17C07' />,
-    },
-    {
-      title: "Streak Unlocked",
-      subtitle: "+20 points",
-      time: "3/04/25 5:45PM",
-      iconBg: "#FEF0C3",
-      icon: <Icons.ruby width='16' height='16' color='#A17C07' />,
-    },
-  ];
+    }));
+  };
+
+  const historyData = convertToCardData(history.history);
 
   return (
     <div>
@@ -42,7 +25,9 @@ const Points = () => {
         <p className='font-dm-sans text-[16px] font-normal text-white'>
           Available Points
         </p>
-        <p className='font-dm-sans text-4xl font-bold text-white'>1200</p>
+        <p className='font-dm-sans text-4xl font-bold text-white'>
+          {history.balance}
+        </p>
       </div>
       <div className='flex flex-col border border-[#EBEEF2] rounded-[12px] p-4 mt-2'>
         <div className='flex flex-col gap-2'>

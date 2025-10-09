@@ -2,21 +2,21 @@
 
 import { NavLink, useLocation } from "react-router-dom";
 import { NavbarItems } from "@/utils/nav-items";
-import React from "react";
+import React, { useState } from "react";
 import Icons from "@/constants/icons";
 
 const MobileSideNavItem = ({
-  to,
+  to = '',  // Provide default empty string
   icon,
   label,
   location,
   onClick,
 }: {
-  to: string;
+  to?: string;  // Make to optional
   icon: React.ReactNode | ((color: string) => React.ReactNode);
   label: string;
   location: string;
-  onClick: () => void;
+  onClick?: (e: React.MouseEvent) => void;
 }) => {
   const isActive = location.indexOf(to) !== -1;
   const iconColor = isActive ? "#FFFFFF" : "#7D7E8E";
@@ -49,7 +49,12 @@ interface MobileSideNavProps {
 
 const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
-  const settings = NavbarItems;
+  const [currentNav, setCurrentNav] = useState<"main" | "content">("main");
+  const settings = NavbarItems[currentNav];
+
+  const handleNavClick = (e, nav: "main" | "content") => {
+    setCurrentNav(nav);
+  };
 
   return (
     <>
@@ -79,7 +84,7 @@ const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
           {/* Navigation Items */}
           <div className='flex flex-col min-h-full w-full px-5 py-6'>
             <div className='space-y-6'>
-              {settings.admin.map((item, index) => (
+              {settings.map((item, index) => (
                 <div key={index}>
                   <div className='w-full px-3 py-2'>
                     <p className='text-left font-dm-sans text-[#989898] text-[14px] font-medium'>
@@ -87,31 +92,58 @@ const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
                     </p>
                   </div>
                   <div className='flex flex-col items-end w-full gap-1'>
-                    {item.items.map((navItem, navIndex) => {
-                      return navItem.label !== "Logout" ? (
-                        <MobileSideNavItem
-                          key={navIndex}
-                          {...navItem}
-                          location={location.pathname}
-                          icon={navItem.icon}
-                          onClick={onClose}
-                        />
-                      ) : (
-                        <div
-                          key={navIndex}
-                          className={`rounded-[8px] group hover:bg-[#198841] py-4 px-5 w-full transition-all`}>
-                          <NavLink
-                            to={navItem.to}
-                            onClick={onClose}
-                            className={`text-[#7D7E8E] w-full group-hover:text-white text-[16px] font-dm-sans`}>
-                            <span className='flex items-center gap-3'>
-                              {navItem.icon("#C8230D")}
-                              <span>Logout</span>
-                            </span>
-                          </NavLink>
-                        </div>
-                      );
-                    })}
+                    {item.items.map(
+                      (
+                        navItem: {
+                          to?: string;
+                          icon: any;
+                          label: string;
+                          onClick?: () => void;
+                        },
+                        navIndex: number
+                      ) => {
+                        return navItem.label !== "Logout" ? (
+                          <>
+                            {navItem.label !== "Content Manager" ? (
+                              <MobileSideNavItem
+                                key={navIndex}
+                                {...navItem}
+                                location={location.pathname}
+                                icon={navItem.icon}
+                                to={navItem.to}
+                              />
+                            ) : (
+                              <MobileSideNavItem
+                                key={navIndex}
+                                icon={navItem.icon}
+                                to={navItem.to}
+                                label={navItem.label}
+                                location={location.pathname}
+                                onClick={(e) => handleNavClick(e, "content")}
+                              />
+                            )}
+                          </>
+                        ) : (
+                          <div
+                            key={navIndex}
+                            className={`rounded-[8px] group hover:bg-[#198841] py-4 px-5 w-full transition-all`}>
+                            <NavLink
+                              to={"#"}
+                              onClick={() => {
+                                localStorage.removeItem("user");
+                                localStorage.removeItem("token");
+                                window.location.href = "/";
+                              }}
+                              className={`text-[#7D7E8E] w-full group-hover:text-white text-[16px] font-dm-sans`}>
+                              <span className='flex items-center gap-3'>
+                                {navItem.icon("#C8230D")}
+                                <span>Logout</span>
+                              </span>
+                            </NavLink>
+                          </div>
+                        );
+                      }
+                    )}
                   </div>
                 </div>
               ))}

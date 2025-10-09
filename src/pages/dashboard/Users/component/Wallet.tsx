@@ -3,12 +3,24 @@
 import Icons from "@/constants/icons";
 import MetricsCard from "./ui/metrics-card";
 import HistoryList from "./ui/history-list";
+import type { EarningHistoryProp } from "@/types";
+import { useMemo } from "react";
 
-const Wallet = () => {
-  const metrics = [
+const Wallet = ({
+  userId,
+  earnings,
+  balance,
+  earningHistory,
+}: {
+  userId: string;
+  earnings: number;
+  balance: number;
+  earningHistory: EarningHistoryProp;
+}) => {
+  const metrics = useMemo(() => [
     {
       title: "Current Balance",
-      count: "$200",
+      count: balance,
       bgColor: "#FFFFFF",
       icon: <Icons.wallet />,
       iconBg: "#F2EDFA",
@@ -16,7 +28,7 @@ const Wallet = () => {
     },
     {
       title: "Total Earnings",
-      count: "$46",
+      count: earnings,
       bgColor: "#FFFFFF",
       icon: <Icons.userPlus />,
       iconBg: "#FEF0C3",
@@ -38,9 +50,9 @@ const Wallet = () => {
       iconBg: "#FEF0C3",
       isLink: true,
       linkText: "View All",
-      linkRef: "/dashboard/admin/users/5/withdrawals",
+      linkRef: `/dashboard/admin/users/${userId}/withdrawals`,
     },
-  ];
+  ], [userId, balance, earnings]);
 
   const historyData = [
     {

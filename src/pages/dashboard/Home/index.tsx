@@ -6,27 +6,112 @@ import { Card } from "@/components/ui/card";
 import { CustomTabs } from "@/components/navigation/custom-tab";
 import HistoryCard from "./components/history-card";
 import DoughnutChart from "@/components/charts/doughnut-chart";
-import { chartData, cardData, historyData } from "./constants/data";
+import { cardData } from "./constants/data";
 import { Link } from "react-router-dom";
+import moment from "moment";
 import AlertCard from "@/components/cards/alert-cards";
 import Query from "@/services/query/query";
 import ApiRoutes from "@/services/api/api-routes";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import type {
+  HomeMetricsCardData,
+  AnalyticsData,
+  QueryProps,
+  AlertProps,
+  AlertData,
+} from "@/types";
 
 const Home = () => {
-  const { queryData: analyticsData } = Query({
-    id: "analytics",
-    url: ApiRoutes.DashboardAnalytics,
-    method: "GET",
-    payload: null,
+  const [analytics, setAnalytics] = useState<
+    AnalyticsData & {
+      metrics: Record<string, any> | undefined;
+      activities: Record<string, any> | undefined;
+      alerts: Record<string, any> | undefined;
+    }
+  >({
+    metrics: undefined,
+    activities: undefined,
+    chartData: [],
+    alerts: undefined,
   });
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [alerts, setAlerts] = useState<AlertProps | undefined>(undefined);
+
+  const queries: { [key: string]: QueryProps } = {
+    analytics: {
+      id: "analytics",
+      url: ApiRoutes.DashboardAnalytics,
+      method: "GET",
+      payload: null,
+    },
+    alerts: {
+      id: "alerts",
+      url: ApiRoutes.FetchAlerts(page, limit),
+      method: "GET",
+      payload: null,
+    },
+  };
+
+  const { queryData: analyticsData } = Query(queries.analytics);
+  const { queryData: alertsData } = Query(queries.alerts);
+
+  const handleMetrics = (analytics: Record<string, any>) => {
+    const metricCardInfo = cardData.map((card) => {
+      return {
+        ...card,
+        count: analytics[card.key][card.child]?.toLocaleString(),
+        percentage: analytics[card.key][card.sibling]?.toLocaleString(),
+      };
+    });
+    return metricCardInfo;
+  };
+
+  const handleActivities = (analytics: Record<string, any>) => {
+    const activitySections = {
+      allActivities: analytics.activities.slice(0, 10),
+      users: analytics.activities
+        .filter((activity: any) => activity.type === "USER")
+        .slice(0, 10),
+      teams: analytics.activities
+        .filter((activity: any) => activity.type === "TEAM")
+        .slice(0, 10),
+      challenges: analytics.activities
+        .filter((activity: any) => activity.type === "CHALLENGES")
+        .slice(0, 10),
+    };
+
+    return activitySections;
+  };
+
+  const handleChart = (analytics: Record<string, any>) => {
+    const keys = Object.keys(analytics.userAnalytics);
+    const chartData = keys.map((key) => ({
+      name: key,
+      value: analytics.userAnalytics[key],
+    }));
+    return chartData;
+  };
 
   useEffect(() => {
     if (analyticsData.data) {
-      console.log(analyticsData.data);
+      console.log(analyticsData.data.data);
+      const { analytics } = analyticsData.data.data;
+      setAnalytics({
+        metrics: handleMetrics(analytics),
+        activities: handleActivities(analytics),
+        chartData: handleChart(analytics),
+        alerts: analytics?.alerts,
+      });
     }
-    // analyticsData.refetch();
-  }, [analyticsData]);
+  }, [analyticsData.data]);
+
+  useEffect(() => {
+    if (alertsData.data) {
+      const { alerts } = alertsData.data.data;
+      setAlerts(alerts);
+    }
+  }, [alertsData.data]);
 
   const alertData = [
     {
@@ -54,7 +139,7 @@ const Home = () => {
           subtitle='Monitor platform activity, user engagement, and growth.'
         />
         <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-5'>
-          {cardData.map((card) => (
+          {analytics.metrics?.map((card: HomeMetricsCardData) => (
             <MetricsCard
               key={card.title}
               title={card.title}
@@ -79,27 +164,47 @@ const Home = () => {
               tabContent={[
                 {
                   key: "all",
-                  children: historyData.map((data) => (
-                    <HistoryCard {...data} />
-                  )),
+                  children: analytics?.activities?.allActivities?.map(
+                    (data: any) => (
+                      <HistoryCard
+                        name={data?.username}
+                        challenge={data?.description}
+                        time={moment(data?.createdAt).fromNow()}
+                      />
+                    )
+                  ),
                 },
                 {
                   key: "users",
-                  children: historyData.map((data) => (
-                    <HistoryCard {...data} />
+                  children: analytics?.activities?.users?.map((data: any) => (
+                    <HistoryCard
+                      name={data?.username}
+                      challenge={data?.description}
+                      time={moment(data?.createdAt).fromNow()}
+                    />
                   )),
                 },
                 {
                   key: "teams",
-                  children: historyData.map((data) => (
-                    <HistoryCard {...data} />
+                  children: analytics?.activities?.teams?.map((data: any) => (
+                    <HistoryCard
+                      name={data?.username}
+                      challenge={data?.description}
+                      time={moment(data?.createdAt).fromNow()}
+                    />
                   )),
                 },
                 {
                   key: "challenges",
-                  children: historyData.map((data) => (
-                    <HistoryCard {...data} />
-                  )),
+                  children: analytics?.activities?.challenges?.map(
+                    (data: any) => (
+                      <HistoryCard
+                        name={data?.username}
+                        challenge={data?.description}
+                        time={moment(data?.createdAt).fromNow()}
+                      />
+                    )
+                  ),
                 },
               ]}
             />
@@ -109,9 +214,9 @@ const Home = () => {
               <p className='text-[18px] font-semibold text-[#1E1E1E]'>
                 User Analytics
               </p>
-              <DoughnutChart data={chartData} />
+              <DoughnutChart data={analytics?.chartData} />
               <div className='grid grid-cols-2 gap-2'>
-                {chartData.map((data) => (
+                {analytics?.chartData?.map((data: any) => (
                   <div
                     key={data.name}
                     className='flex items-center justify-center gap-2'>
@@ -135,7 +240,7 @@ const Home = () => {
                 </Link>
               </div>
               <div className='flex flex-col gap-2'>
-                {alertData.map((data) => (
+                {alerts?.history?.map((data: AlertData) => (
                   <AlertCard {...data} />
                 ))}
               </div>
