@@ -1,12 +1,16 @@
 /** @format */
 
+import type { ESettings } from "@/constants/enums";
 import type {
   deleteRequest,
   getRequest,
   patchRequest,
   postRequest,
 } from "@/services/api/api-clients";
-import type { newTeamSchema, newUserSchema } from "@/utils/form-schema";
+import type {
+  newTeamSchema,
+  newUserSchema,
+} from "@/utils/form-schema";
 import { type AxiosResponse, type Method } from "axios";
 import type z from "zod";
 export interface FabPropType {
@@ -59,6 +63,26 @@ export type UsersTableData = {
   goals: number;
   challenges: number;
   teams: number;
+  password?: string;
+  purpose?: string;
+  mission?: string;
+  vision?: string;
+  referredBy?: string;
+  vCode?: string;
+  subscription?: {
+    isSubscribed: boolean;
+    subCode: string;
+    customerCode: string;
+    updatedAt: Date;
+    planCode: string;
+  };
+  authorization: {
+    authCode: string;
+    last4: string;
+    expMonth: string;
+    expYear: string;
+    brand: string;
+  };
 };
 
 export type OtpFieldName = `otp${1 | 2 | 3 | 4 | 5 | 6}`;
@@ -709,12 +733,19 @@ export interface PaymentTableData {
 }
 
 export interface AlertTableData {
-  id: number;
-  event: string;
-  user: React.ReactNode;
-  date: string;
+  _id: string;
+  reporter: {
+    _id: string;
+    fullName: string;
+    email: string;
+    username: string;
+  };
+  targetType: string;
+  target: string | null;
+  reason: string;
   status: string;
-  action: React.ReactNode;
+  createdAt: string;
+  isRead: boolean;
 }
 
 export type NewUserFormData = z.infer<typeof newUserSchema>;
@@ -741,6 +772,7 @@ export type Category = {
     createdAt: string;
     updatedAt: string;
   };
+  icon?: string;
 };
 
 export type Checklist = {
@@ -868,6 +900,44 @@ export interface AnalyticsData {
   // Add other analytics properties here if needed
 }
 
+export interface ActivitesProp {
+  _id: string;
+  username: string;
+  description: string;
+  type: string;
+  payload: {
+    question: string;
+    answer: string;
+    _id: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  createdAt: string;
+}
+
+export interface DashboardMetrics {
+  users: {
+    totalUsers: number;
+    yesterdayUser: number;
+  };
+  challenge: {
+    completedChallenge: number;
+    yesterdayChallenge: number;
+  };
+  goals: {
+    completedGoals: number;
+    yesterdayGoal: number;
+  };
+  revenue: {
+    revenue: number;
+    yesterdayRevenue: number;
+  };
+  userAnalytics: {
+    activeUsers: number;
+    inactiveUsers: number;
+  };
+}
+
 export interface HomeMetricsCardData {
   count: number;
   title: string;
@@ -894,6 +964,7 @@ export type Progress = {
   activeCategories: number;
   completedGoals: number;
   percentage: string;
+  currentStreak: number;
 };
 
 export type Posts = {
@@ -1023,6 +1094,9 @@ export type TeamDetailsDataProps = {
 export type TeamDetailDataProp = {
   team: TeamDetailsDataProps | null;
   completedGoal: GoalsTableData | null;
+  completedChallenges: number;
+  totalMembers: number;
+  reports: number;
   members: TeamMember[] | null;
 };
 
@@ -1039,6 +1113,7 @@ export type PostData = {
     avatar: string;
   };
   image: string;
+  reported: boolean;
   postType: string;
   createdAt: string;
 };
@@ -1066,6 +1141,13 @@ export type AlertData = {
 export type AlertProps = {
   history: AlertData[];
   totalDocument: number;
+};
+
+export type AlertAnalytics = {
+  reportedPosts: number;
+  reportedTeam: number;
+  reportedUsers: number;
+  unreadAlerts: number;
 };
 
 export type CommentData = {
@@ -1191,4 +1273,120 @@ export type LearningProp = {
 export type LearningDataProp = {
   totalDocument: number;
   learning: LearningProp[];
+};
+
+export type FaqProp = {
+  _id: string;
+  question: string;
+  answer: string;
+};
+
+export type FaqResponse = {
+  question: FaqProp[];
+};
+
+export type FaqApiResponse = {
+  status: boolean;
+  message: string;
+  question: {
+    _id: string;
+    question: string;
+    answer: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+};
+
+export type UserApiResponse = {
+  success: true;
+  user: UserProfileProp;
+};
+
+export type SettingsProp = {
+  type: ESettings;
+  scope?: string;
+  notification: {
+    push?: boolean;
+    email?: boolean;
+    comment?: boolean;
+    message?: boolean;
+    dailyReminder?: {
+      active: boolean;
+      time: Date;
+    };
+    paymentConfirmation?: boolean;
+    challengeUpdates?: boolean;
+    teamInvitations?: boolean;
+    earningAlerts?: boolean;
+  };
+  teams: {
+    maxTeamMembers: number;
+    notification: boolean;
+  };
+  earnings?: {
+    referral?: number;
+    completeGoal?: number;
+    completeChallenge: number;
+    makePost?: number;
+    joinTeam: number;
+  };
+  subscription?: {
+    basic?: Record<string, unknown>;
+    pro?: Record<string, unknown>;
+    premium?: Record<string, unknown>;
+  };
+};
+
+export type SettingsApiResponse = {
+  status: true;
+  settings: SettingsProp;
+};
+
+export type PaymentProp = {
+  _id: string;
+  user: {
+    _id: string;
+    fullName: string;
+    email: string;
+    role: string;
+    avatar: string;
+  };
+  status: string;
+  amount: number;
+  currency: string;
+  description: string;
+  reference: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type PaymentApiResponse = {
+  totalDocument: number;
+  history: PaymentProp[];
+};
+
+export type PaymentAnalytics = {
+  totalRevenue: number;
+  totalPayout: number;
+  activeSubscription: number;
+  failedPayments: number;
+};
+
+export type Plan = {
+  _id: string;
+  name: string;
+  amount: number;
+  interval: string;
+  planCode: string;
+  currency: string;
+  role: string;
+  merchant: string;
+  subscribers: number;
+  description: string;
+  features: string[];
+};
+
+export type PlansApiResponse = {
+  status: boolean;
+  plans: Plan[];
 };

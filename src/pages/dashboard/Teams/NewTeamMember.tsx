@@ -12,43 +12,58 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { MemberSearch } from "./components/MemberSearch";
 import type { UsersTableData } from "@/types";
+import ApiRoutes from "@/services/api/api-routes";
+import { responseHandler } from "@/services/response";
+import { toast } from "sonner";
+import Mutation from "@/services/query/mutation";
 
 const NewTeamMember = () => {
-  const { teamName } = useParams();
+  const { teamId, teamName } = useParams();
   const navigate = useNavigate();
+  const { mutation } = Mutation();
   const [selectedMembers, setSelectedMembers] = useState<UsersTableData[]>([]);
   type TeamMemberFormData = {
-    members?: string[];
+    member: string;
   };
 
   const form = useForm<TeamMemberFormData>({
     resolver: zodResolver(newTeamMemberSchema),
     defaultValues: {
-      members: []
+      member: "",
     },
   });
 
   const handleAddMember = (user: UsersTableData) => {
-    const newMembers = [...selectedMembers, user];
-    setSelectedMembers(newMembers);
-    form.setValue(
-      "members",
-      newMembers.map((m) => m._id)
-    );
+    setSelectedMembers([user]);
+    form.setValue("member", user._id);
   };
 
-  const handleRemoveMember = (userId: string) => {
-    const newMembers = selectedMembers.filter((m) => m._id !== userId);
-    setSelectedMembers(newMembers);
-    form.setValue(
-      "members",
-      newMembers.map((m) => m._id)
-    );
+  const handleRemoveMember = () => {
+    setSelectedMembers([]);
+    form.setValue("member", "");
   };
 
   const onSubmit = (data: TeamMemberFormData) => {
-    console.log(data);
-    navigate("/dashboard/admin/home");
+    mutation.mutate(
+      {
+        url: ApiRoutes.JoinTeam(teamId as string),
+        data: data,
+        requestType: "post",
+      },
+      responseHandler({
+        //eslint-disable-next-line
+        onSuccess: (response: any) => {
+          console.log(response, "create team");
+          toast.success("Team member added successfully");
+          navigate(-1);
+        },
+        //eslint-disable-next-line
+        onError: (error: any) => {
+          console.log(error, "create team");
+          toast.error(error || "Something went wrong");
+        },
+      })
+    );
   };
   return (
     <InnerPageContainer title={`Back to ${teamName}`}>
@@ -74,13 +89,18 @@ const NewTeamMember = () => {
                     {selectedMembers.length !== 1 ? "s" : ""} selected
                   </p>
                 )}
+                {form.formState.errors.member && (
+                  <p className='text-red-500 mt-2'>
+                    {form.formState.errors.member.message}
+                  </p>
+                )}
               </div>
               <div className='w-full flex justify-start mt-4'>
                 <Button
                   type='submit'
-                  disabled={form.formState.isSubmitting}
+                  disabled={mutation.isPending}
                   className='font-dm-sans text-center bg-[#198841] text-[14px] text-white px-4 py-6 w-fit cursor-pointer'>
-                  Add Team Member
+                  {mutation.isPending ? "Adding..." : "Add Team Member"}
                 </Button>
               </div>
             </div>

@@ -18,7 +18,7 @@ export const CollapsibleView = ({
       <button
         type='button'
         onClick={() => setIsOpen(!isOpen)}
-        className='w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors'>
+        className='w-full p-3 flex items-center justify-between hover:bg-gray-50 transition-colors'>
         <div className='flex items-center gap-3'>
           {typeof title === "string" ? (
             <span className='font-medium text-[15px] text-gray-600'>

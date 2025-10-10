@@ -76,7 +76,7 @@ export function DataTable<TData, TValue = unknown>({
   const pageIndex = table.getState().pagination.pageIndex;
   const pageCount = table.getPageCount();
   const pageSize = table.getState().pagination.pageSize;
-  const totalRows = data.length;
+  const totalRows = data?.length;
   const startRow = pageIndex * pageSize + 1;
   const endRow = Math.min((pageIndex + 1) * pageSize, totalRows);
 

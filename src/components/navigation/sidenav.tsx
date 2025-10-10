@@ -2,7 +2,7 @@
 
 import { NavLink, useLocation } from "react-router-dom";
 import { NavbarItems } from "@/utils/nav-items";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import Icons from "@/constants/icons";
 
@@ -44,13 +44,22 @@ const SideNavItem = ({
 
 const SideNav = () => {
   const location = useLocation();
-  const [currentNav, setCurrentNav] = useState<"main" | "content">("main");
+  const [currentNav, setCurrentNav] = useState<"main" | "content" | "settings">(
+    "main"
+  );
   const settings = NavbarItems[currentNav];
 
-  const handleNavClick = (e: React.MouseEvent, nav: "main" | "content") => {
+  const handleNavClick = (
+    e: React.MouseEvent,
+    nav: "main" | "content" | "settings"
+  ) => {
     e.preventDefault();
     setCurrentNav(nav);
   };
+
+  useEffect(() => {
+    console.log(currentNav);
+  }, [currentNav]);
 
   return (
     <div className='auto-rows-max text-sm lg:flex hidden bg-white fixed top-0 left-0 h-screen w-[18%] z-20'>
@@ -66,7 +75,7 @@ const SideNav = () => {
         </div>
         <div className='flex flex-col items-center min-h-full w-full px-5'>
           <div>
-            {currentNav === "content" && (
+            {(currentNav === "content" || currentNav === "settings") && (
               <Button
                 variant='ghost'
                 onClick={(e) => handleNavClick(e, "main")}
@@ -89,20 +98,28 @@ const SideNav = () => {
                   {item.items.map((item, index) => {
                     return item.label !== "Logout" ? (
                       <>
-                        {item.label !== "Content Manager" ? (
-                          <SideNavItem
-                            key={index}
-                            {...item}
-                            location={location.pathname}
-                            icon={item.icon}
-                          />
-                        ) : (
+                        {item.label === "Content Manager" ? (
                           <SideNavItem
                             key={index}
                             icon={item.icon}
                             label={item.label}
                             location={location.pathname}
                             onClick={(e) => handleNavClick(e, "content")}
+                          />
+                        ) : item.label === "Settings" ? (
+                          <SideNavItem
+                            key={index}
+                            icon={item.icon}
+                            label={item.label}
+                            location={location.pathname}
+                            onClick={(e) => handleNavClick(e, "settings")}
+                          />
+                        ) : (
+                          <SideNavItem
+                            key={index}
+                            {...item}
+                            location={location.pathname}
+                            icon={item.icon}
                           />
                         )}
                       </>

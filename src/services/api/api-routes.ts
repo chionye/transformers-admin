@@ -34,6 +34,13 @@ export default class ApiRoutes {
   // Api route to fetch categories
   static FetchCategories: string = "/category";
 
+  // Api route to fetch categories
+  static FetchCategoryThemes: string = "/category/themes";
+
+  // Api route to fetch category by id
+  static FetchCategoryById: (id: string) => string = (id: string) =>
+    `/category/${id}`;
+
   // Api route to check username
   static CheckUsername: (username: string) => string = (username: string) =>
     `/user/search?username=${username}`;
@@ -152,6 +159,13 @@ export default class ApiRoutes {
   // Api route to fetch analytics
   static DashboardAnalytics: string = "/dashboard/admin/overview";
 
+  // Api route to invite admin
+  static InviteAdmin: string = "/user/invite";
+
+  //Api route to accept invite
+  static AcceptInvite: (id: string) => string = (id: string) =>
+    `/user/admin/${id}`;
+
   // Api route to fetch posts
   static FetchPosts: (page: number, limit: string) => string = (
     page: number,
@@ -159,10 +173,11 @@ export default class ApiRoutes {
   ) => `/post/all/${page}?limit=${limit}`;
 
   // Api route to fetch user
-  static FetchUsers: (page: number, limit: string) => string = (
+  static FetchUsers: (page: number, limit: string, role?: string) => string = (
     page: number,
-    limit: string
-  ) => `/user/list/${page}?limit=${limit}`;
+    limit: string,
+    role?: string
+  ) => `/user/list/${page}?limit=${limit}${role ? "&role=" + role : ""}`;
 
   // Api route to fetch points
   static FetchPoints: (id: string, page: number, limit: string) => string = (
@@ -389,4 +404,48 @@ export default class ApiRoutes {
 
   //Api to submit course
   static SubmitCourse: string = `/course`;
+
+  //Api to fetch faqs
+  static FetchFaqs: string = `/faq`;
+
+  //Api to fetch faq by id
+  static FetchFaqById: (id: string) => string = (id: string) => `/faq/${id}`;
+
+  //Api to update general settings
+  static UpdateGeneralSettings: (id: string) => string = (id: string) =>
+    `/settings/${id}`;
+
+  //Api to fetch settings
+  static FetchSettings: (type: string, id: string) => string = (
+    type: string,
+    id: string
+  ) => `settings?type=${type}&scope=${id}`;
+
+  //Api to fetch transaction history
+  static FetchTransactionHistory: (
+    page: number,
+    limit: number,
+    id?: string,
+    status?: string
+  ) => string = (page: number, limit: number, id?: string, status?: string) =>
+    `/wallet/transaction/${page}?limit=${limit}${id ? "&user=" + id : ""}${
+      status ? "&status=" + status : ""
+    }`;
+
+  //Api to fetch transaction details
+  static FetchTransactionHistoryById: (id?: string) => string = (id?: string) =>
+    `wallet/transaction/details/${id}`;
+
+  //Api admin dashboard payment analytics
+  static FetchPaymentAnalytics: string = `/dashboard/admin/payments`;
+
+  //Api to fetch dashboard alert analytics
+  static FetchAlertAnalytics: string = `/dashboard/admin/alerts`;
+
+  //Api to fetch merchant plans
+  static FetchMerchantPlans: string = `/merchant/plan`;
+
+  //Api to update user role
+  static UpdateUserRole: (id: string) => string = (id: string) =>
+    `/user/${id}`;
 }

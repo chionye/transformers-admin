@@ -4,6 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { NavbarItems } from "@/utils/nav-items";
 import React, { useState } from "react";
 import Icons from "@/constants/icons";
+import { Button } from "../ui/button";
 
 const MobileSideNavItem = ({
   to = "", // Provide default empty string
@@ -49,10 +50,15 @@ interface MobileSideNavProps {
 
 const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
-  const [currentNav, setCurrentNav] = useState<"main" | "content">("main");
+  const [currentNav, setCurrentNav] = useState<"main" | "content" | "settings">(
+    "main"
+  );
   const settings = NavbarItems[currentNav];
 
-  const handleNavClick = (e: React.MouseEvent, nav: "main" | "content") => {
+  const handleNavClick = (
+    e: React.MouseEvent,
+    nav: "main" | "content" | "settings"
+  ) => {
     e.preventDefault();
     setCurrentNav(nav);
   };
@@ -85,6 +91,18 @@ const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
           {/* Navigation Items */}
           <div className='flex flex-col min-h-full w-full px-5 py-6'>
             <div className='space-y-6'>
+              {(currentNav === "content" || currentNav === "settings") && (
+                <Button
+                  variant='ghost'
+                  onClick={(e) => handleNavClick(e, "main")}
+                  className='w-fit flex items-center justify-start gap-2 mb-2'>
+                  <Icons.arrowLeft />
+                  <p
+                    className={`font-dm-sans text-[14px] font-medium text-[#989898]`}>
+                    Back to Dashboard
+                  </p>
+                </Button>
+              )}
               {settings.map((item, index) => (
                 <div key={index}>
                   <div className='w-full px-3 py-2'>
@@ -106,15 +124,7 @@ const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
                       ) => {
                         return navItem.label !== "Logout" ? (
                           <>
-                            {navItem.label !== "Content Manager" ? (
-                              <MobileSideNavItem
-                                key={navIndex}
-                                {...navItem}
-                                location={location.pathname}
-                                icon={navItem.icon}
-                                to={navItem.to}
-                              />
-                            ) : (
+                            {navItem.label === "Content Manager" ? (
                               <MobileSideNavItem
                                 key={navIndex}
                                 icon={navItem.icon}
@@ -122,6 +132,23 @@ const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
                                 label={navItem.label}
                                 location={location.pathname}
                                 onClick={(e) => handleNavClick(e, "content")}
+                              />
+                            ) : navItem.label === "Settings" ? (
+                              <MobileSideNavItem
+                                key={navIndex}
+                                icon={navItem.icon}
+                                to={navItem.to}
+                                label={navItem.label}
+                                location={location.pathname}
+                                onClick={(e) => handleNavClick(e, "settings")}
+                              />
+                            ) : (
+                              <MobileSideNavItem
+                                key={navIndex}
+                                {...navItem}
+                                location={location.pathname}
+                                icon={navItem.icon}
+                                to={navItem.to}
                               />
                             )}
                           </>

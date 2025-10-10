@@ -1,32 +1,33 @@
 /** @format */
 
+import { ECurrency } from "@/constants/enums";
 import Icons from "@/constants/icons";
-import type { PaymentTableData } from "@/types";
+import type { PaymentProp } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
-export const PaymentColumns: ColumnDef<PaymentTableData>[] = [
+export const PaymentColumns: ColumnDef<PaymentProp>[] = [
   {
     accessorKey: "user",
     header: "User",
     cell: ({ row }) => {
-      const user = row.getValue("user");
+      const user = row.original.user;
       return (
         <div className='flex items-center gap-2'>
-          <img
-            src='https://api.dicebear.com/9.x/initials/svg?seed=Chioma Johnson&radius=50&size=32'
-            alt=''
-          />
-          <div>{user as React.ReactNode}</div>
+          <img src={user.avatar} alt='' className='w-8 h-8' />
+          <div>
+            <p>{user.fullName}</p>
+            <p>{user.email}</p>
+          </div>
         </div>
       );
     },
   },
   {
-    accessorKey: "subscription_plan",
+    accessorKey: "description",
     header: "Subscription Plan",
     cell: ({ row }) => {
-      const subscriptionPlan = row.getValue("subscription_plan");
+      const subscriptionPlan = row.original.description;
       return (
         <div
           className={`flex items-center gap-1 font-medium px-2 py-1 w-fit rounded-full border ${
@@ -51,21 +52,25 @@ export const PaymentColumns: ColumnDef<PaymentTableData>[] = [
   {
     accessorKey: "amount",
     header: "Amount",
-  },
-
-  {
-    accessorKey: "cycle",
-    header: "Cycle",
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <p>
+          {ECurrency[data.currency as keyof typeof ECurrency]}
+          {data.amount}
+        </p>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("status");
+      const status = row.original.status;
       return (
         <div
           className={`flex items-center gap-1 font-medium px-2 py-1 w-fit rounded-full border ${
-            (status as string).toLowerCase() === "successful"
+            (status as string).toLowerCase() === "success"
               ? "bg-[#DDFBE7] text-[#4B4B4B]"
               : "bg-[#DDFBE7] text-[#198841]"
           }`}>
@@ -75,17 +80,13 @@ export const PaymentColumns: ColumnDef<PaymentTableData>[] = [
     },
   },
   {
-    accessorKey: "method",
-    header: "Method",
-  },
-  {
-    accessorKey: "action",
+    accessorKey: "_id",
     header: "Action",
-    cell: () => {
-      // const action = row.getValue("action");
+    cell: ({ row }) => {
+      const action = row.original._id;
       return (
         <Link
-          to='/'
+          to={`/dashboard/admin/payment/${action}`}
           className='font-dm-sans text-[#198841] text-[16px] cursor-pointer'>
           View
         </Link>

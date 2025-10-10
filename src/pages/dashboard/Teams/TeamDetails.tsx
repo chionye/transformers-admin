@@ -24,7 +24,10 @@ const TeamDetails = () => {
   const [team, setTeam] = useState<TeamDetailDataProp>({
     team: null,
     completedGoal: null,
+    completedChallenges: 0,
     members: null,
+    totalMembers: 0,
+    reports: 0
   });
   const [tableData, setTableData] = useState<TeamsDetailsTableData[]>([]);
   // const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -44,21 +47,21 @@ const TeamDetails = () => {
     () => [
       {
         title: "Total Members",
-        count: team.members || 0,
+        count: team.totalMembers || 0,
         icon: <Icons.users />,
         iconBg: "#F2EDFA",
         isLink: false,
       },
       {
         title: "Challenges Completed",
-        count: team.completedGoal || 0,
+        count: team.completedChallenges || 0,
         icon: <Icons.trophy color='#7344AC' />,
         iconBg: "#F2EDFA",
         isLink: false,
       },
       {
         title: "Reports",
-        count: 0,
+        count: team.reports || 0,
         icon: <Icons.flag color='#C8230D' />,
         iconBg: "#FFE3DF",
         isLink: false,
@@ -159,7 +162,7 @@ const TeamDetails = () => {
                 <span className='lg:block hidden'>Export</span>
               </Button>
               <Link
-                to={`/dashboard/admin/team/${team.team?.name}/new`}
+                to={`/dashboard/admin/team/${team.team?._id}/${team.team?.name}/new`}
                 className='font-dm-sans text-[14px] flex items-center gap-2 px-4 py-2 rounded-[8px] font-semibold text-white bg-[#198841] shadow'>
                 <Icons.plus />
                 <span>Add Team Member</span>

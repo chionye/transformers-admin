@@ -19,6 +19,7 @@ import CreateTeams from "@/pages/dashboard/Teams/CreateTeams";
 import TeamDetails from "@/pages/dashboard/Teams/TeamDetails";
 import NewTeamMember from "@/pages/dashboard/Teams/NewTeamMember";
 import ChallengeDetails from "@/pages/dashboard/Challenges/ChallengeDetails";
+import NewChallenge from "@/pages/dashboard/Challenges/NewChallenge";
 import Posts from "@/pages/dashboard/Posts";
 import PostDetails from "@/pages/dashboard/Posts/PostDetails";
 import Messages from "@/pages/dashboard/Messages";
@@ -36,6 +37,19 @@ import EventDetails from "@/pages/dashboard/EventsPage/EventDetails";
 import NewLearning from "@/pages/dashboard/Learning/NewLearning";
 import Learning from "@/pages/dashboard/Learning";
 import LearningDetails from "@/pages/dashboard/Learning/LearningDetails";
+import Faqs from "@/pages/dashboard/Faqs";
+import NewFaq from "@/pages/dashboard/Faqs/NewFaq";
+import FaqDetails from "@/pages/dashboard/Faqs/FaqDetails";
+import General from "@/pages/dashboard/SettingsPage/General";
+import AdminAccess from "@/pages/dashboard/SettingsPage/AdminAccess";
+import NewAdmin from "@/pages/dashboard/SettingsPage/AdminAccess/NewAdmin";
+import TeamSettings from "@/pages/dashboard/SettingsPage/Team";
+import Categories from "@/pages/dashboard/SettingsPage/Categories";
+import NewCategory from "@/pages/dashboard/SettingsPage/Categories/NewCategory";
+import Subscription from "@/pages/dashboard/SettingsPage/Subscription";
+import Earnings from "@/pages/dashboard/SettingsPage/Earnings";
+import Notifications from "@/pages/dashboard/SettingsPage/Notifications";
+import PaymentDetails from "@/pages/dashboard/Payment/PaymentDetails";
 
 const Routes = [
   {
@@ -97,12 +111,16 @@ const Routes = [
         element: <TeamDetails />,
       },
       {
-        path: `/dashboard/admin/team/:teamName/new`,
+        path: `/dashboard/admin/team/:teamId/:teamName/new`,
         element: <NewTeamMember />,
       },
       {
         path: `/dashboard/admin/challenges`,
         element: <Challenges />,
+      },
+      {
+        path: `/dashboard/admin/challenges/new`,
+        element: <NewChallenge />,
       },
       {
         path: `/dashboard/admin/challenges/:id`,
@@ -119,6 +137,18 @@ const Routes = [
       {
         path: `/dashboard/admin/payment`,
         element: <Payment />,
+      },
+      {
+        path: `/dashboard/admin/payments`,
+        element: <Payment />,
+      },
+      {
+        path: `/dashboard/admin/payments/:id`,
+        element: <Payment />,
+      },
+      {
+        path: `/dashboard/admin/payment/:id`,
+        element: <PaymentDetails />,
       },
       {
         path: `/dashboard/admin/alerts`,
@@ -183,6 +213,58 @@ const Routes = [
       {
         path: `/dashboard/admin/learning/:id`,
         element: <LearningDetails />,
+      },
+      {
+        path: `/dashboard/admin/faqs`,
+        element: <Faqs />,
+      },
+      {
+        path: `/dashboard/admin/faqs/new`,
+        element: <NewFaq />,
+      },
+      {
+        path: `/dashboard/admin/faqs/edit/:id`,
+        element: <NewFaq />,
+      },
+      {
+        path: `/dashboard/admin/faqs/:id`,
+        element: <FaqDetails />,
+      },
+      {
+        path: `/dashboard/admin/settings/general`,
+        element: <General />,
+      },
+      {
+        path: `/dashboard/admin/settings/admin-access`,
+        element: <AdminAccess />,
+      },
+      {
+        path: `/dashboard/admin/settings/admin-access/new`,
+        element: <NewAdmin />,
+      },
+      {
+        path: `/dashboard/admin/settings/team`,
+        element: <TeamSettings />,
+      },
+      {
+        path: `/dashboard/admin/settings/categories`,
+        element: <Categories />,
+      },
+      {
+        path: `/dashboard/admin/settings/categories/new`,
+        element: <NewCategory />,
+      },
+      {
+        path: `/dashboard/admin/settings/subscription`,
+        element: <Subscription />,
+      },
+      {
+        path: `/dashboard/admin/settings/earnings`,
+        element: <Earnings />,
+      },
+      {
+        path: `/dashboard/admin/settings/notifications`,
+        element: <Notifications />,
       },
     ],
   },

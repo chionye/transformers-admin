@@ -11,6 +11,7 @@ import MetricsCard from "./components/metrics-card";
 import Query from "@/services/query/query";
 import ApiRoutes from "@/services/api/api-routes";
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Challenges = () => {
   const [challenges, setChallenges] = useState<ChallengeInfo>({
@@ -96,10 +97,12 @@ const Challenges = () => {
                 <Icons.export />
                 <span className='lg:block hidden'>Export</span>
               </Button>
-              <Button className='font-dm-sans text-[14px] font-semibold text-white bg-[#198841] shadow'>
+              <Link
+                to='/dashboard/admin/challenges/new'
+                className='font-dm-sans text-[14px] flex items-center gap-2 px-4 py-2 rounded-[8px] font-semibold text-white bg-[#198841] shadow'>
                 <Icons.plus />
-                <span>Create Challenge</span>
-              </Button>
+                <span>New Challenge</span>
+              </Link>
             </div>
           }
         />

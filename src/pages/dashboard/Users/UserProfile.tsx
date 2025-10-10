@@ -1,5 +1,4 @@
 import Icons from "@/constants/icons";
-import { Link } from "react-router-dom";
 import { InnerPageContainer } from "@/components/innerpage-container";
 import { ContactCard } from "./component/ui/contact-card";
 import MetricsCard from "./component/ui/metrics-card";
@@ -12,6 +11,7 @@ import Wallet from "./component/Wallet";
 import Teams from "./component/Teams";
 import Referrals from "./component/Referrals";
 import Subscription from "./component/Subscription";
+import UpgradeAccount from "./component/UpgradeAccount";
 import { useParams } from "react-router-dom";
 import Query from "@/services/query/query";
 import ApiRoutes from "@/services/api/api-routes";
@@ -105,7 +105,7 @@ const UserProfile = () => {
     () => [
       {
         title: "Current Streak",
-        count: 5,
+        count: userProfile?.progress?.currentStreak || 0,
         icon: <Icons.fire />,
         iconBg: "#F2EDFA",
         isLink: false,
@@ -195,21 +195,20 @@ const UserProfile = () => {
       hideTitle
       child={
         <div className='flex flex-row items-center gap-2'>
-          {isDeactivated ? (
+          {isDeactivated && (
             <div className='font-dm-sans text-[14px] flex items-center gap-2 px-3 py-2 rounded-[8px] font-semibold text-[#C8230D] bg-[#FFE3DF] shadow'>
               <span className='flex lg:gap-1'>Account Deactivated </span>
               <Icons.cancel color='#C8230D' />
             </div>
-          ) : (
-            <Link
-              to='/dashboard/admin/users/new'
-              className='font-dm-sans text-[14px] flex items-center gap-2 px-4 py-2 rounded-[8px] font-semibold text-white bg-[#198841] shadow'>
-              <Icons.arrowCircleUp />
-              <span className='flex lg:gap-1'>
-                Upgrade <span className='lg:block hidden'>User</span>
-              </span>
-            </Link>
           )}
+          <Button
+            onClick={() => setIsUpgradeModalOpen(true)}
+            className='font-dm-sans text-[14px] flex items-center gap-2 px-4 py-2 rounded-[8px] font-semibold text-white bg-[#198841] shadow'>
+            <Icons.arrowCircleUp />
+            <span className='flex lg:gap-1'>
+              Manage <span className='lg:block hidden'>Plan</span>
+            </span>
+          </Button>
           <Button
             onClick={() => setIsOpen(true)}
             className='font-dm-sans text-[14px] flex items-center gap-2 px-4 py-2 rounded-[8px] font-semibold text-white bg-[#C8230D] shadow'>
@@ -363,27 +362,15 @@ const UserProfile = () => {
         isOpen={isUpgradeModalOpen}
         onClose={() => setIsUpgradeModalOpen(false)}
         showCloseButton={false}
-        title='Upgrade User Access'
-        footer={
-          <div className='flex justify-end space-x-3'>
-            <button
-              onClick={() => setIsUpgradeModalOpen(false)}
-              className='px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50'>
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                handleActivateDeactivateUser();
-              }}
-              className='px-4 py-2 text-sm font-medium text-white bg-[#198841] rounded-md hover:bg-[#198841]/80'>
-              Upgrade Access
-            </button>
-          </div>
-        }>
-        <p>
-          You are about to upgrade this user’s subscription. You will not
-          receive any payment for the upgrade and can be revoked at any time.
-        </p>
+        title='Manage User Plan'>
+        <UpgradeAccount
+          userId={id as string}
+          currentRole={userProfile?.profile?.role || "Unknown"}
+          onUpgradeSuccess={() => {
+            setIsUpgradeModalOpen(false);
+            userProfileData.refetch();
+          }}
+        />
       </CustomModal>
     </InnerPageContainer>
   );

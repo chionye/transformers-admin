@@ -118,6 +118,51 @@ const Icons = {
       />
     </svg>
   ),
+  general: ({
+    color = "#686868",
+    width = "24",
+    height = "24",
+  }: {
+    color?: string;
+    width?: string;
+    height?: string;
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'>
+      <path
+        d='M20 7H11'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M14 17H5'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M17 20C18.6569 20 20 18.6569 20 17C20 15.3431 18.6569 14 17 14C15.3431 14 14 15.3431 14 17C14 18.6569 15.3431 20 17 20Z'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M7 10C8.65685 10 10 8.65685 10 7C10 5.34315 8.65685 4 7 4C5.34315 4 4 5.34315 4 7C4 8.65685 5.34315 10 7 10Z'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+    </svg>
+  ),
   post: ({
     color = "#686868",
     width = "24",
@@ -142,6 +187,37 @@ const Icons = {
       />
       <path
         d='M18.5 2.50023C18.8978 2.1024 19.4374 1.87891 20 1.87891C20.5626 1.87891 21.1022 2.1024 21.5 2.50023C21.8978 2.89805 22.1213 3.43762 22.1213 4.00023C22.1213 4.56284 21.8978 5.1024 21.5 5.50023L12 15.0002L8 16.0002L9 12.0002L18.5 2.50023Z'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+    </svg>
+  ),
+  shieldCheck: ({
+    color = "#686868",
+    width = "24",
+    height = "24",
+  }: {
+    color?: string;
+    width?: string;
+    height?: string;
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'>
+      <path
+        d='M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M9 12L11 14L15 10'
         stroke={color}
         stroke-width='1.5'
         stroke-linecap='round'
@@ -239,6 +315,89 @@ const Icons = {
       />
     </svg>
   ),
+  grid: ({
+    color = "#686868",
+    width = "24",
+    height = "24",
+  }: {
+    color?: string;
+    width?: string;
+    height?: string;
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'>
+      <path
+        d='M10 3H3V12H10V3Z'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M21 3H14V8H21V3Z'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M21 12H14V21H21V12Z'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M10 16H3V21H10V16Z'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+    </svg>
+  ),
+  subscription: ({
+    color = "#686868",
+    width = "24",
+    height = "24",
+  }: {
+    color?: string;
+    width?: string;
+    height?: string;
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'>
+      <path
+        d='M14.316 9.09796C14.1775 8.7084 13.922 8.37117 13.5844 8.13242C13.2469 7.89368 12.8438 7.76508 12.4303 7.76424H10.8823C10.4407 7.76193 10.0139 7.92346 9.68444 8.21759C9.355 8.51172 9.14633 8.91757 9.09877 9.35664C9.05122 9.79571 9.16816 10.2368 9.42699 10.5947C9.68582 10.9525 10.0681 11.2017 10.5 11.294L12.8572 11.8082C13.3391 11.9138 13.7651 12.1937 14.0533 12.5942C14.3414 12.9947 14.4714 13.4875 14.4183 13.9781C14.3651 14.4686 14.1326 14.9222 13.7653 15.2516C13.398 15.5811 12.922 15.7633 12.4286 15.7631H11.0966C10.2257 15.7631 9.48517 15.2077 9.21089 14.4311M11.7635 7.76424V5.76367M11.7635 17.7637V15.7648M3.42517 23.1397V18.854H7.71089'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M22.9509 9.95023C23.406 12.3763 23.0427 14.8848 21.9179 17.0821C20.7931 19.2793 18.9706 21.0409 16.7364 22.0903C14.5022 23.1398 11.9828 23.4176 9.57359 22.8803C7.16438 22.343 5.00177 21.021 3.42519 19.1217M1.04919 14.0508C0.594093 11.6247 0.957439 9.1162 2.0822 6.91896C3.20697 4.72172 5.02948 2.96014 7.26368 1.91071C9.49788 0.861279 12.0173 0.583409 14.4265 1.12071C16.8357 1.65801 18.9983 2.98007 20.5749 4.87937'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M20.5749 0.861328V5.14704H16.2892'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+    </svg>
+  ),
   openBook: ({
     color = "#686868",
     width = "24",
@@ -270,6 +429,44 @@ const Icons = {
       />
     </svg>
   ),
+  earning: ({
+    color = "#686868",
+    width = "24",
+    height = "24",
+  }: {
+    color?: string;
+    width?: string;
+    height?: string;
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'>
+      <path
+        d='M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M7 10L12 15L17 10'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M12 15V3'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+    </svg>
+  ),
   faq: ({
     color = "#686868",
     width = "24",
@@ -290,6 +487,37 @@ const Icons = {
         stroke={color}
         stroke-width='1.5'
         stroke-linecap='round'
+      />
+    </svg>
+  ),
+  notificationBell: ({
+    color = "#686868",
+    width = "24",
+    height = "24",
+  }: {
+    color?: string;
+    width?: string;
+    height?: string;
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'>
+      <path
+        d='M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      />
+      <path
+        d='M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21'
+        stroke={color}
+        stroke-width='1.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
       />
     </svg>
   ),

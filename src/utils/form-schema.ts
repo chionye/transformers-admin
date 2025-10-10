@@ -55,7 +55,25 @@ export const newTeamSchema = z.object({
 });
 
 export const newTeamMemberSchema = z.object({
-  members: z.array(z.string()).optional(),
+  member: z.string().min(1, "Members is required"),
+});
+
+export const newChallengeSchema = z.object({
+  title: z.string().min(1, "Challenge title is required"),
+  description: z.string().min(1, "Description is required"),
+  icon: z.string().min(1, "Please select an icon"),
+  category: z.string().min(1, "Please select a category"),
+  isPublic: z.boolean().default(false),
+  checklists: z
+    .array(
+      z.object({
+        task: z.string().min(1, "Task cannot be empty"),
+      })
+    )
+    .min(2, "At least 2 checklist items required"),
+  frequency: z.string().optional(),
+  start: z.string().min(1, "Start date is required"),
+  end: z.string().min(1, "End date is required"),
 });
 
 export const newMessage = z.object({
@@ -93,4 +111,50 @@ export const newCourse = z.object({
   lessons: z.string().min(1, "Lessons is required"),
   link: z.string().optional(),
   photo: z.string().min(1, "Please select a photo"),
+});
+
+export const newFaq = z.object({
+  question: z.string().min(1, "Question is required"),
+  answer: z.string().min(1, "Answer is required"),
+});
+
+export const generalSettings = z.object({
+  fullName: z.string().min(1, "Full name is required"),
+  email: z.email("Invalid email address"),
+  role: z.string().min(1, "Role is required"),
+});
+
+export const teamSettings = z.object({
+  teams: z
+    .number()
+    .min(1, "Max team members must be at least 1 character long"),
+});
+
+export const newAdminSchema = z.object({
+  fullName: z.string().min(1, "Full Name must be at least 1 character long"),
+  email: z.email("Invalid email address"),
+  role: z.string().min(1, "Role must be at least 1 character long"),
+});
+
+export const acceptInviteSchema = z.object({
+  fullName: z.string().min(1, "Full Name is required"),
+  password: z.string().min(8, "Password must be at least 8 characters long"),
+});
+
+export const newCategorySchema = z.object({
+  name: z.string().min(1, "Category name is required"),
+  color: z.string().min(1, "Theme is required"),
+  icon: z.string().min(1, "Icon description is required"),
+});
+
+export const newEarningsSchema = z.object({
+  referral: z.number().min(1, "Referral must be at least 1 character long"),
+  completeGoal: z
+    .number()
+    .min(1, "Complete goal must be at least 1 character long"),
+  completeChallenge: z
+    .number()
+    .min(1, "Complete challenge must be at least 1 character long"),
+  makePost: z.number().min(1, "Make post must be at least 1 character long"),
+  joinTeam: z.number().min(1, "Join team must be at least 1 character long"),
 });

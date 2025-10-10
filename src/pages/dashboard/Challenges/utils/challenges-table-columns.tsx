@@ -1,7 +1,7 @@
 /** @format */
 
 import { CategoryChips } from "@/components/categories/cartegory-chips";
-import type { ChallengeData } from "@/types";
+import type { Category, ChallengeData } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -52,10 +52,9 @@ export const HomeColumns: ColumnDef<ChallengeData>[] = [
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => {
-      //eslint-disable-next-line
-      const category: any = row.getValue("category");
+      const category: Category = row.getValue("category");
       console.log(category);
-      return <CategoryChips type={category?.name} showIcon />;
+      return <CategoryChips type={category?.name} bgColor={category.color.bgColor} textColor={category.color.colorHex} showIcon />;
     },
   },
   {

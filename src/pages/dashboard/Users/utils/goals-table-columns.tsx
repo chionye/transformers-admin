@@ -2,7 +2,7 @@
 
 import { CategoryChips } from "@/components/categories/cartegory-chips";
 import { Chip } from "@/components/chip";
-import type { GoalsTableData } from "@/types";
+import type { Category, GoalsTableData } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 
@@ -20,10 +20,17 @@ export const GoalsColumns: ColumnDef<GoalsTableData>[] = [
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => {
-      const category = row.getValue("category");
+      const category: Category = row.getValue("category");
+      console.log(category);  
       return (
         <div className='font-medium w-fit'>
-          <CategoryChips type={(category as { name: string }).name} showIcon />
+          <CategoryChips
+            type={category.name}
+            bgColor={category.color.bgColor}
+            textColor={category.color.colorHex}
+            showIcon
+            className='w-fit rounded-full'
+          />
         </div>
       );
     },
@@ -64,6 +71,16 @@ export const GoalsColumns: ColumnDef<GoalsTableData>[] = [
   {
     accessorKey: "createdAt",
     header: "Created Date",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt");
+      return (
+        <div className='font-medium w-fit'>
+          <p className='font-dm-sans text-[16px] font-medium text-[#A17C07]'>
+            {moment(createdAt as string).format("DD/MM/YYYY")}
+          </p>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "start",

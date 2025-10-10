@@ -84,11 +84,13 @@ const CreateTeams = () => {
           requestType: "post",
         },
         responseHandler({
+          //eslint-disable-next-line
           onSuccess: (response: any) => {
             console.log(response, "create team");
             setLoading(false);
-            navigate(`/dashboard/admin/teams`);
+            navigate(-1);
           },
+          //eslint-disable-next-line
           onError: (error: any) => {
             console.log(error, "create team");
             setLoading(false);
@@ -96,14 +98,6 @@ const CreateTeams = () => {
           },
         })
       );
-      // Replace with your actual API call
-      console.log("Team data:", data);
-      console.log("Member IDs:", data.owner);
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      alert(`Team ${mode === "create" ? "created" : "updated"} successfully!`);
     } catch (error) {
       console.error("Error:", error);
       alert("Something went wrong");

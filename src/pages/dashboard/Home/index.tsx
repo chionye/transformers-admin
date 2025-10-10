@@ -17,7 +17,6 @@ import type {
   HomeMetricsCardData,
   AnalyticsData,
   QueryProps,
-  AlertProps,
   AlertData,
 } from "@/types";
 
@@ -28,18 +27,14 @@ const Home = () => {
       metrics: Record<string, any> | undefined;
       //eslint-disable-next-line
       activities: Record<string, any> | undefined;
-      //eslint-disable-next-line
-      alerts: Record<string, any> | undefined;
+      alerts: AlertData[];
     }
   >({
     metrics: undefined,
     activities: undefined,
     chartData: [],
-    alerts: undefined,
+    alerts: [],
   });
-  const [page] = useState(1);
-  const [limit] = useState(10);
-  const [alerts, setAlerts] = useState<AlertProps | undefined>(undefined);
 
   const queries: { [key: string]: QueryProps } = {
     analytics: {
@@ -48,16 +43,9 @@ const Home = () => {
       method: "GET",
       payload: null,
     },
-    alerts: {
-      id: "alerts",
-      url: ApiRoutes.FetchAlerts(page, limit),
-      method: "GET",
-      payload: null,
-    },
   };
 
   const { queryData: analyticsData } = Query(queries.analytics);
-  const { queryData: alertsData } = Query(queries.alerts);
   //eslint-disable-next-line
   const handleMetrics = (analytics: Record<string, any>) => {
     const metricCardInfo = cardData.map((card) => {
@@ -113,13 +101,6 @@ const Home = () => {
       });
     }
   }, [analyticsData.data]);
-
-  useEffect(() => {
-    if (alertsData.data) {
-      const { alerts } = alertsData.data.data;
-      setAlerts(alerts);
-    }
-  }, [alertsData.data]);
 
   return (
     <div className='w-full flex flex-col gap-4'>
@@ -241,7 +222,7 @@ const Home = () => {
                 </Link>
               </div>
               <div className='flex flex-col gap-2'>
-                {alerts?.history?.map((data: AlertData) => (
+                {analytics?.alerts?.map((data: AlertData) => (
                   <AlertCard {...data} />
                 ))}
               </div>

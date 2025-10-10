@@ -43,7 +43,7 @@ export const NavbarItems = {
       parent: "CONTROL",
       items: [
         {
-          to: "/dashboard/admin/payment",
+          to: "/dashboard/admin/payments",
           icon: (color: string) => <Icons.card color={color} />,
           label: "Payment",
         },
@@ -53,7 +53,7 @@ export const NavbarItems = {
           label: "Alerts",
         },
         {
-          to: "/dashboard/admin/settings",
+          to: "#",
           icon: (color: string) => <Icons.cogWheel color={color} />,
           label: "Settings",
         },
@@ -98,6 +98,48 @@ export const NavbarItems = {
           to: "/dashboard/admin/faqs",
           icon: (color: string) => <Icons.faq color={color} />,
           label: "FAQs",
+        },
+      ],
+    },
+  ],
+  settings: [
+    {
+      parent: "SETTINGS",
+      items: [
+        {
+          to: "/dashboard/admin/settings/general",
+          icon: (color: string) => <Icons.general color={color} />,
+          label: "General",
+        },
+        {
+          to: "/dashboard/admin/settings/admin-access",
+          icon: (color: string) => <Icons.post color={color} />,
+          label: "Admin Access",
+        },
+        {
+          to: "/dashboard/admin/settings/team",
+          icon: (color: string) => <Icons.team color={color} />,
+          label: "Team",
+        },
+        {
+          to: "/dashboard/admin/settings/categories",
+          icon: (color: string) => <Icons.grid color={color} />,
+          label: "Categories",
+        },
+        {
+          to: "/dashboard/admin/settings/subscription",
+          icon: (color: string) => <Icons.subscription color={color} />,
+          label: "Subscription",
+        },
+        {
+          to: "/dashboard/admin/settings/earnings",
+          icon: (color: string) => <Icons.earning color={color} />,
+          label: "Earnings ",
+        },
+        {
+          to: "/dashboard/admin/settings/notifications",
+          icon: (color: string) => <Icons.notificationBell color={color} />,
+          label: "Notifications ",
         },
       ],
     },

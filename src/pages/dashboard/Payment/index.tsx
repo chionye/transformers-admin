@@ -4,53 +4,111 @@ import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icons from "@/constants/icons";
-import type { PaymentTableData } from "@/types";
+import type {
+  PaymentAnalytics,
+  PaymentApiResponse,
+  PaymentProp,
+  QueryProps,
+} from "@/types";
 import { PaymentColumns } from "./utils/payment-table-columns";
 import PageTitle from "@/components/page-title";
 import MetricsCard from "./components/metrics-card";
-import { cardData } from "./constants/data";
+import { useEffect, useMemo, useState } from "react";
+import ApiRoutes from "@/services/api/api-routes";
+import Query from "@/services/query/query";
+import { ECurrency } from "@/constants/enums";
+import { useParams } from "react-router-dom";
 
 const Payment = () => {
-  const tableData: PaymentTableData[] = [
-    {
-      id: 1,
-      user: (
-        <div>
-          <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
-            John Doe
-          </p>
-          <p className='font-dm-sans text-[#686868] text-[14px] font-normal'>
-            sarahjohnson@gmail.com
-          </p>
-        </div>
-      ),
-      amount: "John Doe",
-      cycle: "John Doe",
-      subscription_plan: "Premium",
-      status: "John Doe",
-      method: "John Doe",
-      action: "View",
+  const { id } = useParams();
+  const [payment, setPayment] = useState<PaymentApiResponse>({
+    totalDocument: 0,
+    history: [],
+  });
+  const [analytics, setAnalytics] = useState<PaymentAnalytics>({
+    totalRevenue: 0,
+    totalPayout: 0,
+    activeSubscription: 0,
+    failedPayments: 0,
+  });
+
+  const [page] = useState<number>(1);
+  const [limit] = useState<number>(10);
+
+  const queries: { [key: string]: QueryProps } = {
+    payments: {
+      id: "payments",
+      url: id
+        ? ApiRoutes.FetchTransactionHistory(page, limit, id)
+        : ApiRoutes.FetchTransactionHistory(page, limit),
+      method: "GET",
+      payload: null,
     },
-    {
-      id: 2,
-      user: (
-        <div>
-          <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
-            John Doe
-          </p>
-          <p className='font-dm-sans text-[#686868] text-[14px] font-normal'>
-            sarahjohnson@gmail.com
-          </p>
-        </div>
-      ),
-      amount: "John Doe",
-      cycle: "John Doe",
-      subscription_plan: "Premium",
-      status: "John Doe",
-      method: "John Doe",
-      action: "View",
+    paymentAnalytics: {
+      id: "paymentsAnalytics",
+      url: ApiRoutes.FetchPaymentAnalytics,
+      method: "GET",
+      payload: null,
     },
-  ];
+  };
+
+  const { queryData: paymentData } = Query(queries.payments);
+  const { queryData: anayticsData } = Query(queries.paymentAnalytics);
+
+  useEffect(() => {
+    if (paymentData.data) {
+      const response = paymentData.data.data.transaction;
+      console.log(response);
+      setPayment(response);
+    }
+  }, [paymentData.data]);
+
+  useEffect(() => {
+    if (anayticsData.data) {
+      const response = anayticsData.data.data.analytics;
+      console.log(response);
+      setAnalytics(response);
+    }
+  }, [anayticsData.data]);
+
+  const cardData = useMemo(
+    () => [
+      {
+        count:
+          ECurrency["NGN"] +
+          analytics.totalRevenue.toLocaleString("en", {
+            minimumFractionDigits: 2,
+          }),
+        title: "Total Revenue",
+        icon: <Icons.revenue color='#198841' />,
+        iconBg: "#DDFBE7",
+      },
+      {
+        count:
+          ECurrency["NGN"] +
+          analytics.totalPayout.toLocaleString("en", {
+            minimumFractionDigits: 2,
+          }),
+        title: "Total Payouts (withdrawal)",
+        icon: <Icons.export color='#7344AC' />,
+        iconBg: "#F2EDFA",
+      },
+      {
+        count: analytics.activeSubscription.toLocaleString("en"),
+        title: "Active Subscriptions",
+        icon: <Icons.circleCheck color='#A17C07' />,
+        iconBg: "#FEF0C3",
+      },
+      {
+        count: analytics.failedPayments,
+        title: "Failed Payments",
+        icon: <Icons.circleCancel />,
+        iconBg: "#DDFBE7",
+      },
+    ],
+    [analytics]
+  );
+
   return (
     <div className='w-full flex flex-col gap-4'>
       <div className='flex flex-row items-center justify-between gap-4'>
@@ -90,9 +148,9 @@ const Payment = () => {
         ))}
       </div>
       <Card className='lg:col-span-7 p-4'>
-        <DataTable<PaymentTableData>
+        <DataTable<PaymentProp>
           columns={PaymentColumns}
-          data={tableData}
+          data={payment.history}
         />
       </Card>
     </div>

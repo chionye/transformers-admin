@@ -16,3 +16,15 @@ export enum ERoles {
   PREMIUM = "premium",
   MANAGER = "manager",
 }
+
+export enum ESettings {
+  ADMIN = "admin",
+  USER = "User",
+  TEAM = "Team",
+}
+
+export enum ECurrency {
+  NGN = "₦",
+  USD = "$",
+  GBP = "£",
+}

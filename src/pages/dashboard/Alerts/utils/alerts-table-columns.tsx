@@ -1,34 +1,41 @@
-/** @format */
 
-import { CustomDropdown } from "@/components/custom-dropdown";
-import Icons from "@/constants/icons";
-import type { AlertTableData } from "@/types";
+import type { AlertData } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
+import moment from "moment";
+import ActionButtons from "../components/action-buttons";
 
-export const AlertColumns: ColumnDef<AlertTableData>[] = [
+export const AlertColumns: ColumnDef<AlertData>[] = [
   {
-    accessorKey: "event",
+    accessorKey: "reason",
     header: "Event",
   },
   {
-    accessorKey: "user",
+    accessorKey: "reporter",
     header: "User",
     cell: ({ row }) => {
-      const user = row.getValue("user");
+      const user: AlertData["reporter"] = row.getValue("reporter");
       return (
         <div className='flex items-center gap-2'>
           <img
-            src='https://api.dicebear.com/9.x/initials/svg?seed=Chioma Johnson&radius=50&size=32'
+            src={`https://api.dicebear.com/9.x/initials/svg?seed=${user.fullName}&radius=50&size=32`}
             alt=''
           />
-          <div>{user as React.ReactNode}</div>
+          <div>{user.fullName}</div>
         </div>
       );
     },
   },
   {
-    accessorKey: "date",
+    accessorKey: "createdAt",
     header: "Date & Time",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt");
+      return (
+        <div className='font-dm-sans text-[#686868] text-[14px] font-normal'>
+          {moment(createdAt || "").format("DD/MM/YY, hh:mmA")}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "status",
@@ -42,40 +49,19 @@ export const AlertColumns: ColumnDef<AlertTableData>[] = [
               ? "bg-[#DDFBE7] text-[#198841]"
               : "bg-[#FEF0C3] text-[#A17C07]"
           }`}>
-          {status as string}
+          {(status as string).toLowerCase() === "action_taken"
+            ? "Resolved"
+            : "Pending"}
         </div>
       );
     },
   },
   {
-    accessorKey: "action",
-    header: "Action",
-    cell: () => {
-      // const action = row.getValue("action");
-      return (
-        <CustomDropdown
-          triggerLabel=''
-          triggerClassName='w-8 h-8 flex items-center justify-center bg-[#EBEEF2] rounded-full'
-          icon={<Icons.options />}
-          iconPosition='right'
-          items={[
-            {
-              label: "View",
-              icon: <Icons.eye />,
-              onSelect: () => {
-                console.log("view");
-              },
-            },
-            {
-              label: "Resolved",
-              icon: <Icons.circleCheck />,
-              onSelect: () => {
-                console.log("resolved");
-              },
-            },
-          ]}
-        />
-      );
+    accessorKey: "_id",
+    header: "Resolve",
+    cell: ({ row }) => {
+      const action = row.getValue("_id");
+      return <ActionButtons id={action as string} />;
     },
   },
 ];

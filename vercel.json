@@ -10,6 +10,14 @@
       "destination": "/"
     },
     {
+      "source": "/auth/forgot-password",
+      "destination": "/auth/forgot-password"
+    },
+    {
+      "source": "/auth/verification",
+      "destination": "/auth/verification"
+    },
+    {
       "source": "/dashboard/admin/home",
       "destination": "/dashboard/admin/home"
     },
@@ -46,12 +54,16 @@
       "destination": "/dashboard/admin/team/:id"
     },
     {
-      "source": "/dashboard/admin/team/:teamName/new",
-      "destination": "/dashboard/admin/team/:teamName/new"
+      "source": "/dashboard/admin/team/:teamId/:teamName/new",
+      "destination": "/dashboard/admin/team/:teamId/:teamName/new"
     },
     {
       "source": "/dashboard/admin/challenges",
       "destination": "/dashboard/admin/challenges"
+    },
+    {
+      "source": "/dashboard/admin/challenges/new",
+      "destination": "/dashboard/admin/challenges/new"
     },
     {
       "source": "/dashboard/admin/challenges/:id",
@@ -68,6 +80,18 @@
     {
       "source": "/dashboard/admin/payment",
       "destination": "/dashboard/admin/payment"
+    },
+    {
+      "source": "/dashboard/admin/payments",
+      "destination": "/dashboard/admin/payments"
+    },
+    {
+      "source": "/dashboard/admin/payments/:id",
+      "destination": "/dashboard/admin/payments/:id"
+    },
+    {
+      "source": "/dashboard/admin/payment/:id",
+      "destination": "/dashboard/admin/payment/:id"
     },
     {
       "source": "/dashboard/admin/alerts",
@@ -132,6 +156,58 @@
     {
       "source": "/dashboard/admin/learning/:id",
       "destination": "/dashboard/admin/learning/:id"
+    },
+    {
+      "source": "/dashboard/admin/faqs",
+      "destination": "/dashboard/admin/faqs"
+    },
+    {
+      "source": "/dashboard/admin/faqs/new",
+      "destination": "/dashboard/admin/faqs/new"
+    },
+    {
+      "source": "/dashboard/admin/faqs/edit/:id",
+      "destination": "/dashboard/admin/faqs/edit/:id"
+    },
+    {
+      "source": "/dashboard/admin/faqs/:id",
+      "destination": "/dashboard/admin/faqs/:id"
+    },
+    {
+      "source": "/dashboard/admin/settings/general",
+      "destination": "/dashboard/admin/settings/general"
+    },
+    {
+      "source": "/dashboard/admin/settings/admin-access",
+      "destination": "/dashboard/admin/settings/admin-access"
+    },
+    {
+      "source": "/dashboard/admin/settings/admin-access/new",
+      "destination": "/dashboard/admin/settings/admin-access/new"
+    },
+    {
+      "source": "/dashboard/admin/settings/team",
+      "destination": "/dashboard/admin/settings/team"
+    },
+    {
+      "source": "/dashboard/admin/settings/categories",
+      "destination": "/dashboard/admin/settings/categories"
+    },
+    {
+      "source": "/dashboard/admin/settings/categories/new",
+      "destination": "/dashboard/admin/settings/categories/new"
+    },
+    {
+      "source": "/dashboard/admin/settings/subscription",
+      "destination": "/dashboard/admin/settings/subscription"
+    },
+    {
+      "source": "/dashboard/admin/settings/notifications",
+      "destination": "/dashboard/admin/settings/notifications"
+    },
+    {
+      "source": "/dashboard/admin/settings/earnings",
+      "destination": "/dashboard/admin/settings/earnings"
     }
   ]
 }

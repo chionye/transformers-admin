@@ -3,21 +3,25 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newUserSchema } from "@/utils/form-schema";
-import type z from "zod";
 import { useNavigate } from "react-router-dom";
 import { Form, FormField } from "@/components/ui/form";
 import InputField from "@/components/form/input-field";
 import { Button } from "@/components/ui/button";
 import { SelectField } from "@/components/form/select-field";
 import { countryOptions, genderOptions } from "./constants/data";
-import { DatePickerField } from "@/components/form/datepicker-field";
 import type { NewUserFormData } from "@/types";
 import { Card } from "@/components/ui/card";
 import Icons from "@/constants/icons";
 import { InnerPageContainer } from "@/components/innerpage-container";
+import ApiRoutes from "@/services/api/api-routes";
+import { responseHandler } from "@/services/response";
+import { toast } from "sonner";
+import Mutation from "@/services/query/mutation";
+import { DatePicker } from "@/components/date-picker";
 
 const NewUser = () => {
   const navigate = useNavigate();
+  const { mutation } = Mutation();
   const form = useForm<NewUserFormData>({
     resolver: zodResolver(newUserSchema),
     defaultValues: {
@@ -30,9 +34,26 @@ const NewUser = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof newUserSchema>) => {
-    console.log(data);
-    navigate("/dashboard/admin/home");
+  const onSubmit = async (data: NewUserFormData) => {
+    mutation.mutate(
+      {
+        url: ApiRoutes.CreateUser,
+        data: data,
+        requestType: "post",
+      },
+      responseHandler({
+        //eslint-disable-next-line
+        onSuccess: (response: any) => {
+          console.log(response, "create blog");
+          navigate(-1);
+        },
+        //eslint-disable-next-line
+        onError: (error: any) => {
+          console.log(error, "create blog");
+          toast.error(error || "Something went wrong");
+        },
+      })
+    );
   };
   return (
     <InnerPageContainer title='Back to Users'>
@@ -112,13 +133,34 @@ const NewUser = () => {
                 control={form.control}
                 name='date_of_birth'
                 render={({ field }) => (
-                  <DatePickerField
-                    label='Date of Birth'
-                    placeholder='Select date of birth'
-                    field={field}
-                    error={form.formState.errors.date_of_birth?.message}
-                    required
-                  />
+                  <>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                      Date of Birth
+                    </label>
+                    <DatePicker
+                      value={field.value ? new Date(field.value) : new Date()}
+                      onChange={(date) => {
+                        if (date) {
+                          const year = date.getFullYear();
+                          const month = String(date.getMonth() + 1).padStart(
+                            2,
+                            "0"
+                          );
+                          const day = String(date.getDate()).padStart(2, "0");
+                          field.onChange(`${year}-${month}-${day}`);
+                        } else {
+                          const today = new Date();
+                          const year = today.getFullYear();
+                          const month = String(today.getMonth() + 1).padStart(
+                            2,
+                            "0"
+                          );
+                          const day = String(today.getDate()).padStart(2, "0");
+                          field.onChange(`${year}-${month}-${day}`);
+                        }
+                      }}
+                    />
+                  </>
                 )}
               />
               <div className='w-full flex justify-start mt-4'>

@@ -4,49 +4,97 @@ import { DataTable } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icons from "@/constants/icons";
-import type { AlertTableData } from "@/types";
+import type {
+  AlertData,
+  AlertProps,
+  QueryProps,
+  AlertAnalytics,
+} from "@/types";
 import { AlertColumns } from "./utils/alerts-table-columns";
 import PageTitle from "@/components/page-title";
 import MetricsCard from "./components/metrics-card";
-import { cardData } from "./constants/data";
+import Query from "@/services/query/query";
+import ApiRoutes from "@/services/api/api-routes";
+import { useEffect, useMemo, useState } from "react";
 
 const Alerts = () => {
-  const tableData: AlertTableData[] = [
-    {
-      id: 1,
-      event: "Content Flagged for Review",
-      user: (
-        <div>
-          <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
-            John Doe
-          </p>
-          <p className='font-dm-sans text-[#686868] text-[14px] font-normal'>
-            sarahjohnson@gmail.com
-          </p>
-        </div>
-      ),
-      date: "15/12/24, 10:02AM",
-      status: "Resolved",
-      action: "View",
+  const [page] = useState<number>(1);
+  const [limit] = useState<number>(10);
+  const [alertsData, setAlertsData] = useState<AlertProps>({
+    history: [],
+    totalDocument: 0,
+  });
+  const [alertAnalyticsData, setAlertAnalyticsData] = useState<AlertAnalytics>({
+    reportedPosts: 0,
+    reportedTeam: 0,
+    reportedUsers: 0,
+    unreadAlerts: 0,
+  });
+
+  const cardData = useMemo(
+    () => [
+      {
+        count: alertAnalyticsData.unreadAlerts,
+        title: "Unread Alerts",
+        icon: <Icons.flag />,
+        iconBg: "#FFE3DF",
+      },
+      {
+        count: alertAnalyticsData.reportedUsers,
+        title: "Reported Users",
+        icon: <Icons.flag />,
+        iconBg: "#FFE3DF",
+      },
+      {
+        count: alertAnalyticsData.reportedTeam,
+        title: "Reported Teams",
+        icon: <Icons.flag />,
+        iconBg: "#FFE3DF",
+      },
+      {
+        count: alertAnalyticsData.reportedPosts,
+        title: "Reported Posts",
+        icon: <Icons.flag />,
+        iconBg: "#FFE3DF",
+      },
+    ],
+    [alertAnalyticsData]
+  );
+
+  const queries: { [key: string]: QueryProps } = {
+    alerts: {
+      id: "alerts",
+      url: ApiRoutes.FetchAlerts(page, limit),
+      method: "GET",
+      payload: null,
     },
-    {
-      id: 2,
-      event: "Payment Transaction Failed",
-      user: (
-        <div>
-          <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
-            John Doe
-          </p>
-          <p className='font-dm-sans text-[#686868] text-[14px] font-normal'>
-            sarahjohnson@gmail.com
-          </p>
-        </div>
-      ),
-      date: "15/12/24, 10:02AM",
-      status: "Pending",
-      action: "View",
+    alertAnalytics: {
+      id: "alertAnalytics",
+      url: ApiRoutes.FetchAlertAnalytics,
+      method: "GET",
+      payload: null,
     },
-  ];
+  };
+
+  const { queryData: alertsInfo } = Query(queries.alerts);
+  const { queryData: alertAnalyticsInfo } = Query(queries.alertAnalytics);
+
+  useEffect(() => {
+    if (alertsInfo.data) {
+      console.log(alertsInfo.data.data.alert);
+      const alertResponse = alertsInfo.data.data.alert;
+      setAlertsData(alertResponse);
+    }
+  }, [alertsInfo.data]);
+
+  useEffect(() => {
+    if (alertAnalyticsInfo.data) {
+      console.log(alertAnalyticsInfo.data.data.analytics);
+      const alertAnalyticsResponse = alertAnalyticsInfo.data.data.analytics;
+      setAlertAnalyticsData(alertAnalyticsResponse);
+    }
+  }, [alertAnalyticsInfo.data]);
+
   return (
     <div className='w-full flex flex-col gap-4'>
       <div className='flex flex-row items-center justify-between gap-4'>
@@ -85,7 +133,10 @@ const Alerts = () => {
         ))}
       </div>
       <Card className='lg:col-span-7 p-4'>
-        <DataTable<AlertTableData> columns={AlertColumns} data={tableData} />
+        <DataTable<AlertData>
+          columns={AlertColumns}
+          data={alertsData.history}
+        />
       </Card>
     </div>
   );

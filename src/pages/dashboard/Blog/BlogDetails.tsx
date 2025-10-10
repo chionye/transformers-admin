@@ -117,7 +117,7 @@ const BlogDetails = () => {
           console.log(response, "delete");
           toast.success("Blog deleted successfully");
           setIsDeleteModalOpen(false);
-          navigate("/dashboard/blog");
+          navigate(-1);
         },
         //eslint-disable-next-line
         onError: (error: any) => {

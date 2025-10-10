@@ -10,7 +10,7 @@ import { SelectField } from "@/components/form/select-field";
 import { countryOptions, genderOptions } from "../constants/data";
 import { DatePickerField } from "@/components/form/datepicker-field";
 import type { UserProfileProp } from "@/types";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 const UserDetails = ({ userProfile }: { userProfile: UserProfileProp }) => {
   const form = useForm<z.infer<typeof userDetails>>({
@@ -34,20 +34,20 @@ const UserDetails = ({ userProfile }: { userProfile: UserProfileProp }) => {
     }
   }, [userProfile, form]);
 
-  const bioTexts = [
+  const bioTexts = useMemo(() => [
     {
       title: "My Purpose",
-      text: "To continuously grow my skills and mindset, turning daily habits into lasting personal and professional achievements.",
+      text: userProfile.profile?.purpose || "User purpose unavailable",
     },
     {
       title: "My Vision",
-      text: "To become a leader who inspires others through consistent action, impactful goals, and meaningful connections.",
+      text: userProfile.profile?.vision || "User vision unavailable",
     },
     {
       title: "My Mission",
-      text: "To set clear, actionable goals each day, track progress with discipline, and collaborate with a community that holds me accountable.",
+      text: userProfile.profile?.mission || "User mission unavailable",
     },
-  ];
+  ], [userProfile.profile]);
 
   return (
     <div>

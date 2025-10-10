@@ -10,10 +10,12 @@ export const MemberSearch = ({
   selectedMembers,
   onAddMember,
   onRemoveMember,
+  multiple = false,
 }: {
   selectedMembers: UsersTableData[];
   onAddMember: (user: UsersTableData) => void;
   onRemoveMember: (userId: string) => void;
+  multiple?: boolean;
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<UsersTableData[]>([]);
@@ -66,8 +68,10 @@ export const MemberSearch = ({
 
   const handleSelectUser = (user: UsersTableData) => {
     onAddMember(user);
-    setSearchQuery("");
-    setShowDropdown(false);
+    if (!multiple) {
+      setSearchQuery("");
+      setShowDropdown(false);
+    }
   };
 
   return (
