@@ -1,0 +1,137 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/",
+      "destination": "/"
+    },
+    {
+      "source": "/dashboard/admin/home",
+      "destination": "/dashboard/admin/home"
+    },
+    {
+      "source": "/dashboard/admin/users",
+      "destination": "/dashboard/admin/users"
+    },
+    {
+      "source": "/dashboard/admin/users/new",
+      "destination": "/dashboard/admin/users/new"
+    },
+    {
+      "source": "/dashboard/admin/users/user-profile/:id",
+      "destination": "/dashboard/admin/users/user-profile/:id"
+    },
+    {
+      "source": "/dashboard/admin/users/:id/withdrawals",
+      "destination": "/dashboard/admin/users/:id/withdrawals"
+    },
+    {
+      "source": "/dashboard/admin/users/:id/withdrawals/:id",
+      "destination": "/dashboard/admin/users/:id/withdrawals/:id"
+    },
+    {
+      "source": "/dashboard/admin/team",
+      "destination": "/dashboard/admin/team"
+    },
+    {
+      "source": "/dashboard/admin/team/new",
+      "destination": "/dashboard/admin/team/new"
+    },
+    {
+      "source": "/dashboard/admin/team/:id",
+      "destination": "/dashboard/admin/team/:id"
+    },
+    {
+      "source": "/dashboard/admin/team/:teamName/new",
+      "destination": "/dashboard/admin/team/:teamName/new"
+    },
+    {
+      "source": "/dashboard/admin/challenges",
+      "destination": "/dashboard/admin/challenges"
+    },
+    {
+      "source": "/dashboard/admin/challenges/:id",
+      "destination": "/dashboard/admin/challenges/:id"
+    },
+    {
+      "source": "/dashboard/admin/posts",
+      "destination": "/dashboard/admin/posts"
+    },
+    {
+      "source": "/dashboard/admin/posts/:id",
+      "destination": "/dashboard/admin/posts/:id"
+    },
+    {
+      "source": "/dashboard/admin/payment",
+      "destination": "/dashboard/admin/payment"
+    },
+    {
+      "source": "/dashboard/admin/alerts",
+      "destination": "/dashboard/admin/alerts"
+    },
+    {
+      "source": "/dashboard/admin/messages",
+      "destination": "/dashboard/admin/messages"
+    },
+    {
+      "source": "/dashboard/admin/messages/new",
+      "destination": "/dashboard/admin/messages/new"
+    },
+    {
+      "source": "/dashboard/admin/messages/:id",
+      "destination": "/dashboard/admin/messages/:id"
+    },
+    {
+      "source": "/dashboard/admin/blog",
+      "destination": "/dashboard/admin/blog"
+    },
+    {
+      "source": "/dashboard/admin/blog/new",
+      "destination": "/dashboard/admin/blog/new"
+    },
+    {
+      "source": "/dashboard/admin/blog/:id",
+      "destination": "/dashboard/admin/blog/:id"
+    },
+    {
+      "source": "/dashboard/admin/opportunities",
+      "destination": "/dashboard/admin/opportunities"
+    },
+    {
+      "source": "/dashboard/admin/opportunity/new",
+      "destination": "/dashboard/admin/opportunity/new"
+    },
+    {
+      "source": "/dashboard/admin/opportunity/:id",
+      "destination": "/dashboard/admin/opportunity/:id"
+    },
+    {
+      "source": "/dashboard/admin/events",
+      "destination": "/dashboard/admin/events"
+    },
+    {
+      "source": "/dashboard/admin/event/new",
+      "destination": "/dashboard/admin/event/new"
+    },
+    {
+      "source": "/dashboard/admin/event/:id",
+      "destination": "/dashboard/admin/event/:id"
+    },
+    {
+      "source": "/dashboard/admin/learning",
+      "destination": "/dashboard/admin/learning"
+    },
+    {
+      "source": "/dashboard/admin/learning/new",
+      "destination": "/dashboard/admin/learning/new"
+    },
+    {
+      "source": "/dashboard/admin/learning/:id",
+      "destination": "/dashboard/admin/learning/:id"
+    }
+  ]
+}

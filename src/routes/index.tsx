@@ -30,9 +30,12 @@ import BlogDetails from "@/pages/dashboard/Blog/BlogDetails";
 import Opportunities from "@/pages/dashboard/Opportunities";
 import NewOpportunity from "@/pages/dashboard/Opportunities/NewOpportunity";
 import OpportunityDetails from "@/pages/dashboard/Opportunities/OpportunityDetails";
-import Events from "@/pages/dashboard/EventsPage/Opportunities";
-import NewEvent from "@/pages/dashboard/EventsPage/Opportunities/NewEvent";
-import EventDetails from "@/pages/dashboard/EventsPage/Opportunities/EventDetails";
+import Events from "@/pages/dashboard/EventsPage";
+import NewEvent from "@/pages/dashboard/EventsPage/NewEvent";
+import EventDetails from "@/pages/dashboard/EventsPage/EventDetails";
+import NewLearning from "@/pages/dashboard/Learning/NewLearning";
+import Learning from "@/pages/dashboard/Learning";
+import LearningDetails from "@/pages/dashboard/Learning/LearningDetails";
 
 const Routes = [
   {
@@ -168,6 +171,18 @@ const Routes = [
       {
         path: `/dashboard/admin/event/:id`,
         element: <EventDetails />,
+      },
+      {
+        path: `/dashboard/admin/learning`,
+        element: <Learning />,
+      },
+      {
+        path: `/dashboard/admin/learning/new`,
+        element: <NewLearning />,
+      },
+      {
+        path: `/dashboard/admin/learning/:id`,
+        element: <LearningDetails />,
       },
     ],
   },

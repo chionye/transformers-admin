@@ -85,3 +85,12 @@ export const newEvent = z.object({
   photo: z.string().min(1, "Please select a photo"),
   link: z.string().optional(),
 });
+
+export const newCourse = z.object({
+  title: z.string().min(1, "Title is required"),
+  category: z.string().min(1, "Category is required"),
+  description: z.string().min(1, "Description is required"),
+  lessons: z.string().min(1, "Lessons is required"),
+  link: z.string().optional(),
+  photo: z.string().min(1, "Please select a photo"),
+});

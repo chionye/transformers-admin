@@ -22,7 +22,7 @@ const ActionButtons = ({ id }: { id: string }) => {
 
     mutation.mutate(
       {
-        url: ApiRoutes.FetchOpportunityId(id as string),
+        url: ApiRoutes.FetchLearningById(id as string),
         requestType: "delete",
       },
       {
@@ -30,7 +30,7 @@ const ActionButtons = ({ id }: { id: string }) => {
         onSuccess: (response: any) => {
           console.log(response, "delete");
           toast.success("Item deleted successfully");
-          queryClient.invalidateQueries({ queryKey: ["opportunities"] });
+          queryClient.invalidateQueries({ queryKey: ["learning"] });
         },
         //eslint-disable-next-line
         onError: (error: any) => {
@@ -48,7 +48,7 @@ const ActionButtons = ({ id }: { id: string }) => {
   return (
     <div className='flex flex-row items-center gap-2'>
       <Link
-        to={`/dashboard/admin/event/${id}`}
+        to={`/dashboard/admin/learning/${id}`}
         className='font-dm-sans text-[#198841] text-[16px] cursor-pointer'>
         <Icons.eyeOpen width='18' height='18' />
       </Link>

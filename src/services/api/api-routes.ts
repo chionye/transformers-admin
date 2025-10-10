@@ -362,4 +362,31 @@ export default class ApiRoutes {
   //Api to toggle publish event
   static TogglePublishEvent: (id: string) => string = (id: string) =>
     `/event/${id}/publish`;
+
+  //Api to fetch learning
+  static FetchLearning: (
+    page: number,
+    limit: number,
+    published?: boolean,
+    location?: string
+  ) => string = (
+    page: number,
+    limit: number,
+    published?: boolean,
+    location?: string
+  ) =>
+    `/course/list/${page}?limit=${limit}${
+      published ? "&published=" + published : ""
+    }${location ? "&location=" + location : ""}`;
+
+  //Api to fetch learning by id
+  static FetchLearningById: (id: string) => string = (id: string) =>
+    `/course/${id}`;
+
+  //Api to toggle publish learning
+  static TogglePublishLearning: (id: string) => string = (id: string) =>
+    `/course/${id}/publish`;
+
+  //Api to submit course
+  static SubmitCourse: string = `/course`;
 }

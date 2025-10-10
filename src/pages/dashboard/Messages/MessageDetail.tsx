@@ -79,12 +79,18 @@ const MessageDetails = () => {
             <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
               {message.message.composer?.fullName}
             </p>
+            <p className='font-dm-sans text-[#1E1E1E] text-[14px] font-medium'>
+              {message.message.composer?.role}
+            </p>
           </div>
         </div>
       </Card>
       <Card className='p-4 mt-5'>
         <PageTitle title={`Recipients ${tableData.length}`} />
-        <DataTable<Recipient> columns={RecipientColumns} data={message.recepients} />
+        <DataTable<Recipient>
+          columns={RecipientColumns}
+          data={message.recepients}
+        />
       </Card>
     </InnerPageContainer>
   );

@@ -728,7 +728,19 @@ export type Reminder = {
 export type Category = {
   _id: string;
   name: string;
-  color: string;
+  color: {
+    _id: string;
+    title: string;
+    color: string;
+    colorHex: string;
+    primaryColor: string;
+    bgColor: string;
+    accentColor: string;
+    icon: string;
+    finalColor: string;
+    createdAt: string;
+    updatedAt: string;
+  };
 };
 
 export type Checklist = {
@@ -1088,6 +1100,7 @@ export type Composer = {
   fullName: string;
   email: string;
   avatar: string;
+  role: string;
 };
 
 export type Messages = {
@@ -1157,6 +1170,25 @@ export type EventProp = {
 };
 
 export type EventsPropData = {
-  totalDocument: number,
-  event: EventProp[],
-}
+  totalDocument: number;
+  event: EventProp[];
+};
+
+export type LearningProp = {
+  _id: string;
+  title: string;
+  category: Category;
+  description: string;
+  lessons: number;
+  location: string;
+  isPublished: boolean;
+  link: string;
+  photo: string;
+  composer: Composer;
+  createdAt: string;
+};
+
+export type LearningDataProp = {
+  totalDocument: number;
+  learning: LearningProp[];
+};

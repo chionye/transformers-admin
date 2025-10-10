@@ -37,6 +37,7 @@ const EventDetails = () => {
       fullName: "",
       email: "",
       avatar: "",
+      role: "",
     },
     link: "",
   });
@@ -205,6 +206,9 @@ const EventDetails = () => {
           <div>
             <p className='font-dm-sans text-[#1E1E1E] text-[14px] font-medium'>
               {event.composer?.fullName}
+            </p>
+            <p className='font-dm-sans text-[#1E1E1E] text-[14px] font-medium'>
+              {event.composer?.role}
             </p>
           </div>
         </div>

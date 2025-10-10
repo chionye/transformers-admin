@@ -33,6 +33,7 @@ const BlogDetails = () => {
       fullName: "",
       email: "",
       avatar: "",
+      role: "",
     },
   });
 
@@ -191,6 +192,9 @@ const BlogDetails = () => {
           <div>
             <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
               {blog.composer?.fullName}
+            </p>
+            <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
+              {blog.composer?.role}
             </p>
           </div>
         </div>

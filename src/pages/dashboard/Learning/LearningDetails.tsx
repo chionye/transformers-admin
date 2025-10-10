@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Query from "@/services/query/query";
 import ApiRoutes from "@/services/api/api-routes";
 import { useEffect, useState } from "react";
-import type { EventProp, QueryProps } from "@/types";
+import type { LearningProp, QueryProps } from "@/types";
 import Mutation from "@/services/query/mutation";
 import { responseHandler } from "@/services/response";
 import { toast } from "sonner";
@@ -16,27 +16,45 @@ import { Loader2 } from "lucide-react";
 import CustomModal from "@/components/custom-modal";
 import { useQueryInvalidateStore } from "@/store/query-invalidate-store";
 import moment from "moment";
+import { CategoryChips } from "@/components/categories/cartegory-chips";
 
-const EventDetails = () => {
+const LearningDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isQueryInvalidated, setIsQueryInvalidated } =
     useQueryInvalidateStore();
-  const [event, setEvent] = useState<EventProp>({
+  const [learning, setLearning] = useState<LearningProp>({
     _id: "",
     title: "",
-    eventDate: "",
+    category: {
+      _id: "",
+      name: "",
+      color: {
+        _id: "",
+        title: "",
+        color: "",
+        colorHex: "",
+        primaryColor: "",
+        bgColor: "",
+        accentColor: "",
+        icon: "",
+        finalColor: "",
+        createdAt: "",
+        updatedAt: "",
+      },
+    },
     description: "",
-    location: "",
-    photo: "",
+    lessons: 0,
     createdAt: "",
-    status: "",
     isPublished: false,
+    photo: "", // Add this line
+    location: "", // Add this line
     composer: {
       _id: "",
       fullName: "",
       email: "",
       avatar: "",
+      role: "",
     },
     link: "",
   });
@@ -48,29 +66,29 @@ const EventDetails = () => {
   const { mutation } = Mutation();
 
   const queries: { [key: string]: QueryProps } = {
-    event: {
-      id: `event-${id}`,
-      url: ApiRoutes.FetchEventById(id as string),
+    learning: {
+      id: `learning-${id}`,
+      url: ApiRoutes.FetchLearningById(id as string),
       method: "GET",
       payload: null,
     },
     togglePublish: {
       id: `publish-${id}`,
-      url: ApiRoutes.TogglePublishEvent(id as string),
+      url: ApiRoutes.TogglePublishLearning(id as string),
       method: "GET",
       payload: null,
     },
   };
 
-  const { queryData: eventData, handleDataUpdate } = Query(queries.event);
+  const { queryData: learningData, handleDataUpdate } = Query(queries.learning);
 
   useEffect(() => {
-    if (eventData.data) {
-      console.log(eventData.data.data.event);
-      const data = eventData.data.data.event;
-      setEvent(data);
+    if (learningData.data) {
+      console.log(learningData.data.data.learning);
+      const data = learningData.data.data.learning;
+      setLearning(data);
     }
-  }, [eventData.data]);
+  }, [learningData.data]);
 
   useEffect(() => {
     if (isQueryInvalidated) {
@@ -83,7 +101,7 @@ const EventDetails = () => {
   const handleTogglePublish = () => {
     mutation.mutate(
       {
-        url: ApiRoutes.TogglePublishEvent(id as string),
+        url: ApiRoutes.TogglePublishLearning(id as string),
         requestType: "patch",
       },
       responseHandler({
@@ -91,13 +109,13 @@ const EventDetails = () => {
         onSuccess: (response: any) => {
           console.log(response, "toggle publish");
           toast.success(
-            event.isPublished
-              ? "Event unpublished successfully"
-              : "Event published successfully"
+            learning.isPublished
+              ? "Learning unpublished successfully"
+              : "Learning published successfully"
           );
           setIsPublishModalOpen(false);
           setIsUnpublishModalOpen(false);
-          // Refresh event data
+          // Refresh course data
           window.location.reload();
         },
         //eslint-disable-next-line
@@ -112,14 +130,14 @@ const EventDetails = () => {
   const handleDelete = () => {
     mutation.mutate(
       {
-        url: ApiRoutes.FetchEventById(id as string),
+        url: ApiRoutes.FetchLearningById(id as string),
         requestType: "delete",
       },
       responseHandler({
         //eslint-disable-next-line
         onSuccess: (response: any) => {
           console.log(response, "delete");
-          toast.success("event deleted successfully");
+          toast.success("Learning deleted successfully");
           setIsDeleteModalOpen(false);
           navigate(-1);
         },
@@ -134,7 +152,7 @@ const EventDetails = () => {
 
   return (
     <InnerPageContainer
-      title='Back to events'
+      title='Back to courses'
       hideTitle
       child={
         <div className='flex items-center gap-2'>
@@ -145,7 +163,7 @@ const EventDetails = () => {
             className='font-dm-sans text-[14px] flex items-center gap-2 px-4 py-2 rounded-[8px] font-semibold text-[#198841] border border-[#198841] shadow'>
             <span>Delete</span>
           </Button>
-          {event.isPublished ? (
+          {learning.isPublished ? (
             <Button
               onClick={() => setIsUnpublishModalOpen(true)}
               disabled={mutation.isPending}
@@ -166,10 +184,10 @@ const EventDetails = () => {
         <div>
           <div className='flex items-center justify-between'>
             <p className='font-dm-sans text-xl text-[#1E1E1E] font-semibold'>
-              {event.title}
+              {learning.title}
             </p>
             <div>
-              {event.isPublished ? (
+              {learning.isPublished ? (
                 <Chip className='bg-[#FEF0C3] text-[#A17C07] rounded-full'>
                   Pending
                 </Chip>
@@ -181,30 +199,31 @@ const EventDetails = () => {
             </div>
           </div>
           <p className='text-[#4B4B4B] font-dm-sans text-[14px] font-normal'>
-            Date Created: {moment(event.createdAt).format("YYYY-MM-DD")}
+            Date Created: {moment(learning.createdAt).format("YYYY-MM-DD")}
+          </p>
+          <CategoryChips showIcon type={learning.category.name} />
+          <p className='text-[#4B4B4B] font-dm-sans text-[14px] font-normal'>
+            {learning.lessons} Lessons
           </p>
           <p className='text-[#4B4B4B] font-dm-sans text-[14px] font-normal'>
-            Event Date: {moment(event.eventDate).format("YYYY-MM-DD")}
-          </p>
-          <p className='text-[#4B4B4B] font-dm-sans text-[14px] font-normal'>
-            Event Location: {event.location}
-          </p>
-          <p className='text-[#4B4B4B] font-dm-sans text-[14px] font-normal'>
-            {event.description}
+            {learning.description}
           </p>
           <div className='rounded-lg overflow-hidden'>
-            <img src={event.photo} alt='' className='w-full' />
+            <img src={learning.photo} alt='' className='w-full' />
           </div>
         </div>
         <div className='flex items-center gap-2'>
           <img
-            src={event?.composer?.avatar}
+            src={learning?.composer?.avatar}
             alt=''
             className='w-8 h-8 rounded-full'
           />
           <div>
             <p className='font-dm-sans text-[#1E1E1E] text-[14px] font-medium'>
-              {event.composer?.fullName}
+              {learning.composer?.fullName}
+            </p>
+            <p className='font-dm-sans text-[#1E1E1E] text-[14px] font-medium'>
+              {learning.composer?.role}
             </p>
           </div>
         </div>
@@ -213,7 +232,7 @@ const EventDetails = () => {
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         showCloseButton={false}
-        title='Delete event?'
+        title='Delete course?'
         footer={
           <div className='flex justify-end space-x-3'>
             <button
@@ -227,12 +246,12 @@ const EventDetails = () => {
               disabled={mutation.isPending}
               className='px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50 flex items-center gap-2'>
               {mutation.isPending && <Loader2 className='animate-spin' />}
-              Delete event
+              Delete course
             </button>
           </div>
         }>
         <p className='text-gray-600'>
-          Are you sure you want to delete this event? You cannot undo this
+          Are you sure you want to delete this course? You cannot undo this
           action.
         </p>
       </CustomModal>
@@ -241,7 +260,7 @@ const EventDetails = () => {
         isOpen={isPublishModalOpen}
         onClose={() => setIsPublishModalOpen(false)}
         showCloseButton={false}
-        title='Publish event?'
+        title='Publish course?'
         footer={
           <div className='flex justify-end space-x-3'>
             <button
@@ -255,13 +274,13 @@ const EventDetails = () => {
               disabled={mutation.isPending}
               className='px-4 py-2 text-sm font-medium text-white bg-[#198841] rounded-md hover:bg-[#198841]/90 disabled:opacity-50 flex items-center gap-2'>
               {mutation.isPending && <Loader2 className='animate-spin' />}
-              Publish event
+              Publish course
             </button>
           </div>
         }>
         <p className='text-gray-600'>
-          Are you sure you want to publish this event? It will be visible to all
-          users.
+          Are you sure you want to publish this course? It will be visible to
+          all users.
         </p>
       </CustomModal>
 
@@ -269,7 +288,7 @@ const EventDetails = () => {
         isOpen={isUnpublishModalOpen}
         onClose={() => setIsUnpublishModalOpen(false)}
         showCloseButton={false}
-        title='Unpublish event?'
+        title='Unpublish course?'
         footer={
           <div className='flex justify-end space-x-3'>
             <button
@@ -283,12 +302,12 @@ const EventDetails = () => {
               disabled={mutation.isPending}
               className='px-4 py-2 text-sm font-medium text-white bg-[#C8230D] rounded-md hover:bg-[#C8230D]/90 disabled:opacity-50 flex items-center gap-2'>
               {mutation.isPending && <Loader2 className='animate-spin' />}
-              Unpublish event
+              Unpublish course
             </button>
           </div>
         }>
         <p className='text-gray-600'>
-          Are you sure you want to unpublish this event? It will no longer be
+          Are you sure you want to unpublish this course? It will no longer be
           visible to users.
         </p>
       </CustomModal>
@@ -296,4 +315,4 @@ const EventDetails = () => {
   );
 };
 
-export default EventDetails;
+export default LearningDetails;

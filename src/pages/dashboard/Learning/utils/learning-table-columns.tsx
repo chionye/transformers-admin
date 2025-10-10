@@ -1,17 +1,18 @@
 /** @format */
 
 import { Chip } from "@/components/chip";
-import type { EventProp } from "@/types";
+import type { Category, LearningProp } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import ActionButtons from "../ui/action-buttons";
+import { CategoryChips } from "@/components/categories/cartegory-chips";
 
-export const EventColumns: ColumnDef<EventProp>[] = [
+export const LearningColumns: ColumnDef<LearningProp>[] = [
   {
     accessorKey: "title",
     header: "Title",
     cell: ({ row }) => {
-      const data: EventProp = row.original;
+      const data: LearningProp = row.original;
       return (
         <div className='flex items-center gap-2'>
           <div className='w-8 h-8 overflow-hidden rounded-lg'>
@@ -28,32 +29,32 @@ export const EventColumns: ColumnDef<EventProp>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status: string = row.original.status;
-      return status.toLowerCase() === "pending" ? (
+      const status: boolean = row.original.isPublished;
+      return !status ? (
         <Chip className='bg-[#FEF0C3] text-[#A17C07] rounded-full'>
-          {status}
+          Pending
         </Chip>
       ) : (
         <Chip className='bg-[#DDFBE7] text-[#198841] rounded-full'>
-          {status}
+          Published
         </Chip>
       );
     },
   },
   {
     accessorKey: "createdAt",
-    header: "Date Created",
+    header: "Date Uploaded",
     cell: ({ row }) => {
       const createdAt: string = row.original.createdAt;
       return <p>{moment(createdAt).format("DD-MM-YYYY")}</p>;
     },
   },
   {
-    accessorKey: "location",
-    header: "Location",
+    accessorKey: "category",
+    header: "Category",
     cell: ({ row }) => {
-      const location: string = row.original.location;
-      return <p>{location}</p>;
+      const category: Category = row.original.category;
+      return <CategoryChips type={category.name} />;
     },
   },
   {

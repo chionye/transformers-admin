@@ -33,6 +33,7 @@ const OpportunityDetails = () => {
       fullName: "",
       email: "",
       avatar: "",
+      role: "",
     },
     link: ""
   });
@@ -199,6 +200,9 @@ const OpportunityDetails = () => {
           <div>
             <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
               {opportunity.composer?.fullName}
+            </p>
+            <p className='font-dm-sans text-[#1E1E1E] text-[16px] font-medium'>
+              {opportunity.composer?.role}
             </p>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { newEvent } from "@/utils/form-schema";
+import { newCourse } from "@/utils/form-schema";
 import CustomModal from "@/components/custom-modal";
 import { Card } from "@/components/ui/card";
 import Mutation from "@/services/query/mutation";
@@ -17,52 +17,55 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import Icons from "@/constants/icons";
 import FileUpload from "@/components/upload/file-upload";
-import { DatePicker } from "@/components/date-picker";
+import { CategoriesDropdown } from "@/components/categories/categories-dropdown";
+import type { Category } from "@/types";
 
 // Main Component
-const NewEvent = () => {
+const NewLearning = () => {
   const [mode, setMode] = useState<"create" | "edit">("create");
   const { mutation } = Mutation();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null
+  );
   const navigate = useNavigate();
 
-  type eventFormData = z.infer<typeof newEvent>;
+  type learningFormData = z.infer<typeof newCourse>;
 
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
-  } = useForm<eventFormData>({
-    resolver: zodResolver(newEvent),
+  } = useForm<learningFormData>({
+    resolver: zodResolver(newCourse),
     defaultValues: {
       title: "",
-      eventDate: new Date().toISOString().split("T")[0],
+      category: "",
       description: "",
-      location: "",
-      photo: "",
+      lessons: "",
       link: "",
+      photo: "",
     },
   });
 
-  const onSubmit = async (data: eventFormData) => {
+  const onSubmit = async (data: learningFormData) => {
     mutation.mutate(
       {
-        url: ApiRoutes.SubmitEvent,
+        url: ApiRoutes.SubmitCourse,
         data: data,
         requestType: "post",
       },
       responseHandler({
         //eslint-disable-next-line
         onSuccess: (response: any) => {
-          console.log(response, "create event");
+          console.log(response, "create course");
           navigate(-1);
         },
         //eslint-disable-next-line
         onError: (error: any) => {
-          console.log(error, "create event");
+          console.log(error, "create course");
           toast.error(error || "Something went wrong");
         },
       })
@@ -70,9 +73,14 @@ const NewEvent = () => {
   };
 
   const handleDelete = () => {
-    console.log("Deleting team");
+    console.log("Deleting course");
     setIsDeleteModalOpen(false);
-    alert("Team deleted successfully!");
+    alert("Course deleted successfully!");
+  };
+
+  const handleSelectCategory = (category: Category) => {
+    setValue("category", category._id);
+    setSelectedCategory(category);
   };
 
   const handleImageUploadComplete = (imageUrl: string) => {
@@ -87,13 +95,13 @@ const NewEvent = () => {
   };
 
   return (
-    <InnerPageContainer title='Back to Opportunities' hideTitle>
+    <InnerPageContainer title='Back to Courses' hideTitle>
       <div className='min-h-screen bg-gray-50'>
         <Card className='max-w-4xl mx-auto px-4 py-8'>
           {/* Header */}
           <div className='flex items-center justify-between'>
             <h1 className='text-xl font-bold text-gray-900'>
-              {mode === "edit" ? "Edit Event" : "Create New Event"}
+              {mode === "edit" ? "Edit Course" : "Upload Course"}
             </h1>
             <button
               onClick={() => setMode(mode === "create" ? "edit" : "create")}
@@ -123,10 +131,22 @@ const NewEvent = () => {
                 )}
               </div>
 
-              {/* Details */}
+              <div>
+                <CategoriesDropdown
+                  onSelectCategory={handleSelectCategory}
+                  selectedCategory={selectedCategory}
+                />
+                {errors.category && (
+                  <p className='text-sm text-red-600 mt-1'>
+                    {errors.category.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Description */}
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
-                  Details
+                  Description
                 </label>
                 <textarea
                   {...register("description")}
@@ -140,119 +160,77 @@ const NewEvent = () => {
                   </p>
                 )}
               </div>
-            </div>
-
-            {/* Event Date */}
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Event Date
-              </label>
-              <DatePicker
-                value={
-                  watch("eventDate") ? new Date(watch("eventDate")) : new Date()
-                }
-                onChange={(date) => {
-                  if (date) {
-                    const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, "0");
-                    const day = String(date.getDate()).padStart(2, "0");
-                    setValue("eventDate", `${year}-${month}-${day}`, {
-                      shouldValidate: true,
-                    });
-                  } else {
-                    const today = new Date();
-                    const year = today.getFullYear();
-                    const month = String(today.getMonth() + 1).padStart(2, "0");
-                    const day = String(today.getDate()).padStart(2, "0");
-                    setValue("eventDate", `${year}-${month}-${day}`, {
-                      shouldValidate: true,
-                    });
-                  }
-                }}
-              />
-              {errors.eventDate && (
-                <p className='text-sm text-red-600 mt-1'>
-                  {errors.eventDate.message}
-                </p>
-              )}
-            </div>
-
-            {/* Event Title */}
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Location
-              </label>
-              <input
-                {...register("location")}
-                type='text'
-                placeholder='Enter location'
-                className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all'
-              />
-              {errors.location && (
-                <p className='text-sm text-red-600 mt-1'>
-                  {errors.location.message}
-                </p>
-              )}
-            </div>
-
-            {/* Opportunity Title */}
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Link (Optional)
-              </label>
-              <input
-                {...register("link")}
-                type='text'
-                placeholder='Enter URL'
-                className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all'
-              />
-              {errors.link && (
-                <p className='text-sm text-red-600 mt-1'>
-                  {errors.link.message}
-                </p>
-              )}
-            </div>
-
-            {/* File Upload Section */}
-            <div>
-              {!uploadedImageUrl ? (
-                <FileUpload
-                  onUploadComplete={handleImageUploadComplete}
-                  uploadEndpoint='/image/upload'
+              {/* Event Title */}
+              <div>
+                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                  No of Lessons
+                </label>
+                <input
+                  {...register("lessons")}
+                  type='text'
+                  placeholder='Enter no of lessons in this course'
+                  className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all'
                 />
-              ) : (
-                <div className='space-y-4'>
-                  <div className='relative rounded-lg overflow-hidden border border-gray-200'>
-                    <img
-                      src={uploadedImageUrl}
-                      alt='Uploaded blog image'
-                      className='w-full h-64 object-cover'
-                    />
+                {errors.lessons && (
+                  <p className='text-sm text-red-600 mt-1'>
+                    {errors.lessons.message}
+                  </p>
+                )}
+              </div>
+              {/* Opportunity Title */}
+              <div>
+                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                  Link
+                </label>
+                <input
+                  {...register("link")}
+                  type='text'
+                  placeholder='Enter Course URL'
+                  className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all'
+                />
+                {errors.link && (
+                  <p className='text-sm text-red-600 mt-1'>
+                    {errors.link.message}
+                  </p>
+                )}
+              </div>
+
+              {/* File Upload Section */}
+              <div>
+                {!uploadedImageUrl ? (
+                  <FileUpload
+                    onUploadComplete={handleImageUploadComplete}
+                    uploadEndpoint='/image/upload'
+                  />
+                ) : (
+                  <div className='space-y-4'>
+                    <div className='relative rounded-lg overflow-hidden border border-gray-200'>
+                      <img
+                        src={uploadedImageUrl}
+                        alt='Uploaded blog image'
+                        className='w-full h-64 object-cover'
+                      />
+                    </div>
+                    <div className='flex gap-3'>
+                      <Button
+                        type='button'
+                        onClick={handleRemoveUploadedImage}
+                        variant='outline'
+                        className='flex items-center gap-2'>
+                        <Icons.trash width='16' height='16' />
+                        Remove & Upload New
+                      </Button>
+                      <a
+                        href={uploadedImageUrl}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='text-sm text-blue-600 hover:underline flex items-center'>
+                        View full size
+                      </a>
+                    </div>
                   </div>
-                  <div className='flex gap-3'>
-                    <Button
-                      type='button'
-                      onClick={handleRemoveUploadedImage}
-                      variant='outline'
-                      className='flex items-center gap-2'>
-                      <Icons.trash width='16' height='16' />
-                      Remove & Upload New
-                    </Button>
-                    <a
-                      href={uploadedImageUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='text-sm text-blue-600 hover:underline flex items-center'>
-                      View full size
-                    </a>
-                  </div>
-                </div>
-              )}
-              {errors.photo && (
-                <p className='text-sm text-red-600 mt-1'>
-                  {errors.photo.message}
-                </p>
-              )}
+                )}
+              </div>
             </div>
 
             {/* Actions */}
@@ -324,4 +302,4 @@ const NewEvent = () => {
   );
 };
 
-export default NewEvent;
+export default NewLearning;

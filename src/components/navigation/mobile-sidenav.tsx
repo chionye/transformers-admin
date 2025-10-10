@@ -97,6 +97,7 @@ const MobileSideNav: React.FC<MobileSideNavProps> = ({ isOpen, onClose }) => {
                       (
                         navItem: {
                           to?: string;
+                          //eslint-disable-next-line
                           icon: any;
                           label: string;
                           onClick?: () => void;
