@@ -126,7 +126,7 @@ const PaymentDetails = () => {
           </div>
         </div>
         <Link
-          to={"/dashboard/admin/payments/" + payment?._id}
+          to={"/dashboard/admin/payments/" + payment?.user._id}
           className='flex items-center gap-2'>
           <span className='font-dm-sans text-[14px] text-[#198841] font-medium'>
             View Payment History
