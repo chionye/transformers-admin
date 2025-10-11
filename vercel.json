@@ -186,6 +186,10 @@
       "destination": "/dashboard/admin/settings/admin-access/new"
     },
     {
+      "source": "/dashboard/admin/settings/admin-access/new/:id",
+      "destination": "/dashboard/admin/settings/admin-access/new/:id"
+    },
+    {
       "source": "/dashboard/admin/settings/team",
       "destination": "/dashboard/admin/settings/team"
     },
