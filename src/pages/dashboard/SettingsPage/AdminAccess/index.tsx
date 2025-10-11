@@ -17,7 +17,7 @@ const AdminAccess = () => {
   const [page] = useState(1);
 
   const { queryData: usersData } = Query({
-    id: "users",
+    id: "admins",
     url: ApiRoutes.FetchUsers(page, "10", "admin"),
     method: "GET",
     payload: null,

@@ -24,7 +24,7 @@ const UpgradeAccount = ({
   onUpgradeSuccess,
 }: UpgradeAccountProps) => {
   const [plans, setPlans] = useState<Plan[]>([]);
-  const [selectedPlan, setSelectedPlan] = useState<string>("");
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const { mutation } = Mutation();
 
   const { queryData: plansData } = Query({
@@ -42,7 +42,7 @@ const UpgradeAccount = ({
   }, [plansData.data]);
 
   const handleUpgrade = () => {
-    if (!selectedPlan) {
+    if (!selectedPlan?.role) {
       toast.error("Please select a plan");
       return;
     }
@@ -50,7 +50,7 @@ const UpgradeAccount = ({
     mutation.mutate(
       {
         url: ApiRoutes.UpdateUserRole(userId),
-        data: { role: selectedPlan },
+        data: { role: selectedPlan.role },
         requestType: "patch",
       },
       responseHandler({
@@ -108,9 +108,9 @@ const UpgradeAccount = ({
         {plans.map((plan) => (
           <Card
             key={plan._id}
-            onClick={() => setSelectedPlan(plan._id)}
+            onClick={() => setSelectedPlan(plan)}
             className={`p-4 cursor-pointer transition-all ${
-              selectedPlan === plan._id
+              selectedPlan?._id === plan._id
                 ? "border-2 border-[#198841] bg-[#198841]/5"
                 : "border border-gray-200 hover:border-[#198841]/50"
             }`}>
@@ -123,7 +123,7 @@ const UpgradeAccount = ({
                   {plan.description}
                 </p>
               </div>
-              {selectedPlan === plan._id && (
+              {selectedPlan?._id === plan._id && (
                 <div className='bg-[#198841] rounded-full p-1'>
                   <Icons.check color='white' width='16' height='16' />
                 </div>

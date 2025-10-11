@@ -2,20 +2,20 @@
 
 import { Chip } from "@/components/chip";
 import Icons from "@/constants/icons";
-import type { TeamsDetailsTableData } from "@/types";
+import type { PlanProp, TeamsDetailsTableData } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
 export const TeamDetailsColumns: ColumnDef<TeamsDetailsTableData>[] = [
   {
-    accessorKey: "sn",
+    accessorKey: "plan",
     header: "Plan",
-    cell: () => {
-      //   const sn = row.getValue("sn");
+    cell: ({ row }) => {
+      const plan = row.getValue("plan") as PlanProp | undefined;
       return (
         <Chip className='flex items-center gap-2 bg-[#F2EDFA]'>
-          <span className='text-[#7344AC]'>P</span>
+          <span className='text-[#7344AC]'>{plan?.name || "P"}</span>
           <Icons.star color='#7344AC' />
         </Chip>
       );
@@ -25,7 +25,7 @@ export const TeamDetailsColumns: ColumnDef<TeamsDetailsTableData>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => {
-      const name = row.getValue("name");
+      const name = row.getValue("name") as string | undefined;
       return (
         <div className='flex items-center gap-2'>
           <img

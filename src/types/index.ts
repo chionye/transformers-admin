@@ -972,10 +972,23 @@ export type Posts = {
   totalDocument: number;
 };
 
+export type PlanProp = {
+  _id: string;
+  name: string;
+  interval: string;
+  planCode: string;
+};
+
 export type TeamMember = {
   _id: string;
+  fullName: string;
+  email: string;
   username: string;
+  createdAt: string;
   avatar: string;
+  plan: PlanProp | null;
+  challenges: number;
+  downlines: number;
 };
 
 export type TeamsProp = {

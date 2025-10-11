@@ -22,15 +22,15 @@ const ActionButtons = ({ id }: { id: string }) => {
 
     mutation.mutate(
       {
-        url: ApiRoutes.FetchOpportunityId(id as string),
+        url: ApiRoutes.UpdateUserRole(id as string),
         requestType: "delete",
       },
       {
         //eslint-disable-next-line
         onSuccess: (response: any) => {
           console.log(response, "delete");
-          toast.success("Item deleted successfully");
-          queryClient.invalidateQueries({ queryKey: ["opportunities"] });
+          toast.success("User deleted successfully");
+          queryClient.invalidateQueries({ queryKey: ["admins"] });
         },
         //eslint-disable-next-line
         onError: (error: any) => {

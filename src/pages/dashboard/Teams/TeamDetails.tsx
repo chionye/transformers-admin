@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import type {
   QueryProps,
   TeamDetailDataProp,
+  TeamMember,
   TeamsDetailsTableData,
 } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -27,7 +28,7 @@ const TeamDetails = () => {
     completedChallenges: 0,
     members: null,
     totalMembers: 0,
-    reports: 0
+    reports: 0,
   });
   const [tableData, setTableData] = useState<TeamsDetailsTableData[]>([]);
   // const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -85,13 +86,14 @@ const TeamDetails = () => {
       console.log(teamData.data.data.team.team);
       const data = teamData.data.data.team;
       setTeam(data);
-      const transformDatatoFitTable = data.team.members.map((item: any) => ({
+      const transformDatatoFitTable = data.members.map((item: TeamMember) => ({
         _id: item._id,
         name: item.fullName,
+        plan: item.plan,
         role: item._id === data.team.owner._id ? "leader" : "member",
-        downline: 0,
-        challenges: 0,
-        createdAt: data.team.createdAt,
+        downline: item.downlines,
+        challenges: item.challenges,
+        createdAt: item.createdAt,
       }));
       setTableData(transformDatatoFitTable);
     }
