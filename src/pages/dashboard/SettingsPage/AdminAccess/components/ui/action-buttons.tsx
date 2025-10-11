@@ -48,7 +48,7 @@ const ActionButtons = ({ id }: { id: string }) => {
   return (
     <div className='flex flex-row items-center gap-2'>
       <Link
-        to={`/dashboard/admin/opportunity/${id}`}
+        to={`/dashboard/admin/settings/admin-access/new/${id}`}
         className='font-dm-sans text-[#198841] text-[16px] cursor-pointer'>
         <Icons.eyeOpen width='18' height='18' />
       </Link>

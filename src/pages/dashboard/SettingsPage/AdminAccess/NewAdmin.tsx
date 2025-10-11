@@ -8,17 +8,32 @@ import { Card } from "@/components/ui/card";
 import Mutation from "@/services/query/mutation";
 import { responseHandler } from "@/services/response";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ApiRoutes from "@/services/api/api-routes";
 import { InnerPageContainer } from "@/components/innerpage-container";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { ERoles } from "@/constants/enums";
+import type { QueryProps } from "@/types";
+import Query from "@/services/query/query";
+import { useEffect } from "react";
 
 // Main Component
 const NewAdmin = () => {
+  const { id } = useParams();
   const { mutation } = Mutation();
   const navigate = useNavigate();
+
+  const queries: { [key: string]: QueryProps } = {
+    adminDetails: {
+      id: `admin-${id}`,
+      url: ApiRoutes.UpdateUserRole(id as string),
+      method: "GET",
+      payload: null,
+    },
+  };
+
+  const { queryData: adminData } = Query(queries.adminDetails);
 
   type NewAdminFormData = z.infer<typeof newAdminSchema>;
 
@@ -26,6 +41,7 @@ const NewAdmin = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<NewAdminFormData>({
     resolver: zodResolver(newAdminSchema),
     defaultValues: {
@@ -44,9 +60,9 @@ const NewAdmin = () => {
     try {
       mutation.mutate(
         {
-          url: ApiRoutes.InviteAdmin,
+          url: id ? ApiRoutes.InviteAdmin : ApiRoutes.InviteAdmin,
           data: data,
-          requestType: "post",
+          requestType: id ? "patch" : "post",
         },
         responseHandler({
           //eslint-disable-next-line
@@ -68,13 +84,28 @@ const NewAdmin = () => {
     }
   };
 
+  useEffect(() => {
+    if (adminData.data) {
+      const data = adminData.data.data.user;
+      console.log(data);
+      reset({
+        fullName: data.profile.fullName,
+        email: data.email,
+        role: data.role,
+      });
+    }
+    //eslint-disable-next-line
+  }, [adminData.data]);
+
   return (
     <InnerPageContainer title='Back to Admin Access' hideTitle>
       <div className='min-h-screen bg-gray-50'>
         <Card className='max-w-4xl mx-auto px-4 py-8'>
           {/* Header */}
           <div className='flex items-center justify-between'>
-            <h1 className='text-xl font-bold text-gray-900'>Add New Admin</h1>
+            <h1 className='text-xl font-bold text-gray-900'>
+              {id ? "Edit Admin" : "Add New Admin"}
+            </h1>
           </div>
 
           {/* Form */}
@@ -112,7 +143,7 @@ const NewAdmin = () => {
                 {errors.email && (
                   <p className='text-sm text-red-600 mt-1'>
                     {errors.email.message}
-                  </p>
+                  </p>  
                 )}
               </div>
 
@@ -126,7 +157,9 @@ const NewAdmin = () => {
                   className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all'>
                   <option value=''>Select a role</option>
                   {roles.map((role) => (
-                    <option key={role.value} value={role.value}>
+                    <option
+                      key={role.value}
+                      value={role.value}>
                       {role.label}
                     </option>
                   ))}

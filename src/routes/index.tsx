@@ -243,6 +243,10 @@ const Routes = [
         element: <NewAdmin />,
       },
       {
+        path: `/dashboard/admin/settings/admin-access/new/:id`,
+        element: <NewAdmin />,
+      },
+      {
         path: `/dashboard/admin/settings/team`,
         element: <TeamSettings />,
       },

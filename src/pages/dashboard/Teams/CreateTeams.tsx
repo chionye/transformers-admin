@@ -18,9 +18,7 @@ import { useNavigate } from "react-router-dom";
 import ApiRoutes from "@/services/api/api-routes";
 import { InnerPageContainer } from "@/components/innerpage-container";
 
-// Main Component
 const CreateTeams = () => {
-  const [mode, setMode] = useState<"create" | "edit">("create");
   const [loading, setLoading] = useState(false);
   const { mutation } = Mutation();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -118,14 +116,7 @@ const CreateTeams = () => {
         <Card className='max-w-4xl mx-auto px-4 py-8'>
           {/* Header */}
           <div className='flex items-center justify-between'>
-            <h1 className='text-xl font-bold text-gray-900'>
-              {mode === "edit" ? "Edit Team" : "Create New Team"}
-            </h1>
-            <button
-              onClick={() => setMode(mode === "create" ? "edit" : "create")}
-              className='text-sm text-blue-600 hover:text-blue-700'>
-              Switch to {mode === "create" ? "Edit" : "Create"} Mode
-            </button>
+            <h1 className='text-xl font-bold text-gray-900'>Create New Team</h1>
           </div>
 
           {/* Form */}
@@ -281,23 +272,12 @@ const CreateTeams = () => {
                 {loading ? (
                   <>
                     <Loader2 className='w-5 h-5 mr-2 animate-spin' />
-                    {mode === "edit" ? "Updating..." : "Creating..."}
+                    Creating...
                   </>
-                ) : mode === "edit" ? (
-                  "Update Team"
                 ) : (
                   "Create Team"
                 )}
               </button>
-
-              {mode === "edit" && (
-                <button
-                  type='button'
-                  onClick={() => setIsDeleteModalOpen(true)}
-                  className='px-6 py-3 text-red-600 border border-red-600 rounded-lg font-semibold hover:bg-red-50 transition-all'>
-                  Delete
-                </button>
-              )}
             </div>
           </div>
 

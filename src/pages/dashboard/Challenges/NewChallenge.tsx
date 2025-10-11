@@ -304,14 +304,6 @@ export default function NewChallenge() {
                       disabled={fields.length <= 2}>
                       <Trash2 className='w-4 h-4 text-gray-500' />
                     </Button>
-                    <Button
-                      type='button'
-                      variant='ghost'
-                      size='icon'
-                      onClick={() => remove(index)}
-                      disabled={fields.length <= 2}>
-                      <Trash2 className='w-4 h-4 text-gray-500' />
-                    </Button>
                   </div>
                 ))}
               </div>
