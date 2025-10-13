@@ -14,7 +14,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import PageTitle from "@/components/page-title";
 import { useQuery } from "@tanstack/react-query";
-import type { SettingsApiResponse } from "@/types";
+import type { SettingsApiResponse, SettingsProp } from "@/types";
 import { Requests } from "@/services/api";
 import { useUserDataStore } from "@/store/userdata-store";
 
@@ -31,6 +31,7 @@ const EarningsSettings = () => {
     makePost: 0,
     joinTeam: 0,
   });
+  const [settingsData, setSettingsData] = useState<SettingsProp | null>(null);
 
   const {
     register,
@@ -59,9 +60,9 @@ const EarningsSettings = () => {
   });
 
   useEffect(() => {
-    console.log(userData.data, "user data");
     if (userData.data?.settings) {
       const data = userData.data.settings;
+      setSettingsData(data);
       setSettings((prev) => ({
         ...prev,
         referral: data?.earnings?.referral ?? 0,
@@ -83,7 +84,7 @@ const EarningsSettings = () => {
     };
     mutation.mutate(
       {
-        url: ApiRoutes.UpdateGeneralSettings(user._id),
+        url: ApiRoutes.UpdateGeneralSettings(settingsData?._id as string),
         data: payload,
         requestType: "patch",
       },

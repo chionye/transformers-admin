@@ -1,90 +1,32 @@
 /** @format */
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { newEvent } from "@/utils/form-schema";
 import CustomModal from "@/components/custom-modal";
 import { Card } from "@/components/ui/card";
-import Mutation from "@/services/query/mutation";
-import { responseHandler } from "@/services/response";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import ApiRoutes from "@/services/api/api-routes";
 import { InnerPageContainer } from "@/components/innerpage-container";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import Icons from "@/constants/icons";
 import FileUpload from "@/components/upload/file-upload";
 import { DatePicker } from "@/components/date-picker";
+import { useNewEvent } from "@/hooks/useNewEvent";
 
 // Main Component
 const NewEvent = () => {
-  const [mode, setMode] = useState<"create" | "edit">("create");
-  const { mutation } = Mutation();
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-  const navigate = useNavigate();
-
-  type eventFormData = z.infer<typeof newEvent>;
-
   const {
     register,
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
-  } = useForm<eventFormData>({
-    resolver: zodResolver(newEvent),
-    defaultValues: {
-      title: "",
-      eventDate: new Date().toISOString().split("T")[0],
-      description: "",
-      location: "",
-      photo: "",
-      link: "",
-    },
-  });
-
-  const onSubmit = async (data: eventFormData) => {
-    mutation.mutate(
-      {
-        url: ApiRoutes.SubmitEvent,
-        data: data,
-        requestType: "post",
-      },
-      responseHandler({
-        //eslint-disable-next-line
-        onSuccess: (response: any) => {
-          console.log(response, "create event");
-          navigate(-1);
-        },
-        //eslint-disable-next-line
-        onError: (error: any) => {
-          console.log(error, "create event");
-          toast.error(error || "Something went wrong");
-        },
-      })
-    );
-  };
-
-  const handleDelete = () => {
-    console.log("Deleting team");
-    setIsDeleteModalOpen(false);
-    alert("Team deleted successfully!");
-  };
-
-  const handleImageUploadComplete = (imageUrl: string) => {
-    console.log("Image uploaded successfully:", imageUrl);
-    setValue("photo", imageUrl);
-    setUploadedImageUrl(imageUrl);
-  };
-
-  const handleRemoveUploadedImage = () => {
-    setUploadedImageUrl(null);
-    setValue("photo", "");
-  };
+    errors,
+    onSubmit,
+    handleDelete,
+    handleImageUploadComplete,
+    handleRemoveUploadedImage,
+    isDeleteModalOpen,
+    setIsDeleteModalOpen,
+    uploadedImageUrl,
+    mutation,
+  } = useNewEvent();
 
   return (
     <InnerPageContainer title='Back to Opportunities' hideTitle>
@@ -93,13 +35,8 @@ const NewEvent = () => {
           {/* Header */}
           <div className='flex items-center justify-between'>
             <h1 className='text-xl font-bold text-gray-900'>
-              {mode === "edit" ? "Edit Event" : "Create New Event"}
+              Create New Event
             </h1>
-            <button
-              onClick={() => setMode(mode === "create" ? "edit" : "create")}
-              className='text-sm text-blue-600 hover:text-blue-700'>
-              Switch to {mode === "create" ? "Edit" : "Create"} Mode
-            </button>
           </div>
 
           {/* Form */}
@@ -272,24 +209,13 @@ const NewEvent = () => {
                 {mutation.isPending ? (
                   <>
                     <Loader2 className='w-5 h-5 mr-2 animate-spin' />
-                    {mode === "edit" ? "Updating..." : "Creating..."}
+                    Submitting...
                   </>
-                ) : mode === "edit" ? (
-                  "Update Event"
                 ) : (
                   "Submit Event"
                 )}
                 <Icons.paperPlane />
               </Button>
-
-              {mode === "edit" && (
-                <button
-                  type='button'
-                  onClick={() => setIsDeleteModalOpen(true)}
-                  className='px-6 py-3 text-red-600 border border-red-600 rounded-lg font-semibold hover:bg-red-50 transition-all'>
-                  Delete
-                </button>
-              )}
             </div>
           </form>
 

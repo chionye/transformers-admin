@@ -10,7 +10,7 @@ export const ParticipantsColumns: ColumnDef<LeaderboardData>[] = [
     accessorKey: "fullName",
     header: "Name",
     cell: ({ row }) => {
-      const createdBy: any = row.original;
+      const createdBy: LeaderboardData = row.original;
       return (
         <div className='flex items-center gap-2'>
           <img

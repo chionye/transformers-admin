@@ -7,10 +7,7 @@ import type {
   patchRequest,
   postRequest,
 } from "@/services/api/api-clients";
-import type {
-  newTeamSchema,
-  newUserSchema,
-} from "@/utils/form-schema";
+import type { newTeamSchema, newUserSchema } from "@/utils/form-schema";
 import { type AxiosResponse, type Method } from "axios";
 import type z from "zod";
 export interface FabPropType {
@@ -1231,6 +1228,7 @@ export type UserApiResponse = {
 };
 
 export type SettingsProp = {
+  _id: string;
   type: ESettings;
   scope?: string;
   notification: {
@@ -1263,6 +1261,8 @@ export type SettingsProp = {
     pro?: Record<string, unknown>;
     premium?: Record<string, unknown>;
   };
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type SettingsApiResponse = {

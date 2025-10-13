@@ -90,6 +90,7 @@ const General = () => {
       setValue("email", settings.email);
       setValue("role", settings.role);
     }
+    //eslint-disable-next-line
   }, [settings]);
 
   return (

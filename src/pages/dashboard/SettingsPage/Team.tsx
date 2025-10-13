@@ -14,7 +14,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import PageTitle from "@/components/page-title";
 import { useQuery } from "@tanstack/react-query";
-import type { SettingsApiResponse } from "@/types";
+import type { SettingsApiResponse, SettingsProp } from "@/types";
 import { Requests } from "@/services/api";
 import { useUserDataStore } from "@/store/userdata-store";
 
@@ -27,6 +27,7 @@ const TeamSettings = () => {
   const [settings, setSettings] = useState<TeamSettingsFormData>({
     teams: 0,
   });
+  const [settingsData, setSettingsData] = useState<SettingsProp | null>(null);
 
   const {
     register,
@@ -51,9 +52,10 @@ const TeamSettings = () => {
   });
 
   useEffect(() => {
-    console.log(userData.data, "user data");
     if (userData.data?.settings) {
       const data = userData.data.settings;
+      setSettingsData(data);
+      console.log(data, "user data");
       setSettings((prev) => ({
         ...prev,
         teams: data?.teams?.maxTeamMembers ?? 0,
@@ -66,9 +68,10 @@ const TeamSettings = () => {
     const payload = {
       [`${key}.maxTeamMembers`]: data.teams,
     };
+    console.log(settingsData);
     mutation.mutate(
       {
-        url: ApiRoutes.UpdateGeneralSettings(user._id),
+        url: ApiRoutes.UpdateGeneralSettings(settingsData?._id as string),
         data: payload,
         requestType: "patch",
       },
@@ -97,7 +100,7 @@ const TeamSettings = () => {
   return (
     <div className='w-full flex flex-col gap-4'>
       <PageTitle
-        title='General Settings'
+        title='Team Settings'
         subtitle='Customize platform settings and user preferences.'
       />
       <Card className='px-4 py-8'>

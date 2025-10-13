@@ -10,7 +10,7 @@ import ApiRoutes from "@/services/api/api-routes";
 import { Button } from "@/components/ui/button";
 import PageTitle from "@/components/page-title";
 import { useQuery } from "@tanstack/react-query";
-import type { SettingsApiResponse } from "@/types";
+import type { SettingsApiResponse, SettingsProp } from "@/types";
 import { Requests } from "@/services/api";
 import { useUserDataStore } from "@/store/userdata-store";
 import { FeatureSwitcher } from "./Subscription/components/FeatureSwitcher";
@@ -31,6 +31,7 @@ const Notifications = () => {
     teamInvitations: false,
     earningAlerts: false,
   });
+  const [settingsData, setSettingsData] = useState<SettingsProp | null>(null);
 
   const userData = useQuery<SettingsApiResponse>({
     queryKey: [`admin-settings`],
@@ -45,6 +46,7 @@ const Notifications = () => {
   useEffect(() => {
     if (userData.data?.settings) {
       const data = userData.data.settings;
+      setSettingsData(data);
       setSettings({
         paymentConfirmation: data?.notification?.paymentConfirmation ?? false,
         challengeUpdates: data?.notification?.challengeUpdates ?? false,
@@ -54,7 +56,10 @@ const Notifications = () => {
     }
   }, [userData.data]);
 
-  const handleFeatureChange = (feature: keyof NotificationSettings, value: boolean) => {
+  const handleFeatureChange = (
+    feature: keyof NotificationSettings,
+    value: boolean
+  ) => {
     setSettings((prev) => ({
       ...prev,
       [feature]: value,
@@ -71,7 +76,7 @@ const Notifications = () => {
 
     mutation.mutate(
       {
-        url: ApiRoutes.UpdateGeneralSettings(user._id),
+        url: ApiRoutes.UpdateGeneralSettings(settingsData?._id as string),
         data: payload,
         requestType: "patch",
       },
@@ -101,22 +106,30 @@ const Notifications = () => {
           <FeatureSwitcher
             label='Payment Confirmation'
             checked={settings.paymentConfirmation}
-            onCheckedChange={(value) => handleFeatureChange("paymentConfirmation", value)}
+            onCheckedChange={(value) =>
+              handleFeatureChange("paymentConfirmation", value)
+            }
           />
           <FeatureSwitcher
             label='Challenge Updates'
             checked={settings.challengeUpdates}
-            onCheckedChange={(value) => handleFeatureChange("challengeUpdates", value)}
+            onCheckedChange={(value) =>
+              handleFeatureChange("challengeUpdates", value)
+            }
           />
           <FeatureSwitcher
             label='Team Invitations'
             checked={settings.teamInvitations}
-            onCheckedChange={(value) => handleFeatureChange("teamInvitations", value)}
+            onCheckedChange={(value) =>
+              handleFeatureChange("teamInvitations", value)
+            }
           />
           <FeatureSwitcher
             label='Earning Alerts'
             checked={settings.earningAlerts}
-            onCheckedChange={(value) => handleFeatureChange("earningAlerts", value)}
+            onCheckedChange={(value) =>
+              handleFeatureChange("earningAlerts", value)
+            }
           />
         </div>
 

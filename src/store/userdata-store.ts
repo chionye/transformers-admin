@@ -1,6 +1,10 @@
 /** @format */
 
 import type { UsersTableData } from "@/types";
+import {
+  getDataFromLocalStorage,
+  setDataToLocalStorage,
+} from "@/utils/helpers";
 import { create } from "zustand";
 
 interface UserDataState {
@@ -9,9 +13,9 @@ interface UserDataState {
 }
 
 export const useUserDataStore = create<UserDataState>((set) => ({
-  user: JSON.parse(localStorage.getItem("user") ?? "{}"),
+  user: getDataFromLocalStorage("user"),
   setUser: (user) => {
-    localStorage.setItem("user", JSON.stringify(user));
+    setDataToLocalStorage("user", user);
     set({ user });
   },
 }));

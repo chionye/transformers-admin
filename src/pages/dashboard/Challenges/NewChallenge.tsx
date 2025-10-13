@@ -1,9 +1,6 @@
 /** @format */
 
-import { useState } from "react";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+import { Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -12,105 +9,29 @@ import { CategoryChips } from "@/components/categories/cartegory-chips";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { Trash2, Plus, Info } from "lucide-react";
-import { toast } from "sonner";
 import { icons } from "@/constants/data";
-import ApiRoutes from "@/services/api/api-routes";
-import Query from "@/services/query/query";
-import Mutation from "@/services/query/mutation";
-import { responseHandler } from "@/services/response";
-import { newChallengeSchema } from "@/utils/form-schema";
 import { Card } from "@/components/ui/card";
 import { InnerPageContainer } from "@/components/innerpage-container";
 import type { Category } from "@/types";
 import { DatePicker } from "@/components/date-picker";
-
-type ChallengeFormData = {
-  title: string;
-  description: string;
-  icon: string;
-  category: string;
-  isPublic?: boolean;
-  checklists: { task: string }[];
-  start: string;
-  end: string;
-  frequency?: string;
-};
+import { useNewChallenge } from "@/hooks/useNewChallenge";
 
 export default function NewChallenge() {
-  const navigate = useNavigate();
-  const { mutation } = Mutation();
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedIcon, setSelectedIcon] = useState<string>("");
-
-  // Fetch categories using Query
-  const { queryData: categoriesQuery } = Query({
-    id: "categories",
-    url: ApiRoutes.FetchCategories,
-    method: "GET",
-    payload: null,
-  });
-
-  const categories = categoriesQuery?.data?.data?.category || [];
-  const loading = mutation.isPending;
-
   const {
+    categories,
+    loading,
     control,
     handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm<ChallengeFormData>({
-    resolver: zodResolver(newChallengeSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      icon: "",
-      category: "",
-      isPublic: false,
-      checklists: [{ task: "" }, { task: "" }],
-      start: "",
-      end: "",
-      frequency: "",
-    },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "checklists",
-  });
-
-
-  const onSubmit = async (data: ChallengeFormData) => {
-    mutation.mutate(
-      {
-        url: ApiRoutes.CreateChallenge,
-        data: data,
-        requestType: "post",
-      },
-      responseHandler({
-        //eslint-disable-next-line
-        onSuccess: (response: any) => {
-          console.log(response, "create challenge");
-          navigate(-1);
-        },
-        //eslint-disable-next-line
-        onError: (error: any) => {
-          console.log(error, "create challenge");
-          toast.error(error || "Something went wrong");
-        },
-      })
-    );
-  };
-
-  const handleCategorySelect = (categoryId: string, categoryName: string) => {
-    setSelectedCategory(categoryName);
-    setValue("category", categoryId, { shouldValidate: true });
-  };
-
-  const handleIconSelect = (iconTitle: string) => {
-    setSelectedIcon(iconTitle);
-    setValue("icon", iconTitle, { shouldValidate: true });
-  };
-
+    errors,
+    onSubmit,
+    handleCategorySelect,
+    handleIconSelect,
+    selectedCategory,
+    selectedIcon,
+    fields,
+    append,
+    remove,
+  } = useNewChallenge();
   return (
     <InnerPageContainer title='Back to Challenges' hideTitle>
       <Card className='w-full px-5 shadow'>

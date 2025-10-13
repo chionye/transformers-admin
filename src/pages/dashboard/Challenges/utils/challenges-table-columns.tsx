@@ -11,8 +11,7 @@ export const HomeColumns: ColumnDef<ChallengeData>[] = [
     accessorKey: "title",
     header: "Name",
     cell: ({ row }) => {
-      //eslint-disable-next-line
-      const title: any = row.getValue("title");
+      const title: string = row.getValue("title");
       console.log(title);
       return (
         <div>
@@ -54,7 +53,14 @@ export const HomeColumns: ColumnDef<ChallengeData>[] = [
     cell: ({ row }) => {
       const category: Category = row.getValue("category");
       console.log(category);
-      return <CategoryChips type={category?.name} bgColor={category.color.bgColor} textColor={category.color.colorHex} showIcon />;
+      return (
+        <CategoryChips
+          type={category?.name}
+          bgColor={category.color.bgColor}
+          textColor={category.color.colorHex}
+          showIcon
+        />
+      );
     },
   },
   {

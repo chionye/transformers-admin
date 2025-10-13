@@ -3,39 +3,14 @@ import { CustomDropdown } from "@/components/custom-dropdown";
 import { DataTable } from "@/components/data-table";
 import { Card } from "@/components/ui/card";
 import Icons from "@/constants/icons";
-import type {
-  BlogProp,
-  BlogsProp,
-} from "@/types";
+import type { BlogProp } from "@/types";
 import PageTitle from "@/components/page-title";
 import { Link } from "react-router-dom";
-import Query from "@/services/query/query";
-import ApiRoutes from "@/services/api/api-routes";
-import { useEffect, useState } from "react";
 import { BlogColumns } from "./utils/blog-table-columns";
+import { useBlog } from "@/hooks/useBlog";
 
 const Blog = () => {
-  const [blogs, setBlogs] = useState<BlogsProp>({
-    totalDocument: 0,
-    blogs: [],
-  });
-  const [page] = useState(1);
-  const [limit] = useState(1);
-
-  const { queryData: blogData } = Query({
-    id: "blog",
-    url: ApiRoutes.FetchBlog(page, limit),
-    method: "GET",
-    payload: null,
-  });
-
-  useEffect(() => {
-    if (blogData.data) {
-      console.log(blogData.data.data.events, "works");
-      const response = blogData.data.data.events;
-      setBlogs(response);
-    }
-  }, [blogData.data]);
+  const { blogs } = useBlog();
 
   return (
     <div className='w-full flex flex-col gap-4'>

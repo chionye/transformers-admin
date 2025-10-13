@@ -1,52 +1,12 @@
 /** @format */
 
-import { useForm } from "react-hook-form";
 import InputField from "@/components/form/input-field";
-import { LoginSchema } from "@/utils/form-schema";
-import type z from "zod";
-import { Form, FormField } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
 import { MButton } from "@/components/buttons/m-button";
-import { useUserStore } from "@/store/user-store";
-import ApiRoutes from "@/services/api/api-routes";
-import { toast } from "sonner";
-import { responseHandler } from "@/services/response";
-import Mutation from "@/services/query/mutation";
+import { useAuth } from "@/hooks/useAuth";
+import { Form, FormField } from "@/components/ui/form";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { mutation } = Mutation();
-  const setUser = useUserStore((state: any) => state.setUser);
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    mutation.mutate(
-      {
-        url: ApiRoutes.LoginUser,
-        data: data,
-        requestType: "post",
-      },
-      responseHandler({
-        onSuccess: (response: any) => {
-          console.log(response, "login");
-          setUser(response?.user);
-          localStorage.setItem("user", JSON.stringify(response?.user));
-          navigate(`/dashboard/admin/home`);
-        },
-        onError: (error: any) => {
-          console.log(error, "login");
-          toast.error(error || "Something went wrong");
-        },
-      })
-    );
-  };
+  const { form, mutation, onSubmit } = useAuth();
 
   return (
     <div className='w-full px-5 py-10 shadow'>
