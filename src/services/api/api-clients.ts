@@ -4,7 +4,7 @@ import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 import ApiRoutes from "./api-routes";
 import type { MakeRequestFunction } from "@/types";
 
-export const BaseURL = ApiRoutes.BASE_URL_DEV;
+export const BaseURL = ApiRoutes.BASE_URL_LIVE;
 
 // Axios instance
 export const API: AxiosInstance = axios.create({
@@ -50,6 +50,31 @@ API.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response Interceptor: Handle 403 errors and clear localStorage
+API.interceptors.response.use(
+  (response) => {
+    // Pass through successful responses
+    return response;
+  },
+  (error) => {
+    // Check if the error response status is 403
+    if (error.response?.status === 403) {
+      // Clear all authentication data from localStorage
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userToken");
+
+      // Clear the in-memory auth token
+      authToken = null;
+
+      // Redirect to login page
+      window.location.href = "/";
+    }
+
     return Promise.reject(error);
   }
 );

@@ -101,7 +101,7 @@ const Home = () => {
               ]}
             />
           </Card>
-          <div className='w-full lg:px-5 flex flex-col gap-4 '>
+          <div className='w-full flex flex-col gap-4'>
             <Card className='px-5 w-full'>
               <p className='text-[18px] font-semibold text-[#1E1E1E]'>
                 User Analytics
