@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icons from "@/constants/icons";
 import type { TeamsTableData, UserTeams, UserTeamsProp } from "@/types";
-import { HomeColumns } from "./utils/teams-table-columns";
+import { TeamsTableColumns } from "./utils/teams-table-columns";
 import PageTitle from "@/components/page-title";
 import Query from "@/services/query/query";
 import ApiRoutes from "@/services/api/api-routes";
@@ -102,7 +102,10 @@ const Teams = () => {
           All Teams{" "}
           <span className='text-[#686868]'>{teamsData.totalDocuments}</span>
         </p>
-        <DataTable<TeamsTableData> columns={HomeColumns} data={tableData} />
+        <DataTable<TeamsTableData>
+          columns={TeamsTableColumns}
+          data={tableData}
+        />
       </Card>
     </div>
   );

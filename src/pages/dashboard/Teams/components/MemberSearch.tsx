@@ -25,7 +25,7 @@ export const MemberSearch = ({
   const [page] = useState(1);
 
   const { queryData: usersData } = Query({
-    id: "users",
+    id: "users-list",
     url: ApiRoutes.FetchUsers(page, "100"),
     method: "GET",
     payload: null,

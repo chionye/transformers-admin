@@ -5,7 +5,7 @@ import type { TeamsTableData } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
-export const HomeColumns: ColumnDef<TeamsTableData>[] = [
+export const TeamsTableColumns: ColumnDef<TeamsTableData>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -55,6 +55,10 @@ export const HomeColumns: ColumnDef<TeamsTableData>[] = [
   {
     accessorKey: "date_created",
     header: "Date Created",
+    cell: ({ row }) => {
+      const createdAt = row.original.date_created;
+      return <div>{createdAt}</div>;
+    },
   },
   {
     accessorKey: "id",

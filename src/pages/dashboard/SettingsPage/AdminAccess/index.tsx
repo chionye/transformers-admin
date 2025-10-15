@@ -18,7 +18,7 @@ const AdminAccess = () => {
 
   const { queryData: usersData } = Query({
     id: "admins",
-    url: ApiRoutes.FetchUsers(page, "10", "admin"),
+    url: ApiRoutes.FilterUsers(page, "10", "admin"),
     method: "GET",
     payload: null,
   });

@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 import Icons from "@/constants/icons";
 import FileUpload from "@/components/upload/file-upload";
 import { useNewBlog } from "@/hooks/useNewBlog";
+import WysiwygEditor from "@/components/ui/wysiwyg-editor";
 
 // Main Component
-const NewBlogPosts = () => {
+const NewBlogPosts: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -19,6 +20,8 @@ const NewBlogPosts = () => {
     onSubmit,
     handleRemoveUploadedImage,
     handleImageUploadComplete,
+    handleContentChange,
+    watch,
   } = useNewBlog();
 
   return (
@@ -54,19 +57,14 @@ const NewBlogPosts = () => {
               {/* Blog Content */}
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
-                  Blog
+                  Blog Content
                 </label>
-                <textarea
-                  {...register("content")}
-                  placeholder='Enter Content...'
-                  rows={4}
-                  className='w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#198841] focus:border-transparent outline-none transition-all resize-none'
+                <WysiwygEditor
+                  value={watch("content")}
+                  onChange={handleContentChange}
+                  placeholder='Start writing your blog content...'
+                  error={errors.content?.message}
                 />
-                {errors.content && (
-                  <p className='text-sm text-red-600 mt-1'>
-                    {errors.content.message}
-                  </p>
-                )}
               </div>
             </div>
 

@@ -17,7 +17,7 @@ const Users = () => {
   const [page] = useState(1);
 
   const { queryData: usersData } = Query({
-    id: "users",
+    id: "users-list",
     url: ApiRoutes.FetchUsers(page, "10"),
     method: "GET",
     payload: null,
@@ -25,7 +25,7 @@ const Users = () => {
 
   useEffect(() => {
     if (usersData.data) {
-      console.log(usersData.data.data.users, "works");
+      console.log(usersData.data.data.list, "works");
       const { list, totalDocument } = usersData.data.data.users;
       console.log(list, totalDocument, "list doc");
       const listWithSn = list.map((item: UsersTableData, index: number) => ({

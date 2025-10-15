@@ -179,6 +179,13 @@ export default class ApiRoutes {
     role?: string
   ) => `/user/list/${page}?limit=${limit}${role ? "&role=" + role : ""}`;
 
+  //Api to filter users
+  static FilterUsers: (page: number, limit: string, role?: string) => string = (
+    page: number,
+    limit: string,
+    role?: string
+  ) => `/user/filter/${page}?limit=${limit}${role ? "&role=" + role : ""}`;
+
   // Api route to fetch points
   static FetchPoints: (id: string, page: number, limit: string) => string = (
     id: string,
@@ -446,6 +453,5 @@ export default class ApiRoutes {
   static FetchMerchantPlans: string = `/merchant/plan`;
 
   //Api to update user role
-  static UpdateUserRole: (id: string) => string = (id: string) =>
-    `/user/${id}`;
+  static UpdateUserRole: (id: string) => string = (id: string) => `/user/${id}`;
 }

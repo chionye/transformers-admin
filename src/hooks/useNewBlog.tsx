@@ -24,6 +24,7 @@ export const useNewBlog = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<BlogFormData>({
     resolver: zodResolver(newBlogPost),
@@ -83,16 +84,22 @@ export const useNewBlog = () => {
     setValue("photo", "");
   };
 
+  const handleContentChange = (html: string) => {
+    setValue("content", html);
+  };
+
   return {
     register,
     handleSubmit,
     setValue,
+    watch,
     errors,
     loading,
     onSubmit,
     handleDelete,
     handleImageUploadComplete,
     handleRemoveUploadedImage,
+    handleContentChange,
     uploadedImageUrl,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
