@@ -25,9 +25,10 @@ export const useNewBlog = () => {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<BlogFormData>({
     resolver: zodResolver(newBlogPost),
+    mode: "onChange",
     defaultValues: {
       title: "",
       content: "",
@@ -75,7 +76,11 @@ export const useNewBlog = () => {
 
   const handleImageUploadComplete = (imageUrl: string) => {
     console.log("Image uploaded successfully:", imageUrl);
-    setValue("photo", imageUrl);
+    setValue("photo", imageUrl, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
     setUploadedImageUrl(imageUrl);
   };
 
@@ -85,7 +90,11 @@ export const useNewBlog = () => {
   };
 
   const handleContentChange = (html: string) => {
-    setValue("content", html);
+    setValue("content", html, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
   };
 
   return {
@@ -94,6 +103,7 @@ export const useNewBlog = () => {
     setValue,
     watch,
     errors,
+    isValid,
     loading,
     onSubmit,
     handleDelete,

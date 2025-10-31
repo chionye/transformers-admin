@@ -16,6 +16,7 @@ const NewBlogPosts: React.FC = () => {
     handleSubmit,
     uploadedImageUrl,
     errors,
+    isValid,
     loading,
     onSubmit,
     handleRemoveUploadedImage,
@@ -121,7 +122,7 @@ const NewBlogPosts: React.FC = () => {
               <Button
                 type='button'
                 onClick={handleSubmit(onSubmit)}
-                disabled={loading}
+                disabled={loading || !isValid}
                 className='flex-1 bg-[#198841] text-white hover:bg-[#198841]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center'>
                 {loading ? (
                   <>
