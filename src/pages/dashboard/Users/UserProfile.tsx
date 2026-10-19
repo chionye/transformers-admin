@@ -1,3 +1,5 @@
+/** @format */
+
 import Icons from "@/constants/icons";
 import { InnerPageContainer } from "@/components/innerpage-container";
 import { ContactCard } from "./component/ui/contact-card";
@@ -140,28 +142,24 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (goalsData.data) {
-      console.log(goalsData.data.data.goals.goals);
       setGoals(goalsData.data.data.goals);
     }
   }, [goalsData.data]);
 
   useEffect(() => {
     if (userProfileData.data) {
-      console.log(userProfileData.data.data.user);
       setUserProfile(userProfileData.data.data.user);
     }
   }, [userProfileData.data]);
 
   useEffect(() => {
     if (pointHistoryData.data) {
-      console.log(pointHistoryData.data.data.history);
       setPointHistory(pointHistoryData.data.data.history);
     }
   }, [pointHistoryData.data]);
 
   useEffect(() => {
     if (earningsData.data) {
-      console.log(earningsData.data.data.history);
       setEarningHistory(earningsData.data.data.history);
     }
   }, [earningsData.data]);

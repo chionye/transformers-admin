@@ -34,20 +34,23 @@ const UserDetails = ({ userProfile }: { userProfile: UserProfileProp }) => {
     }
   }, [userProfile, form]);
 
-  const bioTexts = useMemo(() => [
-    {
-      title: "My Purpose",
-      text: userProfile.profile?.purpose || "User purpose unavailable",
-    },
-    {
-      title: "My Vision",
-      text: userProfile.profile?.vision || "User vision unavailable",
-    },
-    {
-      title: "My Mission",
-      text: userProfile.profile?.mission || "User mission unavailable",
-    },
-  ], [userProfile.profile]);
+  const bioTexts = useMemo(
+    () => [
+      {
+        title: "My Purpose",
+        text: userProfile.profile?.purpose || "User purpose unavailable",
+      },
+      {
+        title: "My Vision",
+        text: userProfile.profile?.vision || "User vision unavailable",
+      },
+      {
+        title: "My Mission",
+        text: userProfile.profile?.mission || "User mission unavailable",
+      },
+    ],
+    [userProfile.profile]
+  );
 
   return (
     <div>

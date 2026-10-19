@@ -1,11 +1,11 @@
 /** @format */
 
 export default class ApiRoutes {
-  static BASE_URL_DEV: string = "https://transformers-thyh.onrender.com/api";
+  static BASE_URL_DEV: string = "https://api.transformersglobal.org/api";
 
-  static BASE_URL_TEST: string = "https://transformers-thyh.onrender.com/api";
+  static BASE_URL_TEST: string = "https://api.transformersglobal.org/api";
 
-  static BASE_URL_LIVE: string = "https://api.transformersng.site/api";
+  static BASE_URL_LIVE: string = "https://api.transformersglobal.org/api";
 
   static BASE_URL_LOCAL: string = "http://localhost:3000";
 
@@ -70,27 +70,27 @@ export default class ApiRoutes {
   // Api route to fetch challenges
   static GetChallenges: (page: number, limit: number) => string = (
     page: number,
-    limit: number
+    limit: number,
   ) => `/challenge/list/${page}?limit=${limit}`;
 
   // Api route to fetch teams
   static GetTeams: (page: number, limit: number) => string = (
     page: number,
-    limit: number
+    limit: number,
   ) => `/team/${page}?limit=${limit}`;
 
   // Api route to fetch goals
   static GetGoals: (page: number, limit: number, param: string) => string = (
     page: number,
     limit: number,
-    param: string
+    param: string,
   ) => `/goals/list/${page}?limit=${limit}${param}`;
 
   // Api route to fetch posts
   static GetPosts: (page: number, limit: number, id: string) => string = (
     page: number,
     limit: number,
-    id: string
+    id: string,
   ) => `/post/all/${page}?limit=${limit}&user=${id}`;
 
   // Api route to fetch challenge
@@ -101,7 +101,7 @@ export default class ApiRoutes {
   static FetchComments: (id: string, page: number, limit: number) => string = (
     id: string,
     page: number,
-    limit: number
+    limit: number,
   ) => `/post/${id}/comment/${page}?limit=${limit}`;
 
   // Api route to submit comments
@@ -153,7 +153,7 @@ export default class ApiRoutes {
   // Api route to fetch categorized analytics
   static FetchCategorizedAnalytics: (id: string, date: string) => string = (
     id: string,
-    date: string
+    date: string,
   ) => `/dashboard/filter?category=${id}&date=${date}`;
 
   // Api route to fetch analytics
@@ -169,35 +169,35 @@ export default class ApiRoutes {
   // Api route to fetch posts
   static FetchPosts: (page: number, limit: string) => string = (
     page: number,
-    limit: string
+    limit: string,
   ) => `/post/all/${page}?limit=${limit}`;
 
   // Api route to fetch user
   static FetchUsers: (page: number, limit: string, role?: string) => string = (
     page: number,
     limit: string,
-    role?: string
+    role?: string,
   ) => `/user/list/${page}?limit=${limit}${role ? "&role=" + role : ""}`;
 
   //Api to filter users
   static FilterUsers: (page: number, limit: string, role?: string) => string = (
     page: number,
     limit: string,
-    role?: string
+    role?: string,
   ) => `/user/filter/${page}?limit=${limit}${role ? "&role=" + role : ""}`;
 
   // Api route to fetch points
   static FetchPoints: (id: string, page: number, limit: string) => string = (
     id: string,
     page: number,
-    limit: string
+    limit: string,
   ) => `wallet/points/${page}?limit=${limit}&user=${id}`;
 
   // Api route to fetch earning history
   static FetchEarningHistory: (
     id: string,
     page: number,
-    limit: number
+    limit: number,
   ) => string = (id: string, page: number, limit: number) =>
     `/wallet/earnings/${page}?limit=${limit}&user=${id}`;
 
@@ -218,7 +218,7 @@ export default class ApiRoutes {
   static FetchPointHistory: (
     id: string,
     page: number,
-    limit: number
+    limit: number,
   ) => string = (id: string, page: number, limit: number) =>
     `/wallet/points/${page}?limit=${limit}&user=${id}`;
 
@@ -226,7 +226,7 @@ export default class ApiRoutes {
   static FetchUserTeams: (id: string, page: number, limit: number) => string = (
     id: string,
     page: number,
-    limit: number
+    limit: number,
   ) => `/team/${page}?limit=${limit}&user=${id}`;
 
   //Api to activate or deactivate users account
@@ -237,14 +237,14 @@ export default class ApiRoutes {
   static FetchUserWithdrawalHistory: (
     id: string,
     page: number,
-    limit: number
+    limit: number,
   ) => string = (id: string, page: number, limit: number) =>
     `/wallet/withdrawal/${page}?limit=${limit}&user=${id}`;
 
   //Api to fetch all teams
   static FetchAllTeams: (page: number, limit: number) => string = (
     page: number,
-    limit: number
+    limit: number,
   ) => `/team/${page}?limit=${limit}`;
 
   //Api to fetch team details
@@ -254,7 +254,7 @@ export default class ApiRoutes {
   //Api to fetch challenges
   static FetchChallenges: (page: number, limit: number) => string = (
     page: number,
-    limit: number
+    limit: number,
   ) => `/challenge/list/${page}?limit=${limit}`;
 
   //Api to fetch challenge details
@@ -267,13 +267,13 @@ export default class ApiRoutes {
     limit: number,
     type?: string,
     target?: string,
-    status?: string
+    status?: string,
   ) => string = (
     page: number,
     limit: number,
     type?: string,
     target?: string,
-    status?: string
+    status?: string,
   ) =>
     `/alerts/filter/${page}?limit=${limit}${type ? `&type=${type}` : ""}${
       target ? `&target=${target}` : ""
@@ -290,7 +290,7 @@ export default class ApiRoutes {
   static FetchCommentByPostId: (
     id: string,
     page: number,
-    limit: number
+    limit: number,
   ) => string = (id: string, page: number, limit: number) =>
     `/post/${id}/comment/${page}?limit=${limit}`;
 
@@ -302,12 +302,12 @@ export default class ApiRoutes {
     page: number,
     limit: number,
     published?: boolean,
-    status?: string
+    status?: string,
   ) => string = (
     page: number,
     limit: number,
     published?: boolean,
-    status?: string
+    status?: string,
   ) =>
     `/message/list/${page}?limit=${limit}${
       published ? "&published=" + published : ""
@@ -321,7 +321,7 @@ export default class ApiRoutes {
   static FetchBlog: (
     page: number,
     limit: number,
-    published?: boolean
+    published?: boolean,
   ) => string = (page: number, limit: number, published?: boolean) =>
     `/blog/list/${page}?limit=${limit}${
       published ? "&published=" + published : ""
@@ -340,7 +340,7 @@ export default class ApiRoutes {
   //Api to fetch opportunities
   static FetchOpportunities: (page: number, limit: number) => string = (
     page: number,
-    limit: number
+    limit: number,
   ) => `/opportunity/list/${page}?limit=${limit}`;
 
   //Api to submit opportunity
@@ -360,13 +360,13 @@ export default class ApiRoutes {
     limit: number,
     eventDate?: string,
     status?: string,
-    published?: boolean
+    published?: boolean,
   ) => string = (
     page: number,
     limit: number,
     eventDate?: string,
     status?: string,
-    published?: boolean
+    published?: boolean,
   ) =>
     `/event/list/${page}?limit=${limit}${
       eventDate ? "&eventDate=" + eventDate : ""
@@ -390,12 +390,12 @@ export default class ApiRoutes {
     page: number,
     limit: number,
     published?: boolean,
-    location?: string
+    location?: string,
   ) => string = (
     page: number,
     limit: number,
     published?: boolean,
-    location?: string
+    location?: string,
   ) =>
     `/course/list/${page}?limit=${limit}${
       published ? "&published=" + published : ""
@@ -425,7 +425,7 @@ export default class ApiRoutes {
   //Api to fetch settings
   static FetchSettings: (type: string, id: string) => string = (
     type: string,
-    id: string
+    id: string,
   ) => `settings?type=${type}&scope=${id}`;
 
   //Api to fetch transaction history
@@ -433,7 +433,7 @@ export default class ApiRoutes {
     page: number,
     limit: number,
     id?: string,
-    status?: string
+    status?: string,
   ) => string = (page: number, limit: number, id?: string, status?: string) =>
     `/wallet/transaction/${page}?limit=${limit}${id ? "&user=" + id : ""}${
       status ? "&status=" + status : ""
